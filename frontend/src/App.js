@@ -28,7 +28,6 @@ const App = () => {
                 <Route path='/search' element={<SearchScreen /> } />
                 <Route path='/wishlist' element={<WishlistScreen /> } />
                 <Route path='/cart' element={<CartScreen /> } />
-                
             </Routes>
             <Subscribe />
             <Footer />
