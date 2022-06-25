@@ -1,7 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sen&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
 
+.sen-font{
+    font-family: 'Sen', sans-serif;
+}
 
 .product__name{
     overflow: hidden;
@@ -16,7 +24,18 @@ input, textarea {
     font-family: 'Sen', sans-serif;
 }
 
-
+/* product description scroll ==> style */
+.product_desc::-webkit-scrollbar{
+    width: 4px;
+}
+.product_desc::-webkit-scrollbar-thumb{
+    background-color: rgb(209, 209, 209);
+    border-radius: 10px;
+}
+.product_desc::-webkit-scrollbar-track{
+    background-color: rgb(233, 233, 233);
+    border-radius: 10px;
+}
 
 /* phone number ==> remove arrow */
 .no-arrow::-webkit-inner-spin-button,
