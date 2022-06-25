@@ -2,7 +2,7 @@ import React,{ useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom';
 import SVGicon from '../svg/SVGicon';
 import './Navbar.css';
-import LOGO from './logo.png';
+import Logo from './Logo';
 
 const Navbar = () => {
 
@@ -56,10 +56,10 @@ const Navbar = () => {
 
 
     return (
-        <nav className={scrolled ? "nav-scroll shadow-md bg-white px-4 md:px-2 sm:px-4 py-2.5" : "bg-white px-2  sm:px-4 py-2.5 nav-container "}>
+        <nav className={scrolled ? "nav-scroll shadow-md bg-white px-4 md:px-2 sm:px-4 py-2.5" : "bg-white px-4 sm:px-4 py-2.5 nav-container "}>
             <div className="flex flex-wrap justify-between items-center container max-w-screen-xl mx-auto ">
                 <Link to='/' className="flex items-center">
-                    <img src={LOGO} className="mr-3 h-6 sm:h-9" alt="Logo" />
+                    <Logo />
                 </Link>
 
                 <div className="flex  items-center md:order-2">
@@ -80,21 +80,21 @@ const Navbar = () => {
 
                     <div className={ profile ? "z-50 my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow show__box" : "hidden my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow " }>
                         <div className="py-3 px-4">
-                            <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                            <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                            <span className="block text-sm ">Bonnie Green</span>
+                            <span className="block text-sm font-medium truncate">name@flowbite.com</span>
                         </div>
                         <ul className="py-1" aria-labelledby="dropdown">
                             <li>
-                                <Link to='/profile' className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</Link>
+                                <Link to='/profile' className="block py-2 px-4 text-sm  hover:bg-gray-100 ">Profile</Link>
                             </li>
                             <li>
-                                <Link to='' className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Your Order</Link>
+                                <Link to='' className="block py-2 px-4 text-sm hover:bg-gray-100">Your Order</Link>
                             </li>
                             <li>
-                                <Link to='' className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">WishList</Link>
+                                <Link to='' className="block py-2 px-4 text-sm hover:bg-gray-100 ">WishList</Link>
                             </li>
                             <li>
-                                <Link to='' className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</Link>
+                                <Link to='' className="block py-2 px-4 text-sm  hover:bg-gray-100 ">Sign out</Link>
                             </li>
                         </ul>
                     </div>
@@ -110,34 +110,13 @@ const Navbar = () => {
                             <Link to='/' className="hover:text-pink-600">Home</Link>
                         </li>
                         <li className='category__container'>
-            <button onClick={categories_dropDown} className=" flex items-center justify-between font-medium md:hover:bg-transparent md:border-0 md:hover:text-pink-600 md:p-0 md:w-auto">Categories 
+            <button onClick={categories_dropDown} className=" flex items-center justify-between font-medium md:hover:bg-transparent  md:border-0 md:hover:text-pink-600 md:p-0 md:w-auto">Categories 
             <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"></path></svg>
             </button>
           <div className={ categories ? "category z-10 bg-white divide-y divide-gray-100 rounded shadow w-44" : "z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44" }>
-                <ul className="py-1 text-sm text-gray-700 dark:text-gray-400">
+                <ul className="py-1 text-sm ">
                   <li>
-                    <Link to='' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
-                  </li>
-                  <li>
-                    <Link to='' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</Link>
-                  </li>
-                  <li>
-                    <Link to='' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</Link>
-                  </li>
-                </ul>
-                <div className="py-1">
-                  <Link  to='' className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sign out</Link>
-                </div>
-            </div>
-        </li>
-        <li className='product__container'>
-            <button onClick={products_dropDown} className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-pink-600 md:p-0 md:w-auto ">Products 
-            <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"></path></svg>
-            </button>
-          <div className={products ? "products z-10 bg-white divide-y divide-gray-100 rounded shadow w-44" : "z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44" }>
-          <ul className="py-1 text-sm text-gray-700 ">
-                  <li>
-                    <Link to='' className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</Link>
+                    <Link to='' className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
                   </li>
                   <li>
                     <Link to='' className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
@@ -147,7 +126,28 @@ const Navbar = () => {
                   </li>
                 </ul>
                 <div className="py-1">
-                  <Link  to='' className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</Link>
+                  <Link  to='' className="block px-4 py-2 text-sm hover:bg-gray-100 ">Sign out</Link>
+                </div>
+            </div>
+        </li>
+        <li className='product__container'>
+            <button onClick={products_dropDown} className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-pink-600 md:p-0 md:w-auto ">Products 
+            <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"></path></svg>
+            </button>
+          <div className={products ? "products z-10 bg-white divide-y divide-gray-100 rounded shadow w-44" : "z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44" }>
+          <ul className="py-1 text-sm">
+                  <li>
+                    <Link to='' className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
+                  </li>
+                  <li>
+                    <Link to='' className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
+                  </li>
+                  <li>
+                    <Link to='' className="block px-4 py-2 hover:bg-gray-100">Earnings</Link>
+                  </li>
+                </ul>
+                <div className="py-1">
+                  <Link  to='' className="block px-4 py-2 text-sm hover:bg-gray-100">Sign out</Link>
                 </div>
             </div>
         </li>
