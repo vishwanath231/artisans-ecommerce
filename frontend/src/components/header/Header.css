@@ -45,22 +45,6 @@
     }
 }
 
-.ticker-wrapper-h .heading{
-	background-color: #1c6547;
-	color: #fff;
-	padding: 5px 10px;
-	flex: 0 0 auto;
-	z-index: 1000;
-}
-.ticker-wrapper-h .heading:after{
-	content: "";
-	position: absolute;
-	top: 0;
-	border-left: 20px solid #1c6547;
-	border-top: 17px solid transparent;
-	border-bottom: 15px solid transparent;
-}
-
 
 .news-ticker-h{
 	display: flex;
