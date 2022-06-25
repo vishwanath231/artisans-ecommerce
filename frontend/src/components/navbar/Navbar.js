@@ -2,6 +2,7 @@ import React,{ useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom';
 import SVGicon from '../svg/SVGicon';
 import './Navbar.css';
+import LOGO from './logo.png';
 
 const Navbar = () => {
 
@@ -58,7 +59,7 @@ const Navbar = () => {
         <nav className={scrolled ? "nav-scroll shadow-md bg-white px-4 md:px-2 sm:px-4 py-2.5" : "bg-white px-2  sm:px-4 py-2.5 nav-container "}>
             <div className="flex flex-wrap justify-between items-center container max-w-screen-xl mx-auto ">
                 <Link to='/' className="flex items-center">
-                    <img src="images/logo.png" className="mr-3 h-6 sm:h-9" alt="Logo" />
+                    <img src={LOGO} className="mr-3 h-6 sm:h-9" alt="Logo" />
                 </Link>
 
                 <div className="flex  items-center md:order-2">
