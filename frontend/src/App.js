@@ -2,13 +2,19 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/header/Header';
 import Navbar from './components/navbar/Navbar';
-import LoginScreen from './screens/client/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
-import RegisterScreen from './screens/client/RegisterScreen';
-import ContactScreen from './screens/client/ContactScreen';
-import SearchScreen from './screens/client/SearchScreen';
-import WishlistScreen from './screens/client/WishlistScreen';
-import CartScreen from './screens/client/CartScreen';
+
+import LoginScreen from './screens/common/LoginScreen';
+import HomeScreen from './screens/common/HomeScreen';
+import RegisterScreen from './screens/common/RegisterScreen';
+import ContactScreen from './screens/common/ContactScreen';
+import SearchScreen from './screens/common/SearchScreen';
+import WishlistScreen from './screens/common/WishlistScreen';
+import CartScreen from './screens/common/CartScreen';
+
+import UserRegisterScreen from './screens/client/UserRegisterScreen';
+
+import ArtisanRegisterScreen from './screens/artisan/ArtisanRegisterScreen';
+
 import Subscribe from './components/Subscribe';
 import Footer from './components/Footer';
 
@@ -28,6 +34,12 @@ const App = () => {
                 <Route path='/search' element={<SearchScreen /> } />
                 <Route path='/wishlist' element={<WishlistScreen /> } />
                 <Route path='/cart' element={<CartScreen /> } />
+
+                <Route path='/user/register' element={<UserRegisterScreen /> } />
+
+                <Route path='/artisan/register' element={<ArtisanRegisterScreen /> } />
+
+
             </Routes>
             <Subscribe />
             <Footer />
