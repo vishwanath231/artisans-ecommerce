@@ -3,7 +3,7 @@ import React from 'react';
 
 const LoginScreen = () => {
     return (
-        <div className='px-4 py-6 max-w-3xl mt-28 mb-9 md:mx-auto'>
+        <div className='px-4 max-w-3xl mt-28 mb-9 md:mx-auto'>
             <h2 className='text-4xl font-light uppercase mb-4' >Login</h2>
             <form>
                 <div className="mb-6">
