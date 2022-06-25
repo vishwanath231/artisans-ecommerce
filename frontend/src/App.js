@@ -10,6 +10,7 @@ import ContactScreen from './screens/common/ContactScreen';
 import SearchScreen from './screens/common/SearchScreen';
 import WishlistScreen from './screens/common/WishlistScreen';
 import CartScreen from './screens/common/CartScreen';
+import ProductScreen from './screens/common/ProductScreen';
 
 import UserRegisterScreen from './screens/client/UserRegisterScreen';
 
@@ -35,10 +36,12 @@ const App = () => {
                 <Route path='/wishlist' element={<WishlistScreen /> } />
                 <Route path='/cart' element={<CartScreen /> } />
 
+
                 <Route path='/user/register' element={<UserRegisterScreen /> } />
 
                 <Route path='/artisan/register' element={<ArtisanRegisterScreen /> } />
 
+                <Route path='/product/:id' element={ <ProductScreen /> } />
 
             </Routes>
             <Subscribe />
