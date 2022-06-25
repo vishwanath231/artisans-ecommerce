@@ -4,9 +4,10 @@ import SVGicon from './svg/SVGicon';
 
 
 
+
 const Footer = () => {
     return (
-        <div className='container max-w-screen-xl mx-auto px-4  p-2 md:p-4 bg-gray-100'>
+        <div className='container max-w-screen-xl mx-auto p-4 bg-gray-100'>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3'>
                 <div>
                     <h2 className='text-2xl mb-5'>About Company</h2>
@@ -91,8 +92,18 @@ const Footer = () => {
                     </ul>
                 </div>
             </div>
+            <Copyright />
         </div>
     )
 }
 
 export default Footer;
+
+
+const Copyright = () => {
+    return(
+        <div className='text-center'>
+            <h2>&copy;2022 craftis</h2>
+        </div>
+    )
+}
