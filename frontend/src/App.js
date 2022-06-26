@@ -18,6 +18,8 @@ import ArtisanRegisterScreen from './screens/artisan/ArtisanRegisterScreen';
 
 import Subscribe from './components/Subscribe';
 import Footer from './components/Footer';
+import CodeVerificationScreen from './screens/artisan/CodeVerificationScreen';
+import ArtisanFormScreen from './screens/artisan/ArtisanFormScreen';
 
 
 
@@ -35,13 +37,15 @@ const App = () => {
                 <Route path='/search' element={<SearchScreen /> } />
                 <Route path='/wishlist' element={<WishlistScreen /> } />
                 <Route path='/cart' element={<CartScreen /> } />
+                <Route path='/product/:id' element={ <ProductScreen /> } />
 
 
                 <Route path='/user/register' element={<UserRegisterScreen /> } />
 
                 <Route path='/artisan/register' element={<ArtisanRegisterScreen /> } />
+                <Route path='/artisan/verification' element={<CodeVerificationScreen /> } />
+                <Route path='/artisan/form' element={<ArtisanFormScreen /> } />
 
-                <Route path='/product/:id' element={ <ProductScreen /> } />
 
             </Routes>
             <Subscribe />
