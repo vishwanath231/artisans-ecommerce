@@ -14,7 +14,12 @@ const Navbar = () => {
     const [ cart, setCart ] = useState(false);
     
 
-    const handleProfile = () => setProfile(!profile)
+    const handleProfile = () => {
+        setProfile(!profile)
+        // window.screenTop({
+        //     top: 0
+        // })
+    }
     const handleHamburger = () => setHamburger(!hamburger)
     const categories_dropDown = () => setCategories(!categories)
     const products_dropDown = () => setProducts(!products)
@@ -56,7 +61,7 @@ const Navbar = () => {
 
 
     return (
-        <nav className={scrolled ? "nav-scroll shadow-md bg-white px-4 md:px-2 sm:px-4 py-2.5" : "bg-white px-4 sm:px-4 py-2.5 nav-container "}>
+        <nav className={scrolled ? "nav-scroll shadow-md bg-white px-4 sm:px-4 py-4" : "bg-white px-4 sm:px-4 py-4 nav-container "}>
             <div className="flex flex-wrap justify-between items-center container max-w-screen-xl mx-auto ">
                 <Link to='/' className="flex items-center">
                     <Logo />
