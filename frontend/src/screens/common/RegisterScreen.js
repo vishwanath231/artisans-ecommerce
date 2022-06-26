@@ -1,9 +1,7 @@
 import React from 'react';
-import { registerTypeAction } from '../../redux/actions/registerAction';
-import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const RegisterScreen = ({ registerTypeAction }) => {
+const RegisterScreen = () => {
 
     const navigate = useNavigate()
 
@@ -17,7 +15,6 @@ const RegisterScreen = ({ registerTypeAction }) => {
             navigate('/register')
         }
 
-        registerTypeAction(e.target.value);
     }
 
 
@@ -35,4 +32,4 @@ const RegisterScreen = ({ registerTypeAction }) => {
     )
 }
 
-export default connect(null, { registerTypeAction })(RegisterScreen);
+export default RegisterScreen;
