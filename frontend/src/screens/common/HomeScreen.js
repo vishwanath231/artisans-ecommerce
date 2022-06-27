@@ -15,14 +15,14 @@ const HomeScreen = ({ product, getAllProducts }) => {
     }, [getAllProducts]);
 
 
-    const{  loading, products } = product;
+    const{ loading, products } = product;
 
     
     return (
         <>
             <Banner />
             <div className='container max-w-screen-xl mx-auto px-4 md:px-2 mb-4'>
-                <h2 className='font-bold text-black text-2xl uppercase mb-4' style={{ fontFamily:'"Montserrat",sans-serif'}}>Lasted Products</h2>
+                <h2 className='font-bold text-black text-2xl uppercase mb-4 mont-font'>Lasted Products</h2>
                 {
                     loading ? <Loader /> : (
                         <div className=' grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 gap-y-7 my-5 '>
