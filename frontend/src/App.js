@@ -16,7 +16,6 @@ import UserRegisterScreen from './screens/client/UserRegisterScreen';
 
 import ArtisanRegisterScreen from './screens/artisan/ArtisanRegisterScreen';
 
-import Subscribe from './components/Subscribe';
 import Footer from './components/Footer';
 import CodeVerificationScreen from './screens/artisan/CodeVerificationScreen';
 import ArtisanFormScreen from './screens/artisan/ArtisanFormScreen';
@@ -26,12 +25,12 @@ import ArtisanFormScreen from './screens/artisan/ArtisanFormScreen';
 const App = () => {
     return (
         <BrowserRouter>
-            
             <Header />
             <Navbar />
             <Routes>
                 <Route path='/' element={<HomeScreen /> } />
                 <Route path='/login' element={<LoginScreen /> } />
+                
                 <Route path='/register' element={<RegisterScreen /> } />
                 <Route path='/contact' element={<ContactScreen /> } />
                 <Route path='/search' element={<SearchScreen /> } />
@@ -48,7 +47,6 @@ const App = () => {
 
 
             </Routes>
-            <Subscribe />
             <Footer />
         </BrowserRouter>
     )
