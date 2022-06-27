@@ -13,22 +13,28 @@ import bcrypt from 'bcryptjs';
 
 const register = asyncHandler(async (req, res) => {
 
-    const { name, email, password, password2 } = req.body;
+    const { name, email, phone, password, repeatPassword } = req.body;
 
-    if (!name || !email || !password || !password2) {
+    if (!name || !email || !phone || !password || !repeatPassword) {
         res.status(400)
         throw new Error('please add all fields!')
     }
 
-    if (password !== password2){
+    if (password !== repeatPassword){
         res.status(400) 
         throw new Error("Password doesn't match");
     }
 
-    const user = await User.findOne({ email:  email });
-    if (user) {
+    const isEmail = await User.findOne({ email:  email });
+    if (isEmail) {
         res.status(400)
         throw new Error('Email already exists!')
+    }
+
+    const isPhone = await User.findOne({ phone: phone })
+    if (isPhone) {
+        res.status(400)
+        throw new Error('Phone number already exists!')
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -46,6 +52,7 @@ const register = asyncHandler(async (req, res) => {
     const userData = User({
         name,
         email,
+        phone,
         password: hashPassword
     })
 
@@ -60,13 +67,14 @@ const register = asyncHandler(async (req, res) => {
                 id: savedUser._id,
                 name:  savedUser.name,
                 email: savedUser.email,
+                phone: savedUser.phone,
                 isAdmin: savedUser.isAdmin
             }
         })
     }
-
-
 })
+
+
 
 /**
  * @method       POST 
@@ -77,39 +85,40 @@ const register = asyncHandler(async (req, res) => {
 
 const login = asyncHandler(async (req, res) => {
 
-    const { email, password } = req.body;
+    const { phoneOrEmail, password } = req.body;
 
-    if (!email || !password) {
+    if (!phoneOrEmail || !password) {
         res.status(400)
         throw new Error('please add all fields!')
     }
 
 
-    const user = await User.findOne({ email:  email });
-    if (!user) {
-        res.status(400)
-        throw new Error('Invalid Email')
-    }
+    const isEmail = await User.findOne({ email: phoneOrEmail });
+    const isPhone = await User.findOne({ phone: phoneOrEmail });
+    // if (!isEmail || !isPhone) {
+    //     res.status(400)
+    //     throw new Error('Invalid Email or Phone No')
+    // }
 
 
-    const isCheck = await bcrypt.compare(password, user.password)
-    if (!isCheck) {
-        res.status(400)
-        throw new Error('Invalid Password')
-    }
+    // const isCheck = await bcrypt.compare(password, user.password)
+    // if (!isCheck) {
+    //     res.status(400)
+    //     throw new Error('Invalid Password')
+    // }
 
 
-    res.status(200).json({
-        msg: 'Login successful',
-        success: true,
-        token: generateToken(user._id),
-        user: {
-            id: user._id,
-            name:  user.name,
-            email: user.email,
-            isAdmin: user.isAdmin
-        }
-    })
+    // res.status(200).json({
+    //     msg: 'Login successful',
+    //     success: true,
+    //     token: generateToken(user._id),
+    //     user: {
+    //         id: user._id,
+    //         name:  user.name,
+    //         email: user.email,
+    //         isAdmin: user.isAdmin
+    //     }
+    // })
 
 })
 
