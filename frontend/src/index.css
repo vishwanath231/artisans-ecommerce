@@ -1,20 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,200&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');;
 @import url('https://fonts.googleapis.com/css2?family=Sen&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+/* body { */
+    /* font-family: 'Open Sans', sans-serif; */
+    /* font-family: 'Montserrat', sans-serif; */
+    /* font-family: 'Poppins', sans-serif; */
+/* } */
+
+
+/* Common style */
+input, textarea {
+    font-family: 'Sen', sans-serif;
+}
+
+
+
+/* screen height */
+.screen__height{
+    min-height: 90vh;
+}
+
+
+/* font style */
 .sen-font{
     font-family: 'Sen', sans-serif;
 }
 .mont-font{
     font-family: 'Montserrat', sans-serif;
 }
+.font {
+    font-size: 15px;
+}
 
+
+
+/* color and background color */
+.color{
+    color: #DC143C;
+}
+.bg__color{
+    background-color: #DC143C;
+}
+
+
+
+/* Product name */
 .product__name{
     overflow: hidden;
     text-overflow: ellipsis;
@@ -24,26 +60,25 @@
 }
 
 
-input, textarea {
-    font-family: 'Sen', sans-serif;
-}
 
 /* product description scroll ==> style */
-.product_desc::-webkit-scrollbar{
+.product__desc::-webkit-scrollbar{
     width: 4px;
 }
-.product_desc::-webkit-scrollbar-thumb{
+.product__desc::-webkit-scrollbar-thumb{
     background-color: rgb(209, 209, 209);
     border-radius: 10px;
 }
-.product_desc::-webkit-scrollbar-track{
+.product__desc::-webkit-scrollbar-track{
     background-color: rgb(233, 233, 233);
     border-radius: 10px;
 }
 
+
+
 /* phone number ==> remove arrow */
-.no-arrow::-webkit-inner-spin-button,
-.no-arrow::-webkit-outer-spin-button{
+.no__arrow::-webkit-inner-spin-button,
+.no__arrow::-webkit-outer-spin-button{
     -webkit-appearance: none;
     margin: 0;
 }

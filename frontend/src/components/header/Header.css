@@ -4,8 +4,8 @@
 
 .language__container .language{
     position:absolute;
-    top:85px;
-    left: 65px;
+    top:170px;
+    left: 85px;
     transform: translate(-50%, -50%);
 }
 

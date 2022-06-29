@@ -11,6 +11,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    phone: {
+        type: Number,
+        required: true,
+    },
     password: {
         type: String,
         required: true
@@ -19,6 +23,11 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         required: true,
         default: false 
+    },
+    isOwner: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 
 },{

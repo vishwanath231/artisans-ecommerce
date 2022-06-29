@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler';
-import User from '../models/UserModel.js'
+import User from '../models/authModel.js'
 import generateToken from '../utils/generateToken.js';
 import bcrypt from 'bcryptjs';
 
@@ -13,9 +13,9 @@ import bcrypt from 'bcryptjs';
 
 const register = asyncHandler(async (req, res) => {
 
-    const { name, email, phone, password, repeatPassword } = req.body;
+    const { username, email, phone, password, repeatPassword } = req.body;
 
-    if (!name || !email || !phone || !password || !repeatPassword) {
+    if (!username || !email || !phone || !password || !repeatPassword) {
         res.status(400)
         throw new Error('please add all fields!')
     }
@@ -50,7 +50,7 @@ const register = asyncHandler(async (req, res) => {
     }
 
     const userData = User({
-        name,
+        username,
         email,
         phone,
         password: hashPassword
@@ -65,7 +65,7 @@ const register = asyncHandler(async (req, res) => {
             token: generateToken(savedUser._id),
             user: {
                 id: savedUser._id,
-                name:  savedUser.name,
+                username:  savedUser.username,
                 email: savedUser.email,
                 phone: savedUser.phone,
                 isAdmin: savedUser.isAdmin
@@ -85,6 +85,7 @@ const register = asyncHandler(async (req, res) => {
 
 const login = asyncHandler(async (req, res) => {
 
+
     const { phoneOrEmail, password } = req.body;
 
     if (!phoneOrEmail || !password) {
@@ -92,33 +93,46 @@ const login = asyncHandler(async (req, res) => {
         throw new Error('please add all fields!')
     }
 
+    // const user = await User.findOne({ $or: [{ email: phoneOrEmail }, { phone: phoneOrEmail }] });
 
-    const isEmail = await User.findOne({ email: phoneOrEmail });
-    const isPhone = await User.findOne({ phone: phoneOrEmail });
-    // if (!isEmail || !isPhone) {
-    //     res.status(400)
-    //     throw new Error('Invalid Email or Phone No')
-    // }
+    let user;
+    try {
+    
+        user = await User.findOne({ email: phoneOrEmail });
+        if (!user){ 
+            user = await User.findOne({ phone: phoneOrEmail });
 
+            if (!user) {
+                res.status(400)
+                throw new Error('User not found')
+            }
+                
+        }
 
-    // const isCheck = await bcrypt.compare(password, user.password)
-    // if (!isCheck) {
-    //     res.status(400)
-    //     throw new Error('Invalid Password')
-    // }
+    } catch (error) {
+        res.status(400)
+        throw new Error('Invalid phone or email')
+    }
+    
+    const isCheck = await bcrypt.compare(password, user.password)
+    if (!isCheck) {
+        res.status(400)
+        throw new Error('Invalid credentials')
+    }
+    
 
-
-    // res.status(200).json({
-    //     msg: 'Login successful',
-    //     success: true,
-    //     token: generateToken(user._id),
-    //     user: {
-    //         id: user._id,
-    //         name:  user.name,
-    //         email: user.email,
-    //         isAdmin: user.isAdmin
-    //     }
-    // })
+    res.status(200).json({
+        msg: 'Login successful',
+        success: true,
+        token: generateToken(user._id),
+        user: {
+            id: user._id,
+            name:  user.name,
+            email: user.email,
+            phone: Number(user.phone),
+            isAdmin: user.isAdmin
+        }
+    })
 
 })
 

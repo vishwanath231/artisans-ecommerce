@@ -4,12 +4,13 @@ import cors from 'cors';
 import color from 'colors';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
-import userRouter from './routes/userRoutes.js';
+import authRouter from './routes/authRoutes.js';
 import { errorHandler, notFound } from './middleware/errorMiddleware.js';
 
 
 
 dotenv.config();
+
 
 connectDB();
 
@@ -23,11 +24,10 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan("dev"))
 }
 
-app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
 
 app.use(errorHandler);
 app.use(notFound);
-
 
 
 const PORT = process.env.PORT || PORT;
