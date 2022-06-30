@@ -12,11 +12,10 @@ const ModelBox = () => {
     }
 
     return (
-        <button type="button" className='adminModel__btn'  onClick={handleProfile}>
-            <div className='flex items-center'>
-                {/* <span className='mr-1'>Admin</span> */}
+        <div className='adminModel__btn'>
+            <button type="button"  onClick={handleProfile}>
                 <SVGicon NavbarUserIcon /> 
-            </div>
+            </button>
             <div className={ profile ? "z-50 my-4 w-40 text-base list-none bg-gray-100 rounded divide-y divide-gray-100 shadow  adminDashboard__model" : "hidden my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow " }>
                 <div className="py-3 px-4 text-sm text-left">
                     <span className="block">Admin</span>
@@ -31,7 +30,7 @@ const ModelBox = () => {
                     </li>
                 </ul>
             </div>
-        </button>
+        </div>
     )
 }
 

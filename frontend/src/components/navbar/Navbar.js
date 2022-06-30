@@ -83,8 +83,10 @@ const Navbar = () => {
 
                     {
                         login ? (
-                            <button type="button" className='model__btn'  onClick={handleProfile}>
-                                <SVGicon NavbarUserIcon />
+                            <div className='model__btn'>
+                                <button type="button"   onClick={handleProfile}>
+                                    <SVGicon NavbarUserIcon />
+                                </button>
 
                                 {/* user profile box  */}
                                 {
@@ -97,7 +99,7 @@ const Navbar = () => {
                                 {
                                     role === 'admin' ? <AdminModel profile={profile} /> : null
                                 }
-                            </button>
+                            </div>
                         ) : null
                     }
 
