@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, useCallback } from 'react'
+import React,{ useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import SVGicon from '../svg/SVGicon';
 import './Navbar.css';
@@ -83,21 +83,22 @@ const Navbar = () => {
 
                     {
                         login ? (
-                            <button type="button"  onClick={handleProfile}>
+                            <button type="button" className='model__btn'  onClick={handleProfile}>
                                 <SVGicon NavbarUserIcon />
+
+                                {/* user profile box  */}
+                                {
+                                    role === 'user' ? <UserModel profile={profile} /> : null
+                                }
+                                
+                                {
+                                    role === 'owner' ? <OwnerModel profile={profile} /> : null 
+                                }
+                                {
+                                    role === 'admin' ? <AdminModel profile={profile} /> : null
+                                }
                             </button>
                         ) : null
-                    }
-
-                    {/* user profile box  */}
-                    {
-                        role === 'user' ? <UserModel profile={profile} /> : null
-                    }
-                    {
-                        role === 'admin' ? <AdminModel profile={profile} /> : null
-                    }
-                    {
-                        role === 'owner' ? <OwnerModel profile={profile} /> : null 
                     }
 
                     {/* hamburger button */}

@@ -44,6 +44,9 @@ input, textarea {
 .color{
     color: #DC143C;
 }
+.color__hover:hover{
+    color: #DC143C;
+}
 .bg__color{
     background-color: #DC143C;
 }
@@ -82,3 +85,30 @@ input, textarea {
     -webkit-appearance: none;
     margin: 0;
 }
+
+
+/* SideBar scroll */
+.sideBar__scroll::-webkit-scrollbar{
+    width: 6px;
+}
+.sideBar__scroll::-webkit-scrollbar-thumb{
+    background-color: rgb(209, 209, 209);
+    border-radius: 10px;
+}
+.sideBar__scroll::-webkit-scrollbar-track{
+    background-color: rgb(233, 233, 233);
+    border-radius: 10px;
+}
+
+
+
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+

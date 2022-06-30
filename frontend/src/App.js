@@ -9,7 +9,9 @@ import SearchScreen from './screens/common/SearchScreen';
 import WishlistScreen from './screens/common/WishlistScreen';
 import CartScreen from './screens/common/CartScreen';
 import ProductScreen from './screens/common/ProductScreen';
-import CopyRights from './components/CopyRights';
+// import CopyRights from './components/CopyRights';
+import Dashboard from './screens/admin/Dashboard';
+import ProductsListScreen from './screens/admin/ProductsListScreen';
 
 
 
@@ -25,8 +27,14 @@ const App = () => {
                 <Route path='/wishlist' element={<WishlistScreen /> } />
                 <Route path='/cart' element={<CartScreen /> } />
                 <Route path='/product/:id' element={ <ProductScreen /> } />
+
+                
+                <Route path='/admin/dashboard' element={ <Dashboard /> } />
+                <Route path='/admin/productList' element={ <ProductsListScreen /> } />
+                
+            
             </Routes>
-            <CopyRights />
+            {/* <CopyRights /> */}
         </BrowserRouter>
     )
 }
