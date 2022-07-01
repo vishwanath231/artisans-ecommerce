@@ -13,7 +13,7 @@ const MobileNav = () => {
     const handleHamburger = () => setHamburger(!hamburger)
 
     return (
-        <div className='mobile__nav px-4 py-2'>
+        <div className='mobile__nav px-4 py-2 shadow'>
             <div className='flex justify-between items-center'>
                 <div>
                     <Link to='/admin/dashboard'><SVGIcon logo/></Link>

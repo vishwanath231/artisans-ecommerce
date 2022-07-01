@@ -12,6 +12,7 @@ import ProductScreen from './screens/common/ProductScreen';
 // import CopyRights from './components/CopyRights';
 import Dashboard from './screens/admin/Dashboard';
 import ProductsListScreen from './screens/admin/ProductsListScreen';
+import UserListScreen from './screens/admin/UserListScreen';
 
 
 
@@ -30,6 +31,7 @@ const App = () => {
 
                 
                 <Route path='/admin/dashboard' element={ <Dashboard /> } />
+                <Route path='/admin/userList' element={ <UserListScreen /> } />
                 <Route path='/admin/productList' element={ <ProductsListScreen /> } />
                 
             

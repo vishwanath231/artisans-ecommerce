@@ -19,7 +19,7 @@
 .dropdown__body{
     max-height: 0;
     overflow: hidden;
-    transition: max-height .8s ease-out;
+    transition: max-height .3s ease-out;
 }
 
 
@@ -43,7 +43,7 @@
     z-index: 20;
 }
 
-@media(min-width:720px){
+@media(min-width:768px){
     .sideBar__nav,
     .dashboard__header{
         display: block;
