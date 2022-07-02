@@ -26,7 +26,7 @@ const Header = () => {
                 </ul>
             </div>
             <div className='info__container'>
-                <ul className='flex items-center font-semibold tracking-wide font'>
+                <ul className='flex items-center font-medium tracking-wide font'>
                         <li className='language__container '>
                             <button onClick={language_dropDown} className='language__btn flex items-center justify-between font-medium font'>
                                 <IoLanguageOutline className='language__icon text-lg mr-1'/>

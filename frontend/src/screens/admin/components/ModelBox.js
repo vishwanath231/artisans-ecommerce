@@ -23,7 +23,10 @@ const ModelBox = () => {
                 </div>
                 <ul className="py-1 text-sm text-left">
                     <li>
-                        <Link to='/admin/dashboard' className="block py-2 px-4 hover:bg-gray-300 ">Profile</Link>
+                        <Link to='/admin/profile' className="block py-2 px-4 hover:bg-gray-300 ">Profile</Link>
+                    </li>
+                    <li>
+                        <Link to='/admin/order' className="block py-2 px-4 hover:bg-gray-300 ">My Order</Link>
                     </li>
                     <li>
                         <button className="block py-2 text-left w-full px-4 hover:text-white hover:bg-red-500 ">Sign out</button>

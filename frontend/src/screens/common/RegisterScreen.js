@@ -1,16 +1,35 @@
-import React,{ useState } from 'react';
-import { Link } from 'react-router-dom';
+import React,{ useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SVGicon from '../../components/svg/SVGicon';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const UserRegisterScreen = () => {
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const redirect = location.search ? location.search.split('=')[1] : '/'
+
     
     const [userRegisterData, setUserRegisterData] = useState({
         username:'',
         email: '',
         phone: '',
         password: '',
+        repeatPassword: ''
     });
+
+    const userInfo = false;
+
+    useEffect(() => {
+
+        if(userInfo){
+            navigate(redirect)
+        }
+      
+    }, [navigate, userInfo, redirect])
+
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -24,19 +43,26 @@ const UserRegisterScreen = () => {
     const handleSubmit = e => {
         e.preventDefault()
 
-        console.log(userRegisterData);
-        setUserRegisterData({
-            username:'',
-            email: '',
-            phone: '',
-            password: '',
-            repeatPassword: ''
-        })
+        if (!userRegisterData.username || !userRegisterData.email || !userRegisterData.phone || !userRegisterData.password || !userRegisterData.repeatPassword) {
+            
+            toast.error('please add all fields!')
+        }else{
+
+            setUserRegisterData({
+                username:'',
+                email: '',
+                phone: '',
+                password: '',
+                repeatPassword: ''
+            })
+            navigate(redirect)
+        }
     }
 
+    
 
     return (
-        <div className=' mb-14'>
+        <main className=' mb-14'>
             <div className='px-4 max-w-3xl my-9 mx-auto'>
                 <div className='flex justify-center items-center mb-14'>
                     <Link to='/' className='text-center'>
@@ -119,10 +145,11 @@ const UserRegisterScreen = () => {
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Register for account</button>
                 </form>
                 <div className='mt-3'>
-                    You have an account! <Link to='/login' className='text-blue-700 underline'>Login Here.</Link>
+                    You have an account! <Link to={redirect ? `/login?redirect=${redirect}` : '/login'} className='text-blue-700 underline'>Login Here.</Link>
                 </div>
             </div>
-        </div>
+            <ToastContainer toastStyle={{ fontFamily: '"Sen",sans-serif' }} />
+        </main>
     )
 }
 
