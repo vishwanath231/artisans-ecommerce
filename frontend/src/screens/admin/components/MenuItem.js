@@ -113,7 +113,7 @@ const MenuItem = () => {
                 <div className="px-4">
                     <ul>
                         <li>
-                            <Link to='' className="block py-2 px-4 hover:bg-gray-100">
+                            <Link to='/admin/makerList' className="block py-2 px-4 hover:bg-gray-100">
                                 <div className='flex items-center'>
                                     <BiChevronsRight className='text-xl text-[#DC143C] mr-1' />
                                     <p>Details</p>

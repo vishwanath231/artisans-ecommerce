@@ -8,6 +8,10 @@ import HamburgerBtn from './components/HamburgerBtn';
 import UserModel from './components/UserModel';
 import AdminModel from './components/AdminModel';
 import OwnerModel from './components/OwnerModel';
+import { FaRegUser, FaRegHeart } from 'react-icons/fa';
+import { FiShoppingCart } from 'react-icons/fi';
+
+
 
 const Navbar = () => {
 
@@ -61,7 +65,7 @@ const Navbar = () => {
 
     return (
         <nav className={scrolled ? "nav-scroll shadow-md bg-white px-4 sm:px-4 py-4" : "bg-white px-4 sm:px-4 py-4 nav-container "}>
-            <div className="flex flex-wrap justify-between items-center container max-w-screen-xl mx-auto ">
+            <div className="flex flex-wrap justify-between items-center container max-w-screen-xl mx-auto">
                 
                 {/* logo */}
                 <Link to='/' className="flex items-center">
@@ -74,18 +78,18 @@ const Navbar = () => {
                         <SVGicon searchIcon />
                     </Link> */}
                     <Link to='/wishlist' className="mr-3 text-sm rounded-full" >
-                        <SVGicon wishlistIcon />
+                        <FaRegHeart className='text-2xl hover:text-[#DC143C]' />
                     </Link>
                     <Link to='/cart' className="cart_box mr-3 text-sm ">
-                        <SVGicon cartIcon />
-                        <div className='cart_num'>0</div>
+                        <FiShoppingCart className='text-2xl hover:text-[#DC143C]' />
+                        <div className='cart_num'>4</div>
                     </Link>
 
                     {
                         login ? (
                             <div className='model__btn'>
                                 <button type="button"   onClick={handleProfile}>
-                                    <SVGicon NavbarUserIcon />
+                                    <FaRegUser  className='text-2xl hover:text-[#DC143C]'/>
                                 </button>
 
                                 {/* user profile box  */}

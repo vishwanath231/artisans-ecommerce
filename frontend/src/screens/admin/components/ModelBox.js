@@ -1,6 +1,6 @@
 import React,{ useState } from 'react';
 import { Link } from 'react-router-dom';
-import SVGicon from '../../../components/svg/SVGicon';
+import { FaRegUser } from 'react-icons/fa';
 import './main.css';
 
 const ModelBox = () => {
@@ -14,7 +14,7 @@ const ModelBox = () => {
     return (
         <div className='adminModel__btn'>
             <button type="button"  onClick={handleProfile}>
-                <SVGicon NavbarUserIcon /> 
+                <FaRegUser className='text-2xl' /> 
             </button>
             <div className={ profile ? "z-50 my-4 w-40 text-base list-none bg-gray-100 rounded divide-y divide-gray-100 shadow  adminDashboard__model" : "hidden my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow " }>
                 <div className="py-3 px-4 text-sm text-left">

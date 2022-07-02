@@ -18,7 +18,7 @@ const ProductScreen = ({ productList, getProductLists }) => {
 
     useEffect(() => {
 
-        getProductLists(Number(id))
+        getProductLists(id)
         
     },[getProductLists, id])
 

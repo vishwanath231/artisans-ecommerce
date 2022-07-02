@@ -20,14 +20,15 @@
 
 .cart_box .cart_num{
     position: absolute;
-    top:-5px;
+    top:-8px;
     right: -6px;
     width: 20px;
     height: 20px;
-    background: crimson;
+    background: #DC143C;
     text-align: center;
     border-radius: 50%;
     color: #fff;
+    font-family: 'Monserrat', sans-serif;
 }
 /* End */
 

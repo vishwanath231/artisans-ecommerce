@@ -4,13 +4,12 @@ import SVGicon from '../../components/svg/SVGicon';
 
 
 const UserRegisterScreen = () => {
-
+    
     const [userRegisterData, setUserRegisterData] = useState({
         username:'',
         email: '',
         phone: '',
         password: '',
-        repeatPassword: ''
     });
 
     const handleChange = e => {
@@ -34,6 +33,7 @@ const UserRegisterScreen = () => {
             repeatPassword: ''
         })
     }
+
 
     return (
         <div className=' mb-14'>
@@ -84,7 +84,7 @@ const UserRegisterScreen = () => {
                     <div className="mb-6">
                         <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 ">Password <span className='text-red-500 text-base'>*</span></label>
                         <input 
-                            type="password" 
+                            type="password"
                             id="password" 
                             name="password"
                             onChange={handleChange} 
@@ -118,6 +118,9 @@ const UserRegisterScreen = () => {
                     </div> */}
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Register for account</button>
                 </form>
+                <div className='mt-3'>
+                    You have an account! <Link to='/login' className='text-blue-700 underline'>Login Here.</Link>
+                </div>
             </div>
         </div>
     )

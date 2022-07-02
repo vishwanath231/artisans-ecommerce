@@ -13,6 +13,7 @@ import ProductScreen from './screens/common/ProductScreen';
 import Dashboard from './screens/admin/Dashboard';
 import ProductsListScreen from './screens/admin/ProductsListScreen';
 import UserListScreen from './screens/admin/UserListScreen';
+import MakerListScreen from './screens/admin/MakerListScreen';
 
 
 
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path='/admin/dashboard' element={ <Dashboard /> } />
                 <Route path='/admin/userList' element={ <UserListScreen /> } />
                 <Route path='/admin/productList' element={ <ProductsListScreen /> } />
+                <Route path='/admin/makerList' element={ <MakerListScreen /> } />
                 
             
             </Routes>

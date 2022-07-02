@@ -9,12 +9,13 @@
     transform: translate(-50%, -50%);
 }
 
-.language__btn:hover .language__svg,
-.location__btn:hover .location__svg,
-.info__btn:hover .info__svg,
-.user__btn:hover .user__svg{
-    fill: #DC143C;
+.language__btn:hover .language__icon,
+.location__btn:hover .location__icon,
+.info__btn:hover .info__icon,
+.user__btn:hover .user__icon{
+    color: #DC143C;
 }
+
 
 .info__container .language__container,
 .info__container .symbol {

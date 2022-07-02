@@ -1,7 +1,10 @@
 import React,{ useState } from 'react';
 import { Link } from 'react-router-dom';
-import SVGicon from '../svg/SVGicon';
 import './Header.css';
+import { BiUser } from 'react-icons/bi';
+import { MdOutlineLocationOn } from 'react-icons/md';
+import { BsExclamationCircle } from 'react-icons/bs';
+import { IoLanguageOutline } from 'react-icons/io5';
 
 
 const Header = () => {
@@ -26,7 +29,7 @@ const Header = () => {
                 <ul className='flex items-center font-semibold tracking-wide font'>
                         <li className='language__container '>
                             <button onClick={language_dropDown} className='language__btn flex items-center justify-between font-medium font'>
-                                <SVGicon languageIcon />
+                                <IoLanguageOutline className='language__icon text-lg mr-1'/>
                                 <span>English</span>
                                 <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20"><path  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"></path></svg>
                             </button>
@@ -62,23 +65,24 @@ const Header = () => {
                         <li className='text-slate-400 md:mx-5 symbol'> | </li>
                         <li>
                             <Link to='/' className='location__btn flex items-center justify-between'>
-                               <SVGicon locationIcon />
+                               <MdOutlineLocationOn className='location__icon text-lg'/>
                                 <span>Location</span>
                             </Link>
                         </li>
                         <li className='mx-5'>
                             <Link to='/contact' className='info__btn btn flex items-center justify-between'>
-                                <SVGicon infoIcon />
+                                <BsExclamationCircle className='info__icon text-lg mr-1' />
                                 <span>Contact</span>
                             </Link>
                         </li>
                         {
                             login ? (<li className='user__btn  flex items-center'>
-                            <SVGicon headerUserIcon />
-                            <Link to='/login' className='flex items-center hover:md:text-pink-600 justify-between'>
+                            {/* <SVGicon headerUserIcon /> */}
+                            <BiUser className='user__icon text-lg mr-1'/>
+                            <Link to='/login' className='flex items-center hover:md:text-[#DC143C] justify-between'>
                                 <span>Login</span>
                             </Link> <span className='mx-2'>/</span>
-                            <Link to='/register' className='flex items-center hover:md:text-pink-600 justify-between'>
+                            <Link to='/register' className='flex items-center hover:md:text-[#DC143C] justify-between'>
                                 <span>Register</span>
                             </Link>
                         </li>): null
