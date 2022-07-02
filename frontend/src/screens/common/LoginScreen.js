@@ -1,20 +1,22 @@
 import React,{ useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SVGicon from '../../components/svg/SVGicon';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const LoginScreen = () => {
-
+    
     const location = useLocation();
     const navigate = useNavigate();
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
-    console.log(redirect);
 
     const sampleTest = {
         email: 'vishwanathvishwabai@gmail.com',
         phone: 6785435678
     }
+
 
     const [loginData, setLoginData] = useState({
         phoneOrEmail: '',
@@ -47,14 +49,17 @@ const LoginScreen = () => {
 
         if (loginData.phoneOrEmail === sampleTest.email || Number(loginData.phoneOrEmail) === sampleTest.phone) {
             
+            toast.success("Login success");
             navigate('/')
             setLoginData({
                 phoneOrEmail: '',
                 password: '',
             })
         }else{
-            console.log('Invalid Email or Phone No');
+            toast.error("Invalid Email or Phone No");
         }
+
+
     }
 
 
@@ -100,6 +105,7 @@ const LoginScreen = () => {
                 You don't have an account! <Link to='/register' className='text-blue-700 underline'>SignUp Here.</Link>
             </div>
         </div>
+        <ToastContainer toastStyle={{ fontFamily: '"Sen",sans-serif' }} />
         </main>
         
     )
