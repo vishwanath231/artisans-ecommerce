@@ -1,12 +1,13 @@
 import React,{ useEffect } from 'react';
 import Banner from '../../components/Banner';
-import Products from '../../components/Products';
 import { getAllProducts } from '../../redux/actions/ProductActions';
 import { connect } from 'react-redux';
 import Loader from '../../components/Loader';
 import Header from '../../components/header/Header';
 import Navbar from '../../components/navbar/Navbar';
-import Footer from '../../components/Footer'
+import Footer from '../../components/Footer';
+import { Link } from 'react-router-dom';
+import Rating from '../../components/Rating';
 
 
 const HomeScreen = ({ product, getAllProducts }) => {
@@ -37,7 +38,16 @@ const HomeScreen = ({ product, getAllProducts }) => {
                             {
                                 products.map((val) => (
                                     <div key={val._id} >
-                                        <Products val={val} />
+                                        <div className='bg-white shadow-md rounded-lg hi'>
+                                            <Link to={`/product/${val._id}`}>
+                                                <img src={val.image} alt={val.name} className='w-full cursor-pointer rounded-t-lg' />
+                                            </Link>
+                                            <div className='p-4'>
+                                                <Link to={`/product/${val._id}`} className='hover:underline product__name cursor-pointer mont-font'>{val.name}</Link>
+                                                <Rating value={val.rating} text={`${val.numReviews} reviews`} />
+                                                <div className='font-semibold text-xl'>₹{val.price}</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 ))
                             }

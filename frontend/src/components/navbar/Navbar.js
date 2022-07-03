@@ -1,19 +1,20 @@
 import React,{ useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import SVGicon from '../svg/SVGicon';
+import SVGicon from '../../assets/svg/SVGicon';
 import './Navbar.css';
 import MobileMenu from './components/MobileMenu';
 import DesktopMenu from './components/DesktopMenu';
 import HamburgerBtn from './components/HamburgerBtn';
 import UserModel from './components/UserModel';
 import AdminModel from './components/AdminModel';
-import OwnerModel from './components/OwnerModel';
+import MakerModel from './components/MakerModel';
 import { FaRegUser, FaRegHeart } from 'react-icons/fa';
 import { FiShoppingCart } from 'react-icons/fi';
+import { connect } from 'react-redux';
 
 
 
-const Navbar = () => {
+const Navbar = ({ authLogin }) => {
 
     const [ profile, setProfile] = useState(false);
     const [ hamburger, setHamburger ] = useState(false);
@@ -59,8 +60,8 @@ const Navbar = () => {
         return () => document.removeEventListener('keydown', keyPress);
     },[keyPress]);
 
-    const role = "admin";
-    const login = true;
+
+    const { authInfo } = authLogin
 
 
     return (
@@ -86,7 +87,7 @@ const Navbar = () => {
                     </Link>
 
                     {
-                        login ? (
+                        authInfo ? (
                             <div className='model__btn'>
                                 <button type="button"   onClick={handleProfile}>
                                     <FaRegUser  className='text-2xl hover:text-[#DC143C]'/>
@@ -94,14 +95,14 @@ const Navbar = () => {
 
                                 {/* user profile box  */}
                                 {
-                                    role === 'user' ? <UserModel profile={profile} /> : null
+                                    authInfo.data.role === 'user' ? <UserModel profile={profile} /> : null
                                 }
                                 
                                 {
-                                    role === 'owner' ? <OwnerModel profile={profile} /> : null 
+                                    authInfo.data.role === 'maker' ? <MakerModel profile={profile} /> : null 
                                 }
                                 {
-                                    role === 'admin' ? <AdminModel profile={profile} /> : null
+                                    authInfo.data.role === 'admin' ? <AdminModel profile={profile} /> : null
                                 }
                             </div>
                         ) : null
@@ -122,4 +123,10 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+
+
+const mapStateToProps = (state) => ({
+    authLogin: state.authLogin
+})
+
+export default connect(mapStateToProps, null)(Navbar);

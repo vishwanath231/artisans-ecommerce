@@ -1,5 +1,5 @@
 import React,{ useState } from 'react';
-import SVGIcon from '../../../components/svg/SVGicon';
+import SVGIcon from '../../../assets/svg/SVGicon';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { IoClose } from 'react-icons/io5';
 import { Link } from 'react-router-dom';

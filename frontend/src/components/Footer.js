@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { GoLocation } from  'react-icons/go';
 import { FiMail } from 'react-icons/fi';
-import { BsTwitter, BsInstagram, BsFacebook }  from 'react-icons/bs'
-
+import { BsTwitter, BsInstagram, BsFacebook }  from 'react-icons/bs';
 
 
 

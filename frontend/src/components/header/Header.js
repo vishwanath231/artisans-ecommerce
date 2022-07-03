@@ -5,14 +5,15 @@ import { BiUser } from 'react-icons/bi';
 import { MdOutlineLocationOn } from 'react-icons/md';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { IoLanguageOutline } from 'react-icons/io5';
+import { connect } from 'react-redux';
 
-
-const Header = () => {
+const Header = ({ authLogin }) => {
 
     const [ language, setLanguage ] = useState(false);
     const language_dropDown = () => setLanguage(!language)
 
-    const login = true;
+    const { authInfo } = authLogin; 
+
 
     return (
         <div className='px-2 sm:px-4 py-2.5'>
@@ -76,8 +77,7 @@ const Header = () => {
                             </Link>
                         </li>
                         {
-                            login ? (<li className='user__btn  flex items-center'>
-                            {/* <SVGicon headerUserIcon /> */}
+                            !authInfo ? (<li className='user__btn  flex items-center'>
                             <BiUser className='user__icon text-lg mr-1'/>
                             <Link to='/login' className='flex items-center hover:md:text-[#DC143C] justify-between'>
                                 <span>Login</span>
@@ -94,4 +94,8 @@ const Header = () => {
     )
 }
 
-export default Header;
+const mapStateToProps = (state) => ({
+    authLogin: state.authLogin
+})
+
+export default connect(mapStateToProps, null)(Header);

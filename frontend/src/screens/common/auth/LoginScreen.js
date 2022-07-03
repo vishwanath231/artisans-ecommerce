@@ -1,28 +1,26 @@
 import React,{ useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import SVGicon from '../../components/svg/SVGicon';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import SVGicon from '../../../assets/svg/SVGicon';
+import { login } from '../../../redux/actions/AuthActions';
+import { connect } from 'react-redux';
+import Message from  '../../../components/Message';
+import Loader from  '../../../components/Loader';
 
 
-const LoginScreen = () => {
-    
-    const location = useLocation();
-    const navigate = useNavigate();
-
-    const redirect = location.search ? location.search.split('=')[1] : '/'
-
-    const sampleTest = {
-        email: 'vishwanathvishwabai@gmail.com',
-        phone: 6785435678
-    }
-
+const LoginScreen = ({ authLogin, login }) => {
 
     const [loginData, setLoginData] = useState({
         phoneOrEmail: '',
         password: '',
     });
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const redirect = location.search ? location.search.split('=')[1] : '/'
     
+    const {loading, authInfo, error } = authLogin;
+
     const handleChange = e => {
         const { name, value } = e.target;
 
@@ -32,36 +30,24 @@ const LoginScreen = () => {
         })
     }
 
-    const userInfo = false
-
     useEffect(() => {
     
-        
-        if (userInfo) {
+        if (authInfo) {
             navigate(redirect)
         }
         
-    }, [navigate, redirect, userInfo]);
+
+    }, [navigate, redirect, authInfo]);
 
 
-    const handleSubmit = e => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (loginData.phoneOrEmail === sampleTest.email || Number(loginData.phoneOrEmail) === sampleTest.phone) {
-            
-            toast.success("Login success");
-            navigate('/')
-            setLoginData({
-                phoneOrEmail: '',
-                password: '',
-            })
-        }else{
-            toast.error("Invalid Email or Phone No");
-        }
+        login(loginData);
+
+        
     }
 
-
-    
 
     return (
         <main className='screen__height'>
@@ -71,7 +57,9 @@ const LoginScreen = () => {
                         <SVGicon logo />
                     </Link>
                 </div>
-                <h2 className='text-4xl font-light uppercase mb-4'>Login</h2>
+                {loading && <Loader />}
+                <h2 className='text-4xl font-light uppercase mb-4'>Login</h2> 
+                {error && <Message error msg={error} />}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-6">
                         <label htmlFor="phoneOrEmail" className="block mb-2 text-sm font-medium text-gray-900">Phone or Email <span className='text-red-500 text-base'>*</span></label>
@@ -103,10 +91,15 @@ const LoginScreen = () => {
                     You don't have an account! <Link to={redirect ? `/register?redirect=${redirect}` : '/register' } className='text-blue-700 underline'>SignUp Here.</Link>
                 </div>
             </div>
-            <ToastContainer toastStyle={{ fontFamily: '"Sen",sans-serif' }} />
         </main>
         
     )
 }
 
-export default LoginScreen;
+
+const mapStateToProps = (state) => ({
+    authLogin: state.authLogin
+})
+
+
+export default connect(mapStateToProps, { login })(LoginScreen);

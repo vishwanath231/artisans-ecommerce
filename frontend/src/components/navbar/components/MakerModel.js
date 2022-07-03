@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { logout } from '../../../redux/actions/AuthActions';
 
 
-const AdminModel = ({ profile, authLogin, logout  }) => {
+const MakerModel = ({ profile, authLogin, logout }) => {
 
     const logoutHandler = () => {
         logout()
@@ -20,7 +20,7 @@ const AdminModel = ({ profile, authLogin, logout  }) => {
             </div>
             <ul className="py-1 text-sm text-left">
                 <li>
-                    <Link to='/admin/dashboard' className="block py-2 px-4 hover:bg-gray-200">Dashboard</Link>
+                    <Link to='/' className="block py-2 px-4 hover:bg-gray-100">Dashboard</Link>
                 </li>
                 <li>
                     <button onClick={logoutHandler} className="block py-2 px-4 w-full text-left hover:bg-rose-600">Sign out</button>
@@ -30,9 +30,8 @@ const AdminModel = ({ profile, authLogin, logout  }) => {
     )
 }
 
-
 const mapStateToProps = (state) => ({
     authLogin: state.authLogin
 })
 
-export default connect(mapStateToProps, { logout })(AdminModel);
+export default connect(mapStateToProps, { logout })(MakerModel);

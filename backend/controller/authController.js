@@ -13,17 +13,19 @@ import bcrypt from 'bcryptjs';
 
 const register = asyncHandler(async (req, res) => {
 
-    const { username, email, phone, password, repeatPassword } = req.body;
+    const { name, email, phone, password, repeatPassword } = req.body;
 
-    if (!username || !email || !phone || !password || !repeatPassword) {
+    if (!name || !email || !phone || !password || !repeatPassword) {
         res.status(400)
         throw new Error('please add all fields!')
     }
 
-    if (password !== repeatPassword){
-        res.status(400) 
-        throw new Error("Password doesn't match");
+    // const regex = '[a-z0-9]+@[a-z]+\.[a-z]{2,3}';
+    if(!/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/.test(email)){
+        res.status(400)
+        throw new Error('Email invalid, Please check it!')
     }
+
 
     const isEmail = await User.findOne({ email:  email });
     if (isEmail) {
@@ -31,11 +33,25 @@ const register = asyncHandler(async (req, res) => {
         throw new Error('Email already exists!')
     }
 
+    if (phone.length !== 10) {
+        res.status(400)
+        throw new Error('Phone number invalid, Please check it.')
+    }
+
     const isPhone = await User.findOne({ phone: phone })
     if (isPhone) {
         res.status(400)
         throw new Error('Phone number already exists!')
     }
+
+    
+
+    if (password !== repeatPassword){
+        res.status(400) 
+        throw new Error("Password doesn't match");
+    }
+
+
 
     const salt = await bcrypt.genSalt(10);
     if (!salt) {
@@ -50,7 +66,7 @@ const register = asyncHandler(async (req, res) => {
     }
 
     const userData = User({
-        username,
+        name,
         email,
         phone,
         password: hashPassword
@@ -63,12 +79,12 @@ const register = asyncHandler(async (req, res) => {
             msg: 'Register successful',
             success: true,
             token: generateToken(savedUser._id),
-            user: {
+            data: {
                 id: savedUser._id,
-                username:  savedUser.username,
+                name:  savedUser.name,
                 email: savedUser.email,
                 phone: savedUser.phone,
-                isAdmin: savedUser.isAdmin
+                role: savedUser.role
             }
         })
     }
@@ -95,6 +111,7 @@ const login = asyncHandler(async (req, res) => {
 
     // const user = await User.findOne({ $or: [{ email: phoneOrEmail }, { phone: phoneOrEmail }] });
 
+
     let user;
     try {
     
@@ -119,18 +136,18 @@ const login = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Invalid credentials')
     }
-    
+
 
     res.status(200).json({
         msg: 'Login successful',
         success: true,
         token: generateToken(user._id),
-        user: {
+        data: {
             id: user._id,
             name:  user.name,
             email: user.email,
-            phone: Number(user.phone),
-            isAdmin: user.isAdmin
+            phone: user.phone,
+            role: user.role
         }
     })
 

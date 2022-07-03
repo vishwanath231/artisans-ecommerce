@@ -5,7 +5,7 @@ import color from 'colors';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
 import authRouter from './routes/authRoutes.js';
-import { errorHandler, notFound } from './middleware/errorMiddleware.js';
+import { errorHandler} from './middleware/errorMiddleware.js';
 
 
 
@@ -26,8 +26,8 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use('/api/auth', authRouter);
 
+// app.use(notFound);
 app.use(errorHandler);
-app.use(notFound);
 
 
 const PORT = process.env.PORT || PORT;

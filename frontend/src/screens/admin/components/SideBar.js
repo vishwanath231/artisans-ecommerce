@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import SVGIcon from '../../../components/svg/SVGicon';
+import SVGIcon from '../../../assets/svg/SVGicon';
 import MenuItem from './MenuItem';
 import './main.css';
 

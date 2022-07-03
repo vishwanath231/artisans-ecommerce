@@ -13,8 +13,8 @@ const connectDB =  async () => {
         
     } catch (err) {
 
-        // console.log(err);
-        console.log(`MongoDB connection failed: ${conn.connection.name}`.bgRed.black.underline);
+        console.log(err);
+        // console.log(`MongoDB connection failed: ${conn.connection.name}`.bgRed.black.underline);
         process.exit(1);
     }
 }

@@ -19,15 +19,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    isAdmin: {
-        type: Boolean,
+    role: {
+        type: String,
         required: true,
-        default: false 
-    },
-    isOwner: {
-        type: Boolean,
-        required: true,
-        default: false
+        default: 'user'  
     }
 
 },{

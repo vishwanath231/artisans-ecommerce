@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiHome, FiPackage } from 'react-icons/fi';
 import { MdOutlineDeliveryDining } from 'react-icons/md';
-import { BiLogOutCircle, BiBookAlt } from 'react-icons/bi';
+import { BiBookAlt } from 'react-icons/bi';
 
 
 const MobileMenu = ({ hamburger }) => {
@@ -45,18 +45,9 @@ const MobileMenu = ({ hamburger }) => {
                     </Link>
                 </div>
 
-
-                <div className='mb-3'>
-                    <Link to='' className="block py-2 px-4 hover:bg-gray-200">
-                        <div className='flex items-center'>
-                            <BiLogOutCircle className='text-xl text-[#DC143C] mr-1' />
-                            <p>Logout</p>
-                        </div>
-                    </Link>
-                </div>
             </div>
         </div> 
     )
 }
 
-export default MobileMenu
+export default MobileMenu;
