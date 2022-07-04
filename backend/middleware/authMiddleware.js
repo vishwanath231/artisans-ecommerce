@@ -34,7 +34,7 @@ const protect = asyncHandler(async (req, res, next) =>{
 
 const adminProtect = asyncHandler(async (req, res, next) => {
 
-    if (req.user && req.user.isAdmin) {
+    if (req.user && req.user.role === 'admin') {
         next()
     }else {
         res.status(401)
@@ -43,5 +43,17 @@ const adminProtect = asyncHandler(async (req, res, next) => {
 })
 
 
+const makerProtect = asyncHandler(async (req, res, next) => {
 
-export { protect, adminProtect };
+    if (req.user && req.user.role === 'maker') {
+        next()
+    }else{
+        res.status(401)
+        throw new Error('Not authorized as an maker')
+    }
+
+})
+
+
+
+export { protect, adminProtect, makerProtect };

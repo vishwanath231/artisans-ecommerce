@@ -90,4 +90,5 @@ export const register = (registerData) => async (dispatch) => {
 export const logout = () => (dispatch) => {
     localStorage.removeItem('authInfo')
     dispatch({ type:USER_LOGOUT })
+    document.location.href = '/login'
 }

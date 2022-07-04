@@ -1,25 +1,26 @@
 import React,{ useEffect } from 'react';
-import Banner from '../../components/Banner';
-import { getAllProducts } from '../../redux/actions/ProductActions';
+import { Link } from 'react-router-dom';
+import { listProducts } from '../../redux/actions/ProductActions';
 import { connect } from 'react-redux';
+import Banner from '../../components/Banner';
 import Loader from '../../components/Loader';
 import Header from '../../components/header/Header';
 import Navbar from '../../components/navbar/Navbar';
 import Footer from '../../components/Footer';
-import { Link } from 'react-router-dom';
+import Message from '../../components/Message';
 import Rating from '../../components/Rating';
 
 
-const HomeScreen = ({ product, getAllProducts }) => {
+const HomeScreen = ({ productList, listProducts }) => {
 
     useEffect(() => {
        
-        getAllProducts()
+        listProducts()
 
-    }, [getAllProducts]);
+    }, [listProducts]);
 
 
-    const{ loading, products } = product;
+    const{ loading, products, error } = productList;
 
     
     return (
@@ -33,7 +34,7 @@ const HomeScreen = ({ product, getAllProducts }) => {
                     <div className='w-28 bg__color' style={{ height: '.2rem' }}></div>
                 </div>
                 {
-                    loading ? <Loader /> : (
+                    loading ? <Loader /> : error ? <Message error msg={error} /> : (
                         <div className=' grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 gap-y-7 my-5 '>
                             {
                                 products.map((val) => (
@@ -61,7 +62,7 @@ const HomeScreen = ({ product, getAllProducts }) => {
 }
 
 const mapStateToProps = (state) => ({
-    product: state.product
+    productList: state.productList
 })
 
-export default connect(mapStateToProps, { getAllProducts })(HomeScreen);
+export default connect(mapStateToProps, { listProducts })(HomeScreen);

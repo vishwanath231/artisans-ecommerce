@@ -5,8 +5,9 @@ import color from 'colors';
 import morgan from 'morgan';
 import connectDB from './config/db.js';
 import authRouter from './routes/authRoutes.js';
-import { errorHandler} from './middleware/errorMiddleware.js';
-
+import productRouter from './routes/productRoutes.js';
+import makerRouter from './routes/makerRoutes.js';
+import { notFound, errorHandler} from './middleware/errorMiddleware.js';
 
 
 dotenv.config();
@@ -25,8 +26,11 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/api/auth', authRouter);
+app.use('/api/products', productRouter);
+app.use('/api/maker', makerRouter);
 
-// app.use(notFound);
+
+app.use(notFound);
 app.use(errorHandler);
 
 

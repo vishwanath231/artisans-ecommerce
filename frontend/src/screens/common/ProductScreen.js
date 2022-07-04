@@ -5,12 +5,13 @@ import Footer from '../../components/Footer'
 import { useParams, Link } from 'react-router-dom';
 import Rating from '../../components/Rating';
 import { connect } from 'react-redux';
-import { getProductLists } from  '../../redux/actions/ProductActions';
+import { getProductDetails } from  '../../redux/actions/ProductActions';
 import Loader from '../../components/Loader';
+import Message from '../../components/Message';
 
 
 
-const ProductScreen = ({ productList, getProductLists }) => {
+const ProductScreen = ({ productDetails, getProductDetails }) => {
 
     const [qty, setQty] = useState(1);
 
@@ -18,12 +19,12 @@ const ProductScreen = ({ productList, getProductLists }) => {
 
     useEffect(() => {
 
-        getProductLists(id)
+        getProductDetails(id)
         
-    },[getProductLists, id])
+    },[getProductDetails, id])
 
 
-    const { loading, product } = productList;
+    const { loading, product, error } = productDetails;
 
 
     return (
@@ -33,7 +34,7 @@ const ProductScreen = ({ productList, getProductLists }) => {
             <div className='container max-w-screen-xl mx-auto p-4 mt-20  mb-4'>
                 <Link to='/' className='px-5 py-3 hover:bg-gray-200 rounded text-sm font-medium tracking-wider'>GO BACK</Link>
                 {
-                    loading ? <Loader /> : (
+                    loading ? <Loader /> : error ? <Message error msg={error} /> : (
                         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-9'>
                             <div>
                                 <img src={product.image} alt={product.name} />
@@ -85,7 +86,7 @@ const ProductScreen = ({ productList, getProductLists }) => {
 
 
 const mapStateToProps = (state) => ({
-    productList: state.productList
+    productDetails: state.productDetails
 })
 
-export default connect(mapStateToProps, { getProductLists } )(ProductScreen);
+export default connect(mapStateToProps, { getProductDetails } )(ProductScreen);

@@ -5,10 +5,10 @@ import bcrypt from 'bcryptjs';
 
 
 /**
- * @method       POST 
- * @routes       /api/users/register
- * @description  Register
- * @access       User
+ * @desc    Create a user 
+ * @method  POST 
+ * @routes  /api/users/register
+ * @access  Public
  */
 
 const register = asyncHandler(async (req, res) => {
@@ -20,7 +20,11 @@ const register = asyncHandler(async (req, res) => {
         throw new Error('please add all fields!')
     }
 
-    // const regex = '[a-z0-9]+@[a-z]+\.[a-z]{2,3}';
+    if (name.length < 4) {
+        res.status(400)
+        throw new Error('name must be at least 4 characters long!')
+    }
+
     if(!/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/.test(email)){
         res.status(400)
         throw new Error('Email invalid, Please check it!')
@@ -44,6 +48,10 @@ const register = asyncHandler(async (req, res) => {
         throw new Error('Phone number already exists!')
     }
 
+    if (password.length < 4) {
+        res.status(400)
+        throw new Error('Password must be at least 4 characters long!')
+    }
     
 
     if (password !== repeatPassword){
@@ -93,10 +101,10 @@ const register = asyncHandler(async (req, res) => {
 
 
 /**
- * @method       POST 
- * @routes       /api/users/login
- * @description  Login 
- * @access       User, Admin
+ * @desc    Login 
+ * @method  POST 
+ * @routes  /api/users/login
+ * @access  User, Admin, Maker
  */
 
 const login = asyncHandler(async (req, res) => {
@@ -156,10 +164,10 @@ const login = asyncHandler(async (req, res) => {
 
 
 /**
- * @method       GET 
- * @routes       /api/users/login
- * @description  user profile
- * @access       User, Admin
+ * @desc    user profile
+ * @method  GET 
+ * @routes  /api/users/login
+ * @access  User, Admin, Maker
  */
 
 const getUserProfile = asyncHandler(async (req, res) => {
@@ -174,9 +182,19 @@ const getUserProfile = asyncHandler(async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin
+        phone: user.phone,
+        role: user.role    
     })
 })
 
 
-export { register, login, getUserProfile };
+
+const getUsers = asyncHandler(async (req, res) => {
+
+    const users = await User.find({})
+    res.json(users)
+})
+
+
+
+export { register, login, getUserProfile, getUsers };

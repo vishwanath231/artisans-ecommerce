@@ -1,57 +1,75 @@
 import {
-    PRODUCT_REQUEST,
-    PRODUCT_SUCCESS,
-    PRODUCT_FAIL,
     PRODUCT_LIST_REQUEST,
     PRODUCT_LIST_SUCCESS,
-    PRODUCT_LIST_FAIL
+    PRODUCT_LIST_FAIL,
+    PRODUCT_DETAILS_REQUEST,
+    PRODUCT_DETAILS_SUCCESS,
+    PRODUCT_DETAILS_FAIL
 } from '../constants/ProductConstants';
-import product from '../../products.json';
+import axios from 'axios';
 
 
-export const getAllProducts = () => async (dispatch) => {
+export const listProducts = () => async (dispatch) => {
 
     try {
         dispatch({
-            type: PRODUCT_REQUEST
+            type: PRODUCT_LIST_REQUEST
         })
 
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { data } = await axios.get(`http://localhost:5000/api/products`, config)
+
         dispatch({
-            type: PRODUCT_SUCCESS,
-            payload: product.products
+            type: PRODUCT_LIST_SUCCESS,
+            payload: data
         })
 
 
-    } catch (err) {
+    } catch (error) {
+        
+        const resErr =  error.response && error.response.data.message ? error.response.data.message : error.message
+        
         dispatch({
-            type: PRODUCT_FAIL,
-            error: err 
+            type: PRODUCT_LIST_FAIL,
+            payload: resErr
         })
     }
 }
 
 
-export const getProductLists = (id) => async (dispatch) => {
+export const getProductDetails = (id) => async (dispatch) => {
 
     try {
         
         dispatch({
-            type: PRODUCT_LIST_REQUEST
+            type: PRODUCT_DETAILS_REQUEST
         })
 
-        const productList = product.products.find(val => val._id === id) 
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
 
+        const { data } = await axios.get(`http://localhost:5000/api/products/${id}`, config)
 
         dispatch({
-            type: PRODUCT_LIST_SUCCESS,
-            payload: productList
+            type: PRODUCT_DETAILS_SUCCESS,
+            payload: data
         })
 
-    } catch (err) {
+    } catch (error) {
+       
+        const resErr =  error.response && error.response.data.message ? error.response.data.message : error.message
         
         dispatch({
-            type: PRODUCT_LIST_FAIL,
-            error: err
+            type: PRODUCT_DETAILS_FAIL,
+            payload: resErr
         })
     }
 }

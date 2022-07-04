@@ -2,31 +2,37 @@ import React,{ useState, useEffect } from 'react';
 import Header from './components/Header';
 import MobileNav from './components/MobileNav';
 import SideBar from './components/SideBar';
-import product from '../../products.json';
 import { BiPlus } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import { FiEye, FiTrash2, FiEdit } from 'react-icons/fi';
-// import { FiEyeOff } from 'react-icons/fi';
+import { listProducts } from '../../redux/actions/ProductActions';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import { connect } from 'react-redux';
 
-const ProductsListScreen = () => {
 
-    const [productData, setProductData] = useState([]);
+const ProductsListScreen = ({ productList, listProducts }) => {
+
     const [filterData, setFilterData] = useState([]);
 
-
     useEffect(() => {
-        setProductData(product.products);
-    }, [])
-    
+       
+        listProducts()
+
+    }, [listProducts]);
+
+
+    const{ loading, products, error } = productList;
+
    
     const searchHandle = (e) => {
         if (e.target.value !== '') {
-            const filter = productData.filter(item => {
+            const filter = products.filter(item => {
                 return Object.values(item).join('').toLowerCase().includes(e.target.value.toLowerCase())
             })
             setFilterData(filter)
         }else{
-            setFilterData(productData)
+            setFilterData(products)
         }
     }
 
@@ -67,64 +73,73 @@ const ProductsListScreen = () => {
                     </div>
                 </div>
                 
-                <div className="relative overflow-x-auto my-10">
-                    <table className="w-full text-sm text-left text-black">
-                        <thead className="text-xs text-black mont-font text-white uppercase bg-[#0b2545]">
-                            <tr className='border border-gray-300'>
-                                <th className="px-6 py-3 border border-gray-300">ID</th>
-                                <th className="px-6 py-3 border border-gray-300">NAME</th>
-                                <th className="px-6 py-3 border border-gray-300">PRICE</th>
-                                <th className="px-6 py-3 border border-gray-300">CATEGORY</th>
-                                <th className="px-6 py-3 border border-gray-300">BRAND</th>
-                                <th className="px-6 py-3 border border-gray-300">
-                                    <span className="sr-only">ACTION</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            filterData.length  ? (
-                                <>
-                                    {
-                                        filterData.map((val) => (
-                                            <React.Fragment key={val._id}>
-                                                <ProductComponent val={val} productUpdateHandler={productUpdateHandler} productDeleteHandler={productDeleteHandler} />
-                                            </React.Fragment>
-                                        ))
-                                    }
-                                </>
-                            ) : (
-                                <>
-                                    {
-                                        productData.map((val) => (
-                                            <React.Fragment key={val._id}>
-                                                <ProductComponent val={val} productUpdateHandler={productUpdateHandler} productDeleteHandler={productDeleteHandler} />
-                                            </React.Fragment>
-                                        ))
-                                    }
-                                </>
-                            )
-                        }
-                        </tbody>
-                    </table>
-                </div>
+                {loading ? <Loader /> : error ? <Message error msg={error} /> : (
+                    <div className="relative overflow-x-auto my-10">
+                        <table className="w-full text-sm text-left text-black">
+                            <thead className="text-xs text-black mont-font text-white uppercase bg-[#0b2545]">
+                                <tr className='border border-gray-300'>
+                                    <th className="px-4 py-3 border border-gray-300">ID</th>
+                                    <th className="px-4 py-3 border border-gray-300">IMAGE</th>
+                                    <th className="px-4 py-3 border border-gray-300">NAME</th>
+                                    <th className="px-4 py-3 border border-gray-300">PRICE</th>
+                                    <th className="px-4 py-3 border border-gray-300">CATEGORY</th>
+                                    <th className="px-4 py-3 border border-gray-300">BRAND</th>
+                                    <th className="px-4 py-3 border border-gray-300">
+                                        <span className="sr-only">ACTION</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                filterData.length  ? (
+                                    <>
+                                        {
+                                            filterData.map((val) => (
+                                                <React.Fragment key={val._id}>
+                                                    <ProductComponent val={val} productUpdateHandler={productUpdateHandler} productDeleteHandler={productDeleteHandler} />
+                                                </React.Fragment>
+                                            ))
+                                        }
+                                    </>
+                                ) : (
+                                    <>
+                                        {
+                                            products.map((val) => (
+                                                <React.Fragment key={val._id}>
+                                                    <ProductComponent val={val} productUpdateHandler={productUpdateHandler} productDeleteHandler={productDeleteHandler} />
+                                                </React.Fragment>
+                                            ))
+                                        }
+                                    </>
+                                )
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                ) }
             </div>
         </>
     )
 }
+const mapStateToProps = (state) => ({
+    productList: state.productList
+})
 
-export default ProductsListScreen;
+export default connect(mapStateToProps, { listProducts })(ProductsListScreen);
 
 
 const ProductComponent = ({val, productUpdateHandler, productDeleteHandler }) => {
     return (
         <tr className="bg-white border border-gray-300 transition duration-300 ease-in-out hover:bg-gray-200 sen-font">
-            <td className="px-6 py-4 border border-gray-300">{val._id}</td>
-            <td className="px-6 py-4 border border-gray-300">{val.name}</td>
-            <td className="px-6 py-4 border border-gray-300">{val.price}</td>
-            <td className="px-6 py-4 border border-gray-300">{val.category}</td>
-            <td className="px-6 py-4 border border-gray-300">{val.brand}</td>
-            <td className='px-4 py-2 border border-gray-300'>
+            <td className="p-4 border border-gray-300">{val._id}</td>
+            <td className="p-4 border border-gray-300">
+                <img src={val.image} className='w-10 h-10' alt={val.name} />
+            </td>
+            <td className="p-4 border border-gray-300">{val.name}</td>
+            <td className="p-4 border border-gray-300">{val.price}</td>
+            <td className="p-4 border border-gray-300">{val.category}</td>
+            <td className="p-4 border border-gray-300">{val.brand}</td>
+            <td className='p-4 border border-gray-300'>
                 <button className='px-3 py-1' >
                     <FiEye className='text-blue-800 text-base' />
                 </button>
