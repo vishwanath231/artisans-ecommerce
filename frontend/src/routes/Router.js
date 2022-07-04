@@ -10,15 +10,19 @@ import WishlistScreen from '../screens/common/WishlistScreen';
 import CartScreen from '../screens/common/CartScreen';
 import ProductScreen from '../screens/common/ProductScreen';
 // import CopyRights from '../components/CopyRights';
-import Dashboard from '../screens/admin/Dashboard';
+import AdminDashboard from '../screens/admin/AdminDashboard';
 import ProductsListScreen from '../screens/admin/ProductsListScreen';
 import UserListScreen from '../screens/admin/UserListScreen';
 import MakerListScreen from '../screens/admin/MakerListScreen';
 import AdminProfileUpdateScreen from '../screens/admin/AdminProfileUpdateScreen';
 import AdminOrderListScreen from '../screens/admin/AdminOrderListScreen';
+import MakerDashboard from '../screens/maker/MakerDashboard';
+import NotFoundScreen from '../screens/common/NotFoundScreen';
+
 
 
 const Router = () => {
+
     return (
         <BrowserRouter>
             <Routes>
@@ -32,13 +36,16 @@ const Router = () => {
                 <Route path='/product/:id' element={ <ProductScreen /> } />
 
                 
-                <Route path='/admin/dashboard' element={ <Dashboard /> } />
+                <Route path='/admin/dashboard' element={ <AdminDashboard /> } /> 
                 <Route path='/admin/userList' element={ <UserListScreen /> } />
                 <Route path='/admin/productList' element={ <ProductsListScreen /> } />
                 <Route path='/admin/makerList' element={ <MakerListScreen /> } />
                 <Route path='/admin/profile' element={ <AdminProfileUpdateScreen /> } />
                 <Route path='/admin/order' element={ <AdminOrderListScreen /> } />
-                
+                    
+
+                <Route path='/maker/dashboard' element={ <MakerDashboard /> } />
+                <Route path='*' element={ <NotFoundScreen /> } />
             </Routes>
             {/* <CopyRights /> */}
         </BrowserRouter>

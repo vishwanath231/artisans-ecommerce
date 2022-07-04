@@ -10,7 +10,9 @@ import { BsBag, BsBagCheck } from 'react-icons/bs';
 import { TbReportSearch } from 'react-icons/tb';
 
 
-const Dashboard = () => {
+const AdminDashboard = () => {
+    
+
     return (
         <>
             <SideBar />
@@ -79,4 +81,5 @@ const Dashboard = () => {
 }
 
 
-export default Dashboard;
+
+export default AdminDashboard;
