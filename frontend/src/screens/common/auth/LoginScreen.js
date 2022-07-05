@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from 'react';
+import React,{ useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SVGicon from '../../../assets/svg/SVGicon';
 import { login } from '../../../redux/actions/AuthActions';
@@ -13,13 +13,16 @@ const LoginScreen = ({ authLogin, login }) => {
         phoneOrEmail: '',
         password: '',
     });
+    
 
     const location = useLocation();
     const navigate = useNavigate();
 
-    const redirect = location.search ? location.search.split('=')[1] : '/'
+    const from = location.state?.from?.pathname || '/';
     
-    const {loading, authInfo, error } = authLogin;
+    const {loading , error } = authLogin;
+
+   
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -30,22 +33,13 @@ const LoginScreen = ({ authLogin, login }) => {
         })
     }
 
-    useEffect(() => {
-    
-        if (authInfo) {
-            navigate(redirect)
-        }
-        
-
-    }, [navigate, redirect, authInfo]);
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         login(loginData);
-
         
+        navigate(from, { replace: true });
     }
 
 
@@ -88,7 +82,7 @@ const LoginScreen = ({ authLogin, login }) => {
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Login account</button>
                 </form>
                 <div className='mt-3'>
-                    You don't have an account! <Link to={redirect ? `/register?redirect=${redirect}` : '/register' } className='text-blue-700 underline'>SignUp Here.</Link>
+                    You don't have an account! <Link to='/register' className='text-blue-700 underline'>SignUp Here.</Link>
                 </div>
             </div>
         </main>
