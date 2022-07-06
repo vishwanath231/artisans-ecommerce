@@ -5,10 +5,14 @@ import { reducers } from './reducers';
 
 
 const authInfoFromStorage = localStorage.getItem('authInfo') ? JSON.parse(localStorage.getItem('authInfo')) : null;
+const cartItemsFromStroage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
 
 const initialState = {
     authLogin: {
         authInfo: authInfoFromStorage
+    },
+    cart:{
+        cartItems: cartItemsFromStroage 
     }
 };
 

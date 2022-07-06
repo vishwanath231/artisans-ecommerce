@@ -2,7 +2,7 @@ import React,{ useEffect, useState } from 'react';
 import Header from '../../components/header/Header';
 import Navbar from '../../components/navbar/Navbar';
 import Footer from '../../components/Footer'
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Rating from '../../components/Rating';
 import { connect } from 'react-redux';
 import { getProductDetails } from  '../../redux/actions/ProductActions';
@@ -12,16 +12,24 @@ import Message from '../../components/Message';
 
 
 const ProductScreen = ({ productDetails, getProductDetails }) => {
-
+    
+    const navigate = useNavigate()
+    const { id } = useParams();
+    
     const [qty, setQty] = useState(1);
 
-    const { id } = useParams();
 
     useEffect(() => {
 
         getProductDetails(id)
         
     },[getProductDetails, id])
+
+
+    const addToCartHandler = () => {
+ 
+        navigate(`/cart/${id}?qty=${qty}`)
+    }
 
 
     const { loading, product, error } = productDetails;
@@ -71,6 +79,7 @@ const ProductScreen = ({ productDetails, getProductDetails }) => {
                                     <button 
                                         className='uppercase text-sm sen-font tracking-wide bg-black w-full p-3 text-white disabled:bg-gray-300 disabled:text-black' 
                                         disabled={product.countInStock === 0}
+                                        onClick={addToCartHandler}
                                     >
                                     Add to cart</button>
                                 </div>

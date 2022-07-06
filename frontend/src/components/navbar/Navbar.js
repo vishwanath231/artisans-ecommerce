@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 
 
-const Navbar = ({ authLogin }) => {
+const Navbar = ({ authLogin, cart }) => {
 
     const [ profile, setProfile] = useState(false);
     const [ hamburger, setHamburger ] = useState(false);
@@ -63,6 +63,8 @@ const Navbar = ({ authLogin }) => {
 
     const { authInfo } = authLogin
 
+    const { cartItems } = cart;
+
 
     return (
         <nav className={scrolled ? "nav-scroll shadow-md bg-white px-4 sm:px-4 py-4" : "bg-white px-4 sm:px-4 py-4 nav-container "}>
@@ -83,7 +85,7 @@ const Navbar = ({ authLogin }) => {
                     </Link>
                     <Link to='/cart' className="cart_box mr-3 text-sm ">
                         <FiShoppingCart className='text-2xl hover:text-[#DC143C]' />
-                        <div className='cart_num'>4</div>
+                        <div className='cart_num'>{cartItems.length}</div>
                     </Link>
 
                     {
@@ -126,7 +128,8 @@ const Navbar = ({ authLogin }) => {
 
 
 const mapStateToProps = (state) => ({
-    authLogin: state.authLogin
+    authLogin: state.authLogin,
+    cart: state.cart
 })
 
 export default connect(mapStateToProps, null)(Navbar);

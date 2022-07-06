@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SVGicon from '../../../assets/svg/SVGicon';
 import { register } from '../../../redux/actions/AuthActions';
@@ -12,7 +12,8 @@ const UserRegisterScreen = ({ authRegister, register }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = location.state?.from?.pathname || '/';
+    // const redirect = location.search ? location.search.split("=")[1] : '/'; => if conditional statement
+    const redirect = location.search?.location?.search?.split("=")[1] || '/' // => optional chaining
 
     
     const [userRegisterData, setUserRegisterData] = useState({
@@ -25,6 +26,14 @@ const UserRegisterScreen = ({ authRegister, register }) => {
 
 
     const { loading, authInfo, error } = authRegister;
+
+    useEffect(() => {
+      
+        if (authInfo) {
+            navigate(redirect)
+        }
+        
+    }, [authInfo, navigate, redirect])
 
 
     const handleChange = e => {
@@ -41,10 +50,6 @@ const UserRegisterScreen = ({ authRegister, register }) => {
         e.preventDefault()
 
         register(userRegisterData);
-
-        if (authInfo) {
-            navigate(from, { replace: true });
-        }
     }
 
     
@@ -124,7 +129,7 @@ const UserRegisterScreen = ({ authRegister, register }) => {
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Register for account</button>
                 </form>
                 <div className='mt-3'>
-                    You have an account! <Link to='/login' className='text-blue-700 underline'>Login Here.</Link>
+                    You have an account! <Link to={ redirect ? `/login?redirect=${redirect}` :'/login'} className='text-blue-700 underline'>Login Here.</Link>
                 </div>
             </div>
         </main>

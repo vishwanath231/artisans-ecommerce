@@ -19,7 +19,7 @@ const RequireAuth = ({ authLogin, allowRoles }) => {
         if (authInfo && authInfo.data) {
             setRole([{ name: authInfo.data.role }])
         }else{
-            setRole([{ name: 'none' }])
+            setRole([{ }])
         }
         
     }, [authInfo])

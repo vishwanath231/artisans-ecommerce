@@ -14,13 +14,14 @@ import AdminDashboard from '../screens/admin/AdminDashboard';
 import ProductsListScreen from '../screens/admin/ProductsListScreen';
 import UserListScreen from '../screens/admin/UserListScreen';
 import MakerListScreen from '../screens/admin/MakerListScreen';
-import AdminProfileUpdateScreen from '../screens/admin/AdminProfileUpdateScreen';
+import AdminProfileScreen from '../screens/admin/AdminProfileScreen';
 import AdminOrderListScreen from '../screens/admin/AdminOrderListScreen';
 import MakerDashboard from '../screens/maker/MakerDashboard';
 import NotFoundPage from './pages/NotFoundPage';
 import UnAuthorizedPage from './pages/UnAuthorizedPage';
 import RouterLayout from './auth/RouterLayout';
 import RequireAuth from './auth/RequireAuth';
+import ShippingScreen from '../screens/common/ShippingScreen';
 
 
 
@@ -35,11 +36,14 @@ const Router = () => {
                     <Route path='/' element={<HomeScreen /> } />
                     <Route path='login' element={<LoginScreen /> } />
                     <Route path='register' element={<RegisterScreen /> } />
+                    <Route path='product/:id' element={ <ProductScreen /> } />
+                    <Route path='cart' element={<CartScreen /> } />
+                    <Route path='cart/:productId' element={<CartScreen /> } />
+                    <Route path='/shipping' element={<ShippingScreen /> } />
+                    
                     <Route path='contact' element={<ContactScreen /> } />
                     <Route path='search' element={<SearchScreen /> } />
                     <Route path='wishlist' element={<WishlistScreen /> } />
-                    <Route path='cart' element={<CartScreen /> } />
-                    <Route path='product/:id' element={ <ProductScreen /> } />
 
                     <Route path='unAuth' element={<UnAuthorizedPage /> } />
 
@@ -49,7 +53,7 @@ const Router = () => {
                         <Route path='admin/userList' element={ <UserListScreen /> } />
                         <Route path='admin/productList' element={ <ProductsListScreen /> } />
                         <Route path='admin/makerList' element={ <MakerListScreen /> } />
-                        <Route path='admin/profile' element={ <AdminProfileUpdateScreen /> } />
+                        <Route path='admin/profile' element={ <AdminProfileScreen /> } />
                         <Route path='admin/order' element={ <AdminOrderListScreen /> } />
                     </Route>
 

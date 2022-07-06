@@ -4,7 +4,7 @@ const users = [
     {
         name: 'admin',
         email: 'admin@gmail.com',
-        phone: 9087654312,
+        phone: 9087654321,
         password: bcrypt.hashSync('123',10),
         role: 'admin'
     },
@@ -19,7 +19,7 @@ const users = [
     {
         name: 'akash',
         email: 'akash@yahoo.com',
-        phone: 9087654321,
+        phone: 9087654322,
         password: bcrypt.hashSync('123',10),
         role: 'maker'
     }
