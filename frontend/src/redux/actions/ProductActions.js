@@ -9,12 +9,13 @@ import {
 import axios from 'axios';
 
 
-export const listProducts = () => async (dispatch) => {
+export const listProducts = () => async (dispatch, getState) => {
 
     try {
         dispatch({
             type: PRODUCT_LIST_REQUEST
         })
+        console.log(getState().authLogin.token);
 
         const config = {
             headers: {

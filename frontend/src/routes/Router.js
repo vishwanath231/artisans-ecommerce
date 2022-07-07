@@ -22,6 +22,7 @@ import UnAuthorizedPage from './pages/UnAuthorizedPage';
 import RouterLayout from './auth/RouterLayout';
 import RequireAuth from './auth/RequireAuth';
 import ShippingScreen from '../screens/common/ShippingScreen';
+import ProductFilterScreen from '../screens/common/ProductFilterScreen';
 
 
 
@@ -36,6 +37,7 @@ const Router = () => {
                     <Route path='/' element={<HomeScreen /> } />
                     <Route path='login' element={<LoginScreen /> } />
                     <Route path='register' element={<RegisterScreen /> } />
+                    <Route path='product' element={ <ProductFilterScreen /> } />
                     <Route path='product/:id' element={ <ProductScreen /> } />
                     <Route path='cart' element={<CartScreen /> } />
                     <Route path='cart/:productId' element={<CartScreen /> } />

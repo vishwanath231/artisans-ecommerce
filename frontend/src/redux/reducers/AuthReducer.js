@@ -9,7 +9,7 @@ import {
 } from '../constants/AuthConstants';
 
 
-export const authLoginReducer = (state = {}, { type, payload }) => {
+export const authLoginReducer = (state = {}, { type, payload, token }) => {
 
     switch (type) {
         case USER_LOGIN_REQUEST:
@@ -19,7 +19,8 @@ export const authLoginReducer = (state = {}, { type, payload }) => {
         case USER_LOGIN_SUCCESS:
             return {
                 loading: false,
-                authInfo: payload
+                authInfo: payload,
+                token: token
             }
         case USER_LOGIN_FAIL: 
             return {
@@ -36,7 +37,7 @@ export const authLoginReducer = (state = {}, { type, payload }) => {
 
 
 
-export const authRegisterReducer = (state = {}, { type, payload }) => {
+export const authRegisterReducer = (state = {}, { type, payload, token }) => {
 
     switch (type) {
         case USER_REGISTER_REQUEST:
@@ -46,7 +47,8 @@ export const authRegisterReducer = (state = {}, { type, payload }) => {
         case USER_REGISTER_SUCCESS:
             return {
                 loading: false,
-                authInfo: payload
+                authInfo: payload,
+                token: token
             }
         case USER_REGISTER_FAIL: 
             return {
