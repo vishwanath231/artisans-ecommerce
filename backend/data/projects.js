@@ -26,7 +26,7 @@ const products = [
         name: "Mugs Dual-Glazed Studio Pottery",
         description: "Incredibly handmade and delicately hand-glazed by Alam Bhai, Foggy Galaxies is an East Indian earth-tale, that came into being when he was inspired by the irregular, infinite beauty of the Golden Sun and Milky Moon in space; so different, yet part of the same clan. Translating this inspiration into beautiful studio pottery, this set of two dual-toned ceramic mugs have simple, cylindrical bodies, long round handles and have been double fired at 1200 degree Celsius in 100% lead-free glazes. The exterior of each, is hand-glazed to perfection in an ombre of two dreamy colours- a translucent cosmic-milky glaze on the top and a gold-dust mustard glaze on the bottom and the inse, like the forever play of the Sun and Moon at the brink of dusk. Foggy Galaxies is handmade with love by Alam, a Studio Potter, to bring the mystic sparkle of the galactic universe to your favourite kitchen and table spaces.",
         image: "/images/products/3.jpg",
-        category: "Mugs",
+        category: "Pottery",
         brand: "Glazed",
         price: 649,
         rating: 3,

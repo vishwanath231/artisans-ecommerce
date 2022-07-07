@@ -1,6 +1,8 @@
 import Product from '../models/productModel.js';
 import asyncHandler from 'express-async-handler';
-
+import Sample from '../models/sampleModel.js';
+import Brand from '../models/brandModel.js';
+import Category from '../models/categoryModel.js';
 
 /**
  * 
@@ -53,24 +55,78 @@ const getProductById = asyncHandler(async (req, res) => {
  const searchProducts = asyncHandler(async (req, res) => {
 
     const pageSize = 3
-  const page = Number(req.query.pageNumber) || 1
+    const page = Number(req.query.pageNumber) || 1
 
-  const keyword = req.query.keyword
-    ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: 'i',
-        },
-      }
-    : {}
+    const keyword = req.query.keyword ? 
+        {
+            name: {
+                $regex: req.query.keyword,
+                $options: 'i',
+            },
+        }:{}
 
-  const count = await Product.countDocuments({ ...keyword })
-  const products = await Product.find({ ...keyword })
-    .limit(pageSize)
-    .skip(pageSize * (page - 1))
+    const count = await Product.countDocuments({ ...keyword })
+    const products = await Product.find({ ...keyword })
+        .limit(pageSize)
+        .skip(pageSize * (page - 1))
 
-  res.json({ products, page, pages: Math.ceil(count / pageSize) })
+    res.json({ products, page, pages: Math.ceil(count / pageSize) })
 
 })
 
-export { getProducts, getProductById, searchProducts };
+
+const createBrand = asyncHandler(async (req, res) => {
+    
+    const { brand , category } = req.body;
+
+    const sampleData = new Sample({
+        brand: brand,
+        category: category
+    })
+    
+    const brandData = new Brand({
+        name: brand,
+    })
+
+    const categoryData = new Category({
+        name: category,
+    })
+
+    const existBrand = await Brand.findOne({name: brand})
+    if (!existBrand) {
+        
+        await brandData.save();
+    }
+
+    const existCategory = await Category.findOne({name: category})
+    if (!existCategory) {
+
+        await categoryData.save();
+    }
+
+
+    const savedSamples = await sampleData.save();
+
+    res.status(200).json(savedSamples)
+})
+
+
+const getBrand = asyncHandler(async (req, res) => {
+
+    const brands = await Brand.find({})
+
+    res.status(200).json(brands)
+})
+
+
+const getCategory = asyncHandler(async (req, res) => {
+
+    const categories = await Category.find({})
+
+    res.status(200).json(categories)
+})
+
+
+
+
+export { getProducts, getProductById, searchProducts, createBrand, getBrand, getCategory};
