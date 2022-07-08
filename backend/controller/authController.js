@@ -192,6 +192,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
 
     const users = await User.find({})
+    
     res.json(users)
 })
 

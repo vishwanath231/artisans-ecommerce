@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 
 
-const Navbar = ({ authLogin, cart }) => {
+const Navbar = ({ authLogin, cart, auth }) => {
 
     const [ profile, setProfile] = useState(false);
     const [ hamburger, setHamburger ] = useState(false);
@@ -61,7 +61,7 @@ const Navbar = ({ authLogin, cart }) => {
     },[keyPress]);
 
 
-    const { authInfo } = authLogin
+    const { authInfo } = auth
 
     const { cartItems } = cart;
 
@@ -97,14 +97,14 @@ const Navbar = ({ authLogin, cart }) => {
 
                                 {/* user profile box  */}
                                 {
-                                    authInfo.data.role === 'user' ? <UserModel profile={profile} /> : null
+                                    authInfo.role === 'user' ? <UserModel profile={profile} /> : null
                                 }
                                 
                                 {
-                                    authInfo.data.role === 'maker' ? <MakerModel profile={profile} /> : null 
+                                    authInfo.role === 'maker' ? <MakerModel profile={profile} /> : null 
                                 }
                                 {
-                                    authInfo.data.role === 'admin' ? <AdminModel profile={profile} /> : null
+                                    authInfo.role === 'admin' ? <AdminModel profile={profile} /> : null
                                 }
                             </div>
                         ) : null
@@ -129,7 +129,8 @@ const Navbar = ({ authLogin, cart }) => {
 
 const mapStateToProps = (state) => ({
     authLogin: state.authLogin,
-    cart: state.cart
+    cart: state.cart,
+    auth: state.auth
 })
 
 export default connect(mapStateToProps, null)(Navbar);

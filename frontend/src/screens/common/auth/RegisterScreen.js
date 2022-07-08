@@ -7,7 +7,7 @@ import Message from  '../../../components/Message';
 import Loader from  '../../../components/Loader';
 
 
-const UserRegisterScreen = ({ authRegister, register }) => {
+const UserRegisterScreen = ({ authRegister, register, auth }) => {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,7 +25,9 @@ const UserRegisterScreen = ({ authRegister, register }) => {
     });
 
 
-    const { loading, authInfo, error } = authRegister;
+    const { loading, error } = authRegister;
+    
+    const {  authInfo } = auth
 
     useEffect(() => {
       
@@ -138,7 +140,8 @@ const UserRegisterScreen = ({ authRegister, register }) => {
 
 
 const mapStateToProps = (state) => ({
-    authRegister: state.authRegister
+    authRegister: state.authRegister,
+    auth: state.auth
 })
 
 

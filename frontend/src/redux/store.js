@@ -4,14 +4,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { reducers } from './reducers';
 
 
-const authInfoFromStorage = localStorage.getItem('authInfo') ? JSON.parse(localStorage.getItem('authInfo')) : null;
+const authInfoFromStroage = localStorage.getItem('authInfo') ? JSON.parse(localStorage.getItem('authInfo')) : null;
 const cartItemsFromStroage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
-const tokenFromStroage = localStorage.getItem('token') ? localStorage.getItem('token') : '';
 
 const initialState = {
     authLogin: {
-        authInfo: authInfoFromStorage,
-        token: tokenFromStroage
+        info: authInfoFromStroage,
     },
     cart:{
         cartItems: cartItemsFromStroage 

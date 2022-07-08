@@ -14,7 +14,8 @@ import Rating from '../../components/Rating';
 const HomeScreen = ({ productList, listProducts }) => {
 
     useEffect(() => {
-       
+
+        window.scrollTo(0,0)       
         listProducts()
 
     }, [listProducts]);

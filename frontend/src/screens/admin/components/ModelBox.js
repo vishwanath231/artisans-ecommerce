@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { logout } from '../../../redux/actions/AuthActions';
 
 
-const ModelBox = ({ authLogin, logout  }) => {
+const ModelBox = ({ auth, logout  }) => {
 
     const [ profile, setProfile] = useState(false);
 
@@ -18,7 +18,7 @@ const ModelBox = ({ authLogin, logout  }) => {
         logout()
     }
 
-    const { authInfo } = authLogin;
+    const { authInfo } = auth;
 
     return (
         <div className='adminModel__btn'>
@@ -27,8 +27,8 @@ const ModelBox = ({ authLogin, logout  }) => {
             </button>
             <div className={ profile ? "z-50 my-4 w-40 text-base list-none bg-gray-100 rounded divide-y divide-gray-100 shadow  adminDashboard__model" : "hidden my-4 text-base list-none bg-white rounded divide-y divide-gray-100 shadow " }>
             <div className="py-3 px-4 text-sm text-left">
-                <span className="block">{authInfo && authInfo.data.name }</span>
-                <span className="block font-medium truncate">{authInfo && authInfo.data.email}</span>
+                <span className="block">{authInfo && authInfo.name }</span>
+                <span className="block font-medium truncate">{authInfo && authInfo.email}</span>
             </div>
                 <ul className="py-1 text-sm text-left">
                     <li>
@@ -48,7 +48,7 @@ const ModelBox = ({ authLogin, logout  }) => {
 
 
 const mapStateToProps = (state) => ({
-    authLogin: state.authLogin
+    auth: state.auth
 })
 
 export default connect(mapStateToProps, { logout })(ModelBox);

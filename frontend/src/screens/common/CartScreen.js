@@ -21,6 +21,7 @@ const CartScreen = ({ cart, addToCart, removeFromCart }) => {
 
 
     useEffect(() => {
+        window.scrollTo(0,0)  
         if (productId) {
             addToCart(productId, qty)
         }
@@ -48,7 +49,7 @@ const CartScreen = ({ cart, addToCart, removeFromCart }) => {
                         <div className='p-4 w-full'>
                             {
                                 cartItems.map(item => (
-                                    <div key={item._id} className='mb-4'>
+                                    <div key={item.product} className='mb-4'>
                                         <div className='grid gap-3 grid-cols-5'>
                                             <img src={item.image} alt={item.name} className='text-center w-20' />
                                             <Link to={`/product/${item.product}`} className='underline text-slate-500'>{item.name}</Link>

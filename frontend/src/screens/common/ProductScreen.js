@@ -20,7 +20,7 @@ const ProductScreen = ({ productDetails, getProductDetails }) => {
 
 
     useEffect(() => {
-
+        window.scrollTo(0,0)
         getProductDetails(id)
         
     },[getProductDetails, id])

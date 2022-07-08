@@ -5,11 +5,38 @@ import {
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
     USER_LOGIN_FAIL,
-    USER_LOGOUT
+    USER_LOGOUT,
+    USER_LOADED_REQUEST,
+    USER_LOADED_SUCCESS,
+    USER_LOADED_FAIL
 } from '../constants/AuthConstants';
 
 
-export const authLoginReducer = (state = {}, { type, payload, token }) => {
+export const authInfoReducer = (state = {}, { type, payload}) => {
+
+    switch (type) {
+        case USER_LOADED_REQUEST:
+            return {
+                loading: true
+            }
+        case USER_LOADED_SUCCESS:
+            return {
+                loading: false,
+                authInfo: payload
+            }
+        case USER_LOADED_FAIL: 
+            return {
+                loading: false,
+                error: payload
+            }
+        default:
+            return state;
+    }
+}
+
+
+
+export const authLoginReducer = (state = {}, { type, payload}) => {
 
     switch (type) {
         case USER_LOGIN_REQUEST:
@@ -19,8 +46,8 @@ export const authLoginReducer = (state = {}, { type, payload, token }) => {
         case USER_LOGIN_SUCCESS:
             return {
                 loading: false,
-                authInfo: payload,
-                token: token
+                info: payload,
+               
             }
         case USER_LOGIN_FAIL: 
             return {
@@ -37,7 +64,7 @@ export const authLoginReducer = (state = {}, { type, payload, token }) => {
 
 
 
-export const authRegisterReducer = (state = {}, { type, payload, token }) => {
+export const authRegisterReducer = (state = {}, { type, payload}) => {
 
     switch (type) {
         case USER_REGISTER_REQUEST:
@@ -47,8 +74,7 @@ export const authRegisterReducer = (state = {}, { type, payload, token }) => {
         case USER_REGISTER_SUCCESS:
             return {
                 loading: false,
-                authInfo: payload,
-                token: token
+                info: payload
             }
         case USER_REGISTER_FAIL: 
             return {

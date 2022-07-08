@@ -7,7 +7,7 @@ import Message from  '../../../components/Message';
 import Loader from  '../../../components/Loader';
 
 
-const LoginScreen = ({ authLogin, login }) => {
+const LoginScreen = ({ authLogin, login, auth }) => {
 
     const [loginData, setLoginData] = useState({
         phoneOrEmail: '',
@@ -22,7 +22,9 @@ const LoginScreen = ({ authLogin, login }) => {
     const redirect = location.search? location.search.split("=")[1] : '/'; // => optional chaining
 
     
-    const {loading, authInfo, error } = authLogin;
+    const {loading,  error } = authLogin;
+    
+    const { authInfo } = auth;
 
 
     const handleChange = e => {
@@ -100,7 +102,8 @@ const LoginScreen = ({ authLogin, login }) => {
 
 
 const mapStateToProps = (state) => ({
-    authLogin: state.authLogin
+    authLogin: state.authLogin,
+    auth: state.auth
 })
 
 

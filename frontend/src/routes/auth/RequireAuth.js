@@ -1,8 +1,10 @@
 import React,{ useState, useEffect  } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
+ 
 
 const RequireAuth = ({ authLogin, allowRoles }) => {
+
 
 
     const [role, setRole] = useState([{
@@ -11,24 +13,26 @@ const RequireAuth = ({ authLogin, allowRoles }) => {
 
     const location = useLocation();
 
-    const { authInfo } = authLogin;
+   const { info:authRole } = authLogin; 
 
-    
+    console.log(authRole)
     useEffect(() => {
+
       
-        if (authInfo && authInfo.data) {
-            setRole([{ name: authInfo.data.role }])
+        if (authRole && authRole.role) {
+            setRole([{ name: authRole.role }])
         }else{
             setRole([{ }])
         }
         
-    }, [authInfo])
+    }, [authRole])
+
 
 
     return (
         role.find(val => allowRoles.includes(val.name))
         ? <Outlet />
-        : authInfo?.data
+        : authRole?.role
         ? <Navigate to='/unAuth' state={{ from: location }} replace />
         : <Navigate to='/login' state={{ from: location }} replace />
     )

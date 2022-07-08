@@ -5,32 +5,54 @@ import {
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
     USER_LOGIN_FAIL,
-    USER_LOGOUT
+    USER_LOGOUT,
+    USER_LOADED_REQUEST,
+    USER_LOADED_SUCCESS,
+    USER_LOADED_FAIL
 } from '../constants/AuthConstants';
 import axios from 'axios';
 
-export const userLoaded = () => (dispatch, getState) => {
+export const userLoaded = () => async (dispatch, getState) => {
+    try{
 
-    // const { authLogin: { token } } = getState();
+        dispatch({
+            type: USER_LOADED_REQUEST
+        })
+          
+        const { authLogin: { info } } = getState();
 
-    console.log(getState().authLogin.token);
 
-    // const config = {
-    //     headers: {
-    //         Authorization : `Bearer ${
+        const config = {
+            headers: {
+                Authorization : `Bearer ${info.token}`
+            }
+         }
 
-    //         }`
-    //     }
-    // }
+        if (config) {
+            const { data } = await axios.get(`http://localhost:5000/api/auth/profile`, config)
+            
+            dispatch({
+                type: USER_LOADED_SUCCESS,
+                payload: data
+            })
+        }
 
-    // const { data } = await
+    } catch(err){
 
+dispatch({ type:USER_LOGOUT })
+         
+        dispatch({
+            type: USER_LOADED_FAIL,
+            payload: err
+        })
+   
+    }
 }
 
-// userLoaded()
 
 
-export const login = (loginData) => async (dispatch) => {
+
+export const login = (loginData) => async (dispatch, getState) => {
 
 
     try {
@@ -39,7 +61,6 @@ export const login = (loginData) => async (dispatch) => {
             type: USER_LOGIN_REQUEST
         })
 
-        // const { authLogin: { token } } = getState();
         
 
         const config = {
@@ -50,16 +71,20 @@ export const login = (loginData) => async (dispatch) => {
 
         const { data }= await axios.post(`http://localhost:5000/api/auth/login`,loginData, config) 
 
+        const authData = {
+             token: data.token,
+             role: data.data.role
+       }
 
         dispatch({
             type: USER_LOGIN_SUCCESS,
-            payload: data,
-            token: data.token
+            payload: authData
         })
 
-        localStorage.setItem('token', data.token);
-
-        localStorage.setItem('authInfo', JSON.stringify(data))
+        
+        localStorage.setItem('authInfo', JSON.stringify(authData));
+        
+        dispatch(userLoaded())
 
     } catch (error) {
 
@@ -89,20 +114,25 @@ export const register = (registerData) => async (dispatch) => {
 
         const { data } = await axios.post(`http://localhost:5000/api/auth/register`, registerData, config)
 
+        const authData = {
+             token: data.token,
+             role:  data.data.role
+       }
+
         dispatch({
             type: USER_REGISTER_SUCCESS,
-            payload: data,
-            token: data.token
+            payload: authData
         })
 
         dispatch({
             type: USER_LOGIN_SUCCESS,
-            payload: data,
-            token: data.token
+            payload: authData
         })
 
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('authInfo', JSON.stringify(data))
+        
+        localStorage.setItem('authInfo', JSON.stringify(authData));
+        
+        dispatch(userLoaded())
 
     } catch (error) {
 
@@ -118,8 +148,7 @@ export const register = (registerData) => async (dispatch) => {
 
 
 export const logout = () => (dispatch) => {
-    localStorage.removeItem('authInfo')
-    localStorage.removeItem('token');
+    localStorage.removeItem('authInfo');
     localStorage.removeItem('cartItems')
     dispatch({ type:USER_LOGOUT })
     document.location.href = '/login'
