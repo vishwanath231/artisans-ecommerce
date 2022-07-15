@@ -6,19 +6,16 @@ import { useLocation, Navigate, Outlet } from 'react-router-dom';
 const RequireAuth = ({ authLogin, allowRoles }) => {
 
 
-
     const [role, setRole] = useState([{
         name: '',
     }]);
 
     const location = useLocation();
 
-   const { info:authRole } = authLogin; 
+    const { info:authRole } = authLogin; 
 
-    console.log(authRole)
     useEffect(() => {
 
-      
         if (authRole && authRole.role) {
             setRole([{ name: authRole.role }])
         }else{
@@ -26,7 +23,6 @@ const RequireAuth = ({ authLogin, allowRoles }) => {
         }
         
     }, [authRole])
-
 
 
     return (

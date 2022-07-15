@@ -21,7 +21,7 @@ const Header = ({ authLogin, auth }) => {
         <div className='px-2 sm:px-4 py-2.5'>
             <div className='flex flex-wrap justify-center flex-col lg:flex-row  lg:justify-between items-center container max-w-screen-xl mx-auto'>
             <div className="ticker-wrapper-h">
-                <ul className="news-ticker-h text-[#2C2C36] font font-medium">
+                <ul className="news-ticker-h font font-medium">
                     <li><Link to=''>What is Lorem Ipsum?</Link></li>
                     <li><Link to=''>Why do we use it?</Link></li>
                     <li><Link to=''> Where does it come from?</Link></li>

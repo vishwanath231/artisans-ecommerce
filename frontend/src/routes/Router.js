@@ -4,9 +4,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginScreen from '../screens/common/auth/LoginScreen';
 import RegisterScreen from '../screens/common/auth/RegisterScreen';
 import HomeScreen from '../screens/common/HomeScreen';
-import ContactScreen from '../screens/common/ContactScreen';
-import SearchScreen from '../screens/common/SearchScreen';
-import WishlistScreen from '../screens/common/WishlistScreen';
 import CartScreen from '../screens/common/CartScreen';
 import ProductScreen from '../screens/common/ProductScreen';
 import CopyRights from '../components/CopyRights';
@@ -22,7 +19,7 @@ import UnAuthorizedPage from './pages/UnAuthorizedPage';
 import RouterLayout from './auth/RouterLayout';
 import RequireAuth from './auth/RequireAuth';
 import ShippingScreen from '../screens/common/ShippingScreen';
-import ProductFilterScreen from '../screens/common/ProductFilterScreen';
+
 
 
 
@@ -37,15 +34,12 @@ const Router = () => {
                     <Route path='/' element={<HomeScreen /> } />
                     <Route path='login' element={<LoginScreen /> } />
                     <Route path='register' element={<RegisterScreen /> } />
-                    <Route path='product' element={ <ProductFilterScreen /> } />
                     <Route path='product/:id' element={ <ProductScreen /> } />
                     <Route path='cart' element={<CartScreen /> } />
                     <Route path='cart/:productId' element={<CartScreen /> } />
                     <Route path='/shipping' element={<ShippingScreen /> } />
                     
-                    <Route path='contact' element={<ContactScreen /> } />
-                    <Route path='search' element={<SearchScreen /> } />
-                    <Route path='wishlist' element={<WishlistScreen /> } />
+                
 
                     <Route path='unAuth' element={<UnAuthorizedPage /> } />
 
