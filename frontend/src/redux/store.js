@@ -6,13 +6,15 @@ import { reducers } from './reducers';
 
 const authInfoFromStroage = localStorage.getItem('authInfo') ? JSON.parse(localStorage.getItem('authInfo')) : null;
 const cartItemsFromStroage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
+const shippingAddressFromStroage = localStorage.getItem('shippingAddress') ? JSON.parse(localStorage.getItem('shippingAddress')) : {}
 
 const initialState = {
     authLogin: {
         info: authInfoFromStroage,
     },
     cart:{
-        cartItems: cartItemsFromStroage 
+        cartItems: cartItemsFromStroage,
+        shippingAddress: shippingAddressFromStroage 
     },
 
 };

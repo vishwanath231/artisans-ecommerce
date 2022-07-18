@@ -2,6 +2,7 @@ import {
     CART_ADD_ITEM,
     CART_REMOVE_ITEM,
     CART_CLEAR_ITEMS,
+    CART_SAVE_SHIPPING_ADDRESS,
 } from '../constants/CartConstants';
 
 
@@ -22,6 +23,12 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, { ty
                     ...state,
                     cartItems: [...state.cartItems, payload]
                 }
+            }
+
+        case CART_SAVE_SHIPPING_ADDRESS:
+            return {
+                ...state,
+                shippingAddress: payload
             }
 
         case CART_REMOVE_ITEM:
