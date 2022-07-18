@@ -8,7 +8,10 @@ import {
     USER_LOGOUT,
     USER_LOADED_REQUEST,
     USER_LOADED_SUCCESS,
-    USER_LOADED_FAIL
+    USER_LOADED_FAIL,
+    USER_LIST_REQUEST,
+    USER_LIST_SUCCESS,
+    USER_LIST_FAIL
 } from '../constants/AuthConstants';
 
 
@@ -84,6 +87,32 @@ export const authRegisterReducer = (state = {}, { type, payload}) => {
         case USER_LOGOUT:
             return {}
             
+        default:
+            return state;
+    }
+}
+
+
+export const authListReducer = (state = { users: [] }, { type, payload }) => {
+
+    switch (type) {
+        case USER_LIST_REQUEST:
+            return {
+                loading: true,
+                users: []
+            }
+        
+        case USER_LIST_SUCCESS:
+            return {
+                loading: false,
+                users: payload
+            }
+
+        case USER_LIST_FAIL:
+            return {
+                loading: false,
+                error: payload
+            }
         default:
             return state;
     }

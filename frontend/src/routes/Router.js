@@ -6,7 +6,7 @@ import RegisterScreen from '../screens/common/auth/RegisterScreen';
 import HomeScreen from '../screens/common/HomeScreen';
 import CartScreen from '../screens/common/CartScreen';
 import ProductScreen from '../screens/common/ProductScreen';
-import CopyRights from '../components/CopyRights';
+// import CopyRights from '../components/CopyRights';
 import AdminDashboard from '../screens/admin/AdminDashboard';
 import ProductsListScreen from '../screens/admin/ProductsListScreen';
 import UserListScreen from '../screens/admin/UserListScreen';
@@ -60,7 +60,7 @@ const Router = () => {
                     <Route path='*' element={ <NotFoundPage /> } />
                 </Route>
             </Routes>
-            <CopyRights />
+            {/* <CopyRights /> */}
         </BrowserRouter>
     )
 }

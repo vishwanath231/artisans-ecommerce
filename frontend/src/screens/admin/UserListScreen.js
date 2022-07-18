@@ -2,32 +2,51 @@ import React,{ useState, useEffect } from 'react';
 import Header from './components/Header';
 import MobileNav from './components/MobileNav';
 import SideBar from './components/SideBar';
-import products from '../../products.json';
 import { BiPlus } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { FiEye, FiTrash2, FiEdit } from 'react-icons/fi';
+import { getAuthList } from '../../redux/actions/AuthActions';
+import { connect } from 'react-redux';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import UsersList from './components/UsersList';
+import TableFilter from './components/TableFilter';
 
 
-const UserListScreen = () => {
+const UserListScreen = ({ getAuthList, authList }) => {
 
-    const [userData, setUserData] = useState([]);
+    const {loading, users, error } = authList;
     const [filterData, setFilterData] = useState([]);
 
-
+    const user = users.filter(item => item.role === 'user');
+    
+    
     useEffect(() => {
-        const user = products.users.filter(item => item.role === 'user');
-        setUserData(user)
-    }, [])
+        getAuthList()
+    }, [getAuthList])
+
+
+    const [rowLimit , setRowLimit] = useState(2)
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const rowHandler = (e) => {
+        const { value } = e.target;
+        setRowLimit(value)
+    }
+
+    const indexOfLastData = currentPage * rowLimit;
+    const indexOfFirstData = indexOfLastData - rowLimit;
+    const userData = user.slice(indexOfFirstData, indexOfLastData)
+    const filterUserData = filterData.slice(indexOfFirstData, indexOfLastData)
     
    
     const searchHandler = (e) => {
         if (e.target.value !== '') {
-            const filter = userData.filter(item => {
-                return Object.values(item).join('').toLowerCase().includes(e.target.value.toLowerCase())
+            const filter = user.filter(item => {
+                return Object.values(item).join('').toLowerCase().includes(e.target.value.toLowerCase()) 
             })
             setFilterData(filter)
         }else{
-            setFilterData(userData)
+            setFilterData(user)
         }
     }
 
@@ -66,74 +85,60 @@ const UserListScreen = () => {
                         />
                     </div>
                 </div>
-                
-                <div className="relative overflow-x-auto my-10">
-                    <table className="w-full text-sm text-left text-black ">
-                        <thead className="text-xs text-black mont-font text-white uppercase bg-[#0b2545]">
-                            <tr className='border border-gray-300'>
-                                <th className="px-6 py-3 border border-gray-300">ID</th>
-                                <th className="px-6 py-3 border border-gray-300">NAME</th>
-                                <th className="px-6 py-3 border border-gray-300">EMAIL</th>
-                                <th className="px-6 py-3 border border-gray-300">PHONE</th>
-                                <th className="px-6 py-3 border border-gray-300">
-                                    <span className="sr-only">ACTION</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                filterData.length  ? (
-                                    <>
-                                        {
-                                            filterData.map((val) => (
-                                                <React.Fragment key={val._id}>
-                                                    <UserComponents val={val} userUpdateHandler={userUpdateHandler} userDeleteHandler={userDeleteHandler} />
-                                                </React.Fragment>
-                                            ))
-                                        }
-                                    </>
-                                ) : (
-                                    <>
-                                        {
-                                            userData.map((val) => (
-                                                <React.Fragment key={val._id}>
-                                                    <UserComponents val={val} userUpdateHandler={userUpdateHandler} userDeleteHandler={userDeleteHandler} />
-                                                </React.Fragment>
-                                            ))
-                                        }
-                                    </>
-                                )
-                            }
-                        </tbody>
-                    </table>
-                </div>
+
+                {loading ? <Loader /> : error ? <Message error msg={error} /> : (
+                    <>
+
+                        <div className="relative overflow-x-auto my-10">
+                            <table className="w-full text-sm text-left text-black ">
+                                <thead className="text-xs text-black mont-font text-white uppercase bg-[#0b2545]">
+                                    <tr className='border border-gray-300'>
+                                        <th className="px-6 py-3 border border-gray-300">ID</th>
+                                        <th className="px-6 py-3 border border-gray-300">NAME</th>
+                                        <th className="px-6 py-3 border border-gray-300">EMAIL</th>
+                                        <th className="px-6 py-3 border border-gray-300">PHONE</th>
+                                        <th className="px-6 py-3 border border-gray-300">
+                                            <span className="sr-only">ACTION</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        filterData.length  ? (
+                                            <>
+                                                {
+                                                    filterUserData.map((val) => (
+                                                        <React.Fragment key={val._id}>
+                                                            <UsersList val={val} userUpdateHandler={userUpdateHandler} userDeleteHandler={userDeleteHandler} />
+                                                        </React.Fragment>
+                                                    ))
+                                                }
+                                            </>
+                                        ) : (
+                                            <>
+                                                {
+                                                    userData.map((val) => (
+                                                        <React.Fragment key={val._id}>
+                                                            <UsersList val={val} userUpdateHandler={userUpdateHandler} userDeleteHandler={userDeleteHandler} />
+                                                        </React.Fragment>
+                                                    ))
+                                                }
+                                            </>
+                                        )
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <TableFilter rowHandler={rowHandler} rowLimit={rowLimit} data={user} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    </>
+                )}
             </div>
         </>
     )
 }
 
-export default UserListScreen;
+const mapStateToProps = (state) => ({
+    authList: state.authList
+})
 
-
-const UserComponents = ({val, userUpdateHandler, userDeleteHandler}) => {
-
-    return(
-        <tr key={val._id} className="bg-white border border-gray-300 transition duration-300 ease-in-out hover:bg-gray-200 sen-font">
-            <td className="px-6 py-4 border border-gray-300">{val._id}</td>
-            <td className="px-6 py-4 border border-gray-300">{val.name}</td>
-            <td className="px-6 py-4 border border-gray-300"><a href={`mailto:${val.email}`} className='hover:underline'>{val.email}</a></td>
-            <td className="px-6 py-4 border border-gray-300">{val.phone}</td>
-            <td className='px-4 py-2 border border-gray-300'>
-                <button className='px-3 py-1' >
-                    <FiEye className='text-blue-800 text-base' />
-                </button>
-                <button className='px-3 py-1 mr-1' onClick={() => userUpdateHandler(val._id)}>
-                    <FiEdit className='text-green-600 text-base' />
-                </button>
-                <button className='px-3 py-1' onClick={() => userDeleteHandler(val._id)}>
-                    <FiTrash2 className='text-red-700 text-base'/> 
-                </button>
-            </td>
-        </tr>
-    )
-}
+export default connect(mapStateToProps,{ getAuthList })(UserListScreen);

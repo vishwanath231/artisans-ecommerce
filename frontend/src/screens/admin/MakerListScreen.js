@@ -2,32 +2,51 @@ import React,{ useState, useEffect } from 'react';
 import Header from './components/Header';
 import MobileNav from './components/MobileNav';
 import SideBar from './components/SideBar';
-import products from '../../products.json';
 import { BiPlus } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { FiEye, FiTrash2, FiEdit } from 'react-icons/fi';
+import { getAuthList } from '../../redux/actions/AuthActions';
+import { connect } from 'react-redux';
+import UsersList from './components/UsersList';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import TableFilter from './components/TableFilter';
 
 
-const MakerListScreen = () => {
+const MakerListScreen = ({ getAuthList, authList }) => {
 
-    const [makerData, setMakerData] = useState([]);
+    const {loading, users, error } = authList;
     const [filterData, setFilterData] = useState([]);
 
-
+    const maker = users.filter(item => item.role === 'maker');
+    
+    
     useEffect(() => {
-        const maker = products.users.filter(item => item.role === 'maker');
-        setMakerData(maker)
-    }, [])
+        getAuthList()
+    }, [getAuthList])
+
+
+    const [rowLimit , setRowLimit] = useState(2)
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const rowHandler = (e) => {
+        const { value } = e.target;
+        setRowLimit(value)
+    }
+
+    const indexOfLastData = currentPage * rowLimit;
+    const indexOfFirstData = indexOfLastData - rowLimit;
+    const makerData = maker.slice(indexOfFirstData, indexOfLastData)
+    const filterMakerData = filterData.slice(indexOfFirstData, indexOfLastData)
     
    
     const searchHandler = (e) => {
         if (e.target.value !== '') {
-            const filter = makerData.filter(item => {
-                return Object.values(item).join('').toLowerCase().includes(e.target.value.toLowerCase())
+            const filter = maker.filter(item => {
+                return Object.values(item).join('').toLowerCase().includes(e.target.value.toLowerCase()) 
             })
             setFilterData(filter)
         }else{
-            setFilterData(makerData)
+            setFilterData(maker)
         }
     }
 
@@ -66,74 +85,60 @@ const MakerListScreen = () => {
                         />
                     </div>
                 </div>
+
+                {loading ? <Loader /> : error ? <Message error msg={error} /> : (
+
+                    <>
+                        <div className="relative overflow-x-auto my-10">
+                            <table className="w-full text-sm text-left text-black ">
+                                <thead className="text-xs text-black mont-font text-white uppercase bg-[#0b2545]">
+                                    <tr className='border border-gray-300'>
+                                        <th className="px-6 py-3 border border-gray-300">ID</th>
+                                        <th className="px-6 py-3 border border-gray-300">NAME</th>
+                                        <th className="px-6 py-3 border border-gray-300">EMAIL</th>
+                                        <th className="px-6 py-3 border border-gray-300">PHONE</th>
+                                        <th className="px-6 py-3 border border-gray-300">
+                                            <span className="sr-only">ACTION</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        filterData.length  ? (
+                                            <>
+                                                {
+                                                    filterMakerData.map((val) => (
+                                                        <React.Fragment key={val._id}>
+                                                            <UsersList val={val} userUpdateHandler={makerUpdateHandler} userDeleteHandler={makerDeleteHandler} />
+                                                        </React.Fragment>
+                                                    ))
+                                                }
+                                            </>
+                                        ) : (
+                                            <>
+                                                {
+                                                    makerData.map((val) => (
+                                                        <React.Fragment key={val._id}>
+                                                            <UsersList val={val} userUpdateHandler={makerUpdateHandler} userDeleteHandler={makerDeleteHandler} />
+                                                        </React.Fragment>
+                                                    ))
+                                                }
+                                            </>
+                                        )
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <TableFilter rowHandler={rowHandler} rowLimit={rowLimit} data={maker} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    </>
+                )}
                 
-                <div className="relative overflow-x-auto my-10">
-                    <table className="w-full text-sm text-left text-black ">
-                        <thead className="text-xs text-black mont-font text-white uppercase bg-[#0b2545]">
-                            <tr className='border border-gray-300'>
-                                <th className="px-6 py-3 border border-gray-300">ID</th>
-                                <th className="px-6 py-3 border border-gray-300">NAME</th>
-                                <th className="px-6 py-3 border border-gray-300">EMAIL</th>
-                                <th className="px-6 py-3 border border-gray-300">PHONE</th>
-                                <th className="px-6 py-3 border border-gray-300">
-                                    <span className="sr-only">ACTION</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                filterData.length  ? (
-                                    <>
-                                        {
-                                            filterData.map((val) => (
-                                                <React.Fragment key={val._id}>
-                                                    <MakerComponents val={val} makerUpdateHandler={makerUpdateHandler} makerDeleteHandler={makerDeleteHandler} />
-                                                </React.Fragment>
-                                            ))
-                                        }
-                                    </>
-                                ) : (
-                                    <>
-                                        {
-                                            makerData.map((val) => (
-                                                <React.Fragment key={val._id}>
-                                                    <MakerComponents val={val} makerUpdateHandler={makerUpdateHandler} makerDeleteHandler={makerDeleteHandler} />
-                                                </React.Fragment>
-                                            ))
-                                        }
-                                    </>
-                                )
-                            }
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </>
     )
 }
+const mapStateToProps = (state) => ({
+    authList: state.authList
+})
 
-export default MakerListScreen;
-
-
-const MakerComponents = ({val, makerUpdateHandler, makerDeleteHandler}) => {
-
-    return(
-        <tr key={val._id} className="bg-white border border-gray-300 transition duration-300 ease-in-out hover:bg-gray-200 sen-font">
-            <td className="px-6 py-4 border border-gray-300">{val._id}</td>
-            <td className="px-6 py-4 border border-gray-300">{val.name}</td>
-            <td className="px-6 py-4 border border-gray-300"><a href={`mailto:${val.email}`} className='hover:underline'>{val.email}</a></td>
-            <td className="px-6 py-4 border border-gray-300">{val.phone}</td>
-            <td className='px-4 py-2 border border-gray-300'>
-                <button className='px-3 py-1' >
-                    <FiEye className='text-blue-800 text-base' />
-                </button>
-                <button className='px-3 py-1 mr-1' onClick={() => makerUpdateHandler(val._id)}>
-                    <FiEdit className='text-green-600 text-base' />
-                </button>
-                <button className='px-3 py-1' onClick={() => makerDeleteHandler(val._id)}>
-                    <FiTrash2 className='text-red-700 text-base'/> 
-                </button>
-            </td>
-        </tr>
-    )
-}
+export default connect(mapStateToProps,{ getAuthList })(MakerListScreen);

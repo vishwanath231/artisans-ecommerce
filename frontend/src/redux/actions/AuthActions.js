@@ -8,7 +8,10 @@ import {
     USER_LOGOUT,
     USER_LOADED_REQUEST,
     USER_LOADED_SUCCESS,
-    USER_LOADED_FAIL
+    USER_LOADED_FAIL,
+    USER_LIST_REQUEST,
+    USER_LIST_SUCCESS,
+    USER_LIST_FAIL
 } from '../constants/AuthConstants';
 import axios from 'axios';
 
@@ -152,4 +155,46 @@ export const logout = () => (dispatch) => {
     localStorage.removeItem('cartItems')
     dispatch({ type:USER_LOGOUT })
     document.location.href = '/login'
+}
+
+
+
+export const getAuthList = () => async (dispatch, getState) => {
+
+    try {
+        
+        dispatch({
+            type: USER_LIST_REQUEST
+        })
+
+        const { authLogin: { info } } = getState();
+
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization : `Bearer ${info.token}`
+            }
+        }
+
+        const { data } = await axios.get(`http://localhost:5000/api/auth/users`, config)
+
+        dispatch({
+            type: USER_LIST_SUCCESS,
+            payload: data
+        })
+
+
+
+    } catch (error) {
+
+        const resErr =  error.response && error.response.data.message ? error.response.data.message : error.message
+        
+
+        dispatch({
+            type: USER_LIST_FAIL,
+            payload: resErr
+        })
+        
+    }
 }
