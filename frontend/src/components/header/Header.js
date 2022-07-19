@@ -22,10 +22,10 @@ const Header = ({ authLogin, auth }) => {
             <div className='flex flex-wrap justify-center flex-col lg:flex-row  lg:justify-between items-center container max-w-screen-xl mx-auto'>
             <div className="ticker-wrapper-h">
                 <ul className="news-ticker-h font font-medium">
-                    <li><Link to=''>What is Lorem Ipsum?</Link></li>
-                    <li><Link to=''>Why do we use it?</Link></li>
-                    <li><Link to=''> Where does it come from?</Link></li>
-                    <li><Link to=''>Where can I get some?</Link></li>
+                    <li><Link to=''>Special Offer 👉🏼 <span className='text-red-500'>40%</span> Offer</Link></li>
+                    <li><Link to=''>New Products Offer 👉🏼 <span className='text-red-500'>10%</span> Offer</Link></li>
+                    <li><Link to=''>Top Products Offer 👉🏼 <span className='text-red-500'>20%</span> Offer</Link></li>
+                    <li><Link to=''>Big Sales</Link></li>
                 </ul>
             </div>
             <div className='info__container'>
