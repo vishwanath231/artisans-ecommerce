@@ -4,8 +4,9 @@ import SVGicon from '../../assets/svg/SVGicon';
 import CheckoutStep from '../../components/CheckoutStep';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { savePaymentMethod } from '../../redux/actions/CartActions';
 
-const PaymentScreen = ({ cart }) => {
+const PaymentScreen = ({ cart, savePaymentMethod }) => {
 
    const navigate = useNavigate()
 
@@ -20,7 +21,8 @@ const PaymentScreen = ({ cart }) => {
     const _submitHandler = e => {
         e.preventDefault()
 
-        console.log(paymentMethod);
+        savePaymentMethod(paymentMethod)
+        navigate('/placeorder')
     }
 
 
@@ -60,4 +62,4 @@ const mapStateToProps = (state) => ({
     cart: state.cart
 })
 
-export default connect(mapStateToProps, null)(PaymentScreen);
+export default connect(mapStateToProps, { savePaymentMethod })(PaymentScreen);

@@ -151,9 +151,11 @@ export const register = (registerData) => async (dispatch) => {
 
 
 export const logout = () => (dispatch) => {
-    localStorage.removeItem('authInfo');
-    localStorage.removeItem('cartItems')
     dispatch({ type:USER_LOGOUT })
+    localStorage.removeItem('authInfo')
+    localStorage.removeItem('cartItems')
+    localStorage.removeItem('shippingAddress')
+    localStorage.removeItem('paymentMethod')
     document.location.href = '/login'
 }
 

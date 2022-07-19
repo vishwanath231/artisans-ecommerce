@@ -20,6 +20,7 @@ import RouterLayout from './auth/RouterLayout';
 import RequireAuth from './auth/RequireAuth';
 import ShippingScreen from '../screens/common/ShippingScreen';
 import PaymentScreen from '../screens/common/PaymentScreen';
+import PlaceOrderScreen from '../screens/common/PlaceOrderScreen';
 
 
 
@@ -40,6 +41,7 @@ const Router = () => {
                     <Route path='cart/:productId' element={<CartScreen /> } />
                     <Route path='/shipping' element={<ShippingScreen /> } />
                     <Route path='/payment' element={<PaymentScreen /> } />
+                    <Route path='/placeorder' element={<PlaceOrderScreen /> } />
                     
                 
 
