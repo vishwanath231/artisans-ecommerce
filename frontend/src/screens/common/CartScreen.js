@@ -66,7 +66,7 @@ const CartScreen = ({ cart, addToCart, removeFromCart }) => {
                                                 </select>
                                             </div>
                                             <div className='text-center'>
-                                                <button onClick={() => removeFromcartHandler(item.product)} className='text-orange-800'><i className='fas fa-trash'></i></button>
+                                                <button onClick={() => removeFromcartHandler(item.product)} className='text-red-500 duration-300 hover:bg-gray-100 px-3 py-2'><i className='fas fa-trash'></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -81,7 +81,7 @@ const CartScreen = ({ cart, addToCart, removeFromCart }) => {
                                 </div>
                                 <div className='p-3'>
                                     <button
-                                    className='uppercase  text-sm tracking-wide bg-black w-full p-3 text-white'
+                                    className='uppercase  text-sm tracking-wide bg-black w-full hover:bg-green-500 rounded duration-300 sen-font p-3 text-white'
                                     onClick={checkOutHandler}
                                     >Proceed To Checkout</button>
                                 </div>

@@ -8,7 +8,7 @@ import { BsTwitter, BsInstagram, BsFacebook }  from 'react-icons/bs';
 
 const Footer = () => {
     return (
-        <div className='container max-w-screen-xl mx-auto p-4 bg-gray-200'>
+        <div className='container max-w-screen-xl mx-auto p-4 bg-gray-100'>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sen-font my-8'>
                 <div>
                     <div className='mb-3'>
