@@ -10,6 +10,7 @@ import ProductScreen from '../screens/common/ProductScreen';
 import AdminDashboard from '../screens/admin/AdminDashboard';
 import ProductsListScreen from '../screens/admin/ProductsListScreen';
 import UserListScreen from '../screens/admin/UserListScreen';
+import UserOrderListScreen from '../screens/client/UserOrderListScreen';
 import MakerListScreen from '../screens/admin/MakerListScreen';
 import AdminProfileScreen from '../screens/admin/AdminProfileScreen';
 import AdminOrderScreen from '../screens/admin/AdminOrderScreen';
@@ -45,6 +46,7 @@ const Router = () => {
                     <Route path='/placeorder' element={<PlaceOrderScreen /> } />
                     <Route path='/order' element={<OrderScreen /> } />
                     <Route path='/order/:orderId' element={<OrderScreen /> } />
+                    <Route path='/orderList' element={<UserOrderListScreen /> } />
                     
                 
 

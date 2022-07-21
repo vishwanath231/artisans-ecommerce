@@ -24,7 +24,7 @@ const UserModel = ({ profile, logout, auth }) => {
                     <Link to='/profile' className="block py-2 px-4 text-sm  hover:bg-gray-200 ">Profile</Link>
                 </li>
                 <li>
-                    <Link to='' className="block py-2 px-4 hover:bg-gray-200">Your Order</Link>
+                    <Link to='/orderList' className="block py-2 px-4 hover:bg-gray-200">Your Order</Link>
                 </li>
                 <li>
                     <Link to='' className="block py-2 px-4 hover:bg-gray-200 ">WishList</Link>
