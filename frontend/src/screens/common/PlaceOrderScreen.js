@@ -3,8 +3,7 @@ import CheckoutSteps from '../../components/CheckoutStep';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import SVGicon from '../../assets/svg/SVGicon';
-import Navbar from '../../components/navbar/Navbar';
-
+import { createOrder } from '../../redux/actions/OrderActions';
 
 
 const PlaceOrderScreen = () => {
@@ -15,10 +14,12 @@ const PlaceOrderScreen = () => {
     const cart = useSelector((state) => state.cart)
 
     if (!cart.shippingAddress.address) {
-        navigate('/login/shipping/')
+        navigate('/')
     }else if (!cart.paymentMethod) {
         navigate('/payment')
     }
+
+    
 
     const addDecimals = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
@@ -33,10 +34,32 @@ const PlaceOrderScreen = () => {
         Number(cart.shippingPrice) + 
         Number(cart.taxPrice)).toFixed(2)
 
-    
+
+    const orderCreate = useSelector((state) => state.orderCreate)
+    const { order, success, error } = orderCreate;
 
 
-    const placeOrderHandler = () => {}
+    useEffect(() => {
+        if (success) {
+            navigate(`/order/${order._id}`)
+        }
+    }, [success, navigate, order, ]);
+
+
+    const placeOrderHandler = () => {
+
+        dispatch(
+            createOrder({
+              orderItems: cart.cartItems,
+              shippingAddress: cart.shippingAddress,
+              paymentMethod: cart.paymentMethod,
+              itemsPrice: cart.itemsPrice,
+              shippingPrice: cart.shippingPrice,
+              taxPrice: cart.taxPrice,
+              totalPrice: cart.totalPrice,
+            })
+        )
+    }
 
 
     return (
@@ -118,13 +141,13 @@ const PlaceOrderScreen = () => {
                                 <div className='font-medium'>Total</div>
                                 <div>₹{cart.totalPrice}</div>
                             </div>
-                            {/* {
+                            {
                                 error && (
                                     <div className='p-3 border-b-2 text-red'>
                                         <div className='text-red-600 text-base'>{error}</div>
                                     </div>
                                 )
-                            } */}
+                            }
                             <div className='p-3'>
                                 <button 
                                     className='uppercase text-sm tracking-wide bg-black w-full p-3 hover:bg-green-500 rounded duration-300 sen-font text-white disabled:hidden' 

@@ -43,7 +43,7 @@ const orderSchema = new Schema({
             type: String,
             required: true
         },
-        landMark: {
+        landmark: {
             type: String,
             required: true
         },

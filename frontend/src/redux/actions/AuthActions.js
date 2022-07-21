@@ -40,13 +40,18 @@ export const userLoaded = () => async (dispatch, getState) => {
             })
         }
 
-    } catch(err){
+    } catch(error){
 
-dispatch({ type:USER_LOGOUT })
-         
+        const message = error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+ 
         dispatch({
             type: USER_LOADED_FAIL,
-            payload: err
+            payload: message
         })
    
     }

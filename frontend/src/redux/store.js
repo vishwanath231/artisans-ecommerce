@@ -7,6 +7,7 @@ import { reducers } from './reducers';
 const authInfoFromStroage = localStorage.getItem('authInfo') ? JSON.parse(localStorage.getItem('authInfo')) : null;
 const cartItemsFromStroage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
 const shippingAddressFromStroage = localStorage.getItem('shippingAddress') ? JSON.parse(localStorage.getItem('shippingAddress')) : {}
+const paymentMethodFromStroage = localStorage.getItem('paymentMethod') ? JSON.parse(localStorage.getItem('paymentMethod')) : ''
 
 const initialState = {
     authLogin: {
@@ -14,7 +15,8 @@ const initialState = {
     },
     cart:{
         cartItems: cartItemsFromStroage,
-        shippingAddress: shippingAddressFromStroage 
+        shippingAddress: shippingAddressFromStroage,
+        paymentMethod: paymentMethodFromStroage
     },
 
 };

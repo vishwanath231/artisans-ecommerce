@@ -7,6 +7,7 @@ import connectDB from './config/db.js';
 import authRouter from './routes/authRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import makerRouter from './routes/makerRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
 import { notFound, errorHandler} from './middleware/errorMiddleware.js';
 
 
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/auth', authRouter);
 app.use('/api/products', productRouter);
 app.use('/api/maker', makerRouter);
+app.use('/api/orders', orderRouter)
 
 
 app.use(notFound);

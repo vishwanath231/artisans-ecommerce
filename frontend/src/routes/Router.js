@@ -12,7 +12,7 @@ import ProductsListScreen from '../screens/admin/ProductsListScreen';
 import UserListScreen from '../screens/admin/UserListScreen';
 import MakerListScreen from '../screens/admin/MakerListScreen';
 import AdminProfileScreen from '../screens/admin/AdminProfileScreen';
-import AdminOrderListScreen from '../screens/admin/AdminOrderListScreen';
+import AdminOrderScreen from '../screens/admin/AdminOrderScreen';
 import MakerDashboard from '../screens/maker/MakerDashboard';
 import NotFoundPage from './pages/NotFoundPage';
 import UnAuthorizedPage from './pages/UnAuthorizedPage';
@@ -21,6 +21,7 @@ import RequireAuth from './auth/RequireAuth';
 import ShippingScreen from '../screens/common/ShippingScreen';
 import PaymentScreen from '../screens/common/PaymentScreen';
 import PlaceOrderScreen from '../screens/common/PlaceOrderScreen';
+import OrderScreen from '../screens/common/OrderScreen';
 
 
 
@@ -42,6 +43,8 @@ const Router = () => {
                     <Route path='/shipping' element={<ShippingScreen /> } />
                     <Route path='/payment' element={<PaymentScreen /> } />
                     <Route path='/placeorder' element={<PlaceOrderScreen /> } />
+                    <Route path='/order' element={<OrderScreen /> } />
+                    <Route path='/order/:orderId' element={<OrderScreen /> } />
                     
                 
 
@@ -54,7 +57,7 @@ const Router = () => {
                         <Route path='admin/productList' element={ <ProductsListScreen /> } />
                         <Route path='admin/makerList' element={ <MakerListScreen /> } />
                         <Route path='admin/profile' element={ <AdminProfileScreen /> } />
-                        <Route path='admin/order' element={ <AdminOrderListScreen /> } />
+                        <Route path='admin/order' element={ <AdminOrderScreen /> } />
                     </Route>
 
                     <Route element={ <RequireAuth allowRoles={'maker'} /> }>
