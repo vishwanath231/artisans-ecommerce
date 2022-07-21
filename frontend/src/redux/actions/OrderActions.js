@@ -6,7 +6,6 @@ import {
     LOGGED_USER_ORDER_SUCCESS,
     LOGGED_USER_ORDER_FAIL,
 } from '../constants/OrderConstants';
-import {  CART_CLEAR_ITEMS } from '../constants/CartConstants';
 import { logout } from '../actions/AuthActions';
 import axios from 'axios';
 
