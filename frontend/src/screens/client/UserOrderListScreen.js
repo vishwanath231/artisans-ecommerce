@@ -5,6 +5,8 @@ import { getMyOrder } from '../../redux/actions/OrderActions';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import Navbar from '../../components/navbar/Navbar';
+import Header from '../../components/header/Header';
+import { Link } from 'react-router-dom';
 
 const UserOrderListScreen = ({ myOrder, getMyOrder }) => {
 
@@ -16,13 +18,15 @@ const UserOrderListScreen = ({ myOrder, getMyOrder }) => {
 
     const { loading, orders, error } = myOrder;
 
+
     return (
-        <div>
+        <>
+        
+            <Header />
             <Navbar />
-            <div className='container max-w-screen-xl mx-auto px-4 md:px-2 mb-28'>
-                <div className='flex justify-center flex-col items-center mb-16'>
-                    <h2 className='font-normal text-black text-3xl uppercase mb-1 mont-font'>Lasted Products</h2>
-                </div>
+            <div className='mt-28 container max-w-screen-xl mx-auto mb-16'>
+                <div className='uppercase text-2xl my-6 text-black tracking-wider font-normal'>your orders</div>
+                
                 { loading ? <Loader /> : error ? <Message error msg={error} /> : (
                     <div className="relative overflow-x-auto my-10">
                         <table className="w-full text-sm text-left text-black">
@@ -66,9 +70,9 @@ const UserOrderListScreen = ({ myOrder, getMyOrder }) => {
                                                 }   
                                             </td>
                                             <td className="border border-gray-300">
-                                                <div className=' flex justify-center items-center'>
+                                                <Link to={`/order/${order._id}`} className=' flex justify-center items-center'>
                                                     <button className=' py-2 px-4 bg-gray-100 shadow-lg'>Details</button>
-                                                </div>
+                                                </Link>
                                             </td>
                                         </tr>
                                     ))
@@ -77,8 +81,9 @@ const UserOrderListScreen = ({ myOrder, getMyOrder }) => {
                         </table>
                     </div>
                 ) }
+                        
             </div>
-        </div>
+        </>
     )
 }
 

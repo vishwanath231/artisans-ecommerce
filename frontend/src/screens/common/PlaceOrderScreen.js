@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import SVGicon from '../../assets/svg/SVGicon';
 import { createOrder } from '../../redux/actions/OrderActions';
+import { CART_CLEAR_ITEMS } from '../../redux/constants/CartConstants';
 
 
 const PlaceOrderScreen = () => {
@@ -37,13 +38,18 @@ const PlaceOrderScreen = () => {
 
     const orderCreate = useSelector((state) => state.orderCreate)
     const { order, success, error } = orderCreate;
-
+    
+    const auth = useSelector((state) => state.auth)
+    const { authInfo } = auth;
 
     useEffect(() => {
         if (success) {
             navigate(`/order/${order._id}`)
+            dispatch({
+                type: CART_CLEAR_ITEMS
+            })
         }
-    }, [success, navigate, order, ]);
+    }, [success, navigate, order, dispatch]);
 
 
     const placeOrderHandler = () => {
@@ -74,72 +80,91 @@ const PlaceOrderScreen = () => {
                     <CheckoutSteps step1 step2 step3 step4 />
                 </div>
                 <div className='flex justify-between flex-col md:flex-row'>
-                    <div className='p-4 w-full'>
+                    <div className='w-full md:mr-5'>
+                    <div className='mb-5'>
+                            <h2 className='mb-3 sen-font text-xl uppercase font-bold'>Person Details</h2>
+                            <p>
+                                <span className='font-medium'>Name: </span>
+                                <span className='capitalize'>{ authInfo && authInfo.name}</span>
+                            </p>
+                            <p>
+                                <span className='font-medium'>Email: </span>
+                                <span>{authInfo && authInfo.email}</span>
+                            </p>
+                            <p>
+                                <span className='font-medium'>Phone: </span>
+                                <span className='capitalize'>{authInfo && authInfo.phone}</span>
+                            </p>
+                        </div>
+                        <hr className='my-5'/>
                         <div className='mb-5'>
                             <h2 className='mb-3 sen-font text-xl uppercase font-bold'>shipping address</h2>
                             <p>
                                 <span className='font-medium'>Address: </span>
-                                <span className='capitalize'>{cart.shippingAddress.address}</span>
+                                <span className='capitalize'>{cart && cart.shippingAddress.address}</span>
                             </p>
                             <p>
                                 <span className='font-medium'>City: </span>
-                                <span className='capitalize'>{cart.shippingAddress.city}</span>
+                                <span className='capitalize'>{cart && cart.shippingAddress.city}</span>
                             </p>
                             <p>
                                 <span className='font-medium'>Landmark: </span>
-                                <span className='capitalize'>{cart.shippingAddress.landmark}</span>
+                                <span className='capitalize'>{cart && cart.shippingAddress.landmark}</span>
                             </p>
                             <p>
                                 <span className='font-medium'>Postal Code: </span>
-                                <span className='capitalize'>{cart.shippingAddress.postalCode}</span>
+                                <span className='capitalize'>{cart && cart.shippingAddress.postalCode}</span>
                             </p>
                             <p>
                                 <span className='font-medium'>Country: </span>
-                                <span className='capitalize'>{cart.shippingAddress.country}</span>
+                                <span className='capitalize'>{cart && cart.shippingAddress.country}</span>
                             </p>
                         </div>
                         <hr className='my-5'/>
                         <div>
                             <h2 className='mb-3 sen-font text-xl uppercase font-bold'>Payment Method</h2>
                             <span className='font-medium'>Method: </span>
-                            <span className='capitalize'>{cart.paymentMethod}</span>
+                            <span className='capitalize'>{cart && cart.paymentMethod}</span>
                         </div>
                         <hr className='my-5' />
                         <div>
                             <h2 className='mb-3 sen-font text-xl uppercase font-bold'>Order Items</h2>
                             {
-                            cart.cartItems.map(item => (
-                                <div key={item.product} className='mb-4'>
-                                    <div className='grid gap-3 grid-cols-2'>
-                                        <div className='flex items-center'>
-                                            <img src={item.image} alt={item.name} className=' w-20' />
-                                            <Link to={`/product/${item.product}`} className='underline ml-4 text-slate-500'>{item.name}</Link>
+                            cart && cart.cartItems.map(item => (
+                                <div key={item.product} className='mb-4 shadow p-4 rounded bg-white'>
+                                    <div className='flex lg:flex-row flex-col lg:items-center'>
+                                        <div className='w-20'>
+                                            <img src={item.image} alt={item.name} className='w-20' />
                                         </div>
-                                        <div className='text-slate-500 flex items-center'>₹{item.qty} x ₹{item.price} = ₹{item.qty * item.price}</div>
+                                        <div  className='lg:w-96 lg:mx-5 lg:my-0 my-4 w-full'>
+                                            <Link to={`/product/${item.product}`} className='underline text-slate-500'>{item.name}</Link>
+                                        </div>
+                                            
+                                        <div className='text-slate-500 '>{item.qty} x ₹{item.price} = <span className='text-black font-medium'>₹{item.qty * item.price}</span></div>
                                     </div>
                                 </div>
                             ))
                         }
                         </div>
                     </div>
-                    <div className='w-full md:w-1/2 my-0 mx-auto'>
+                    <div className='w-full md:w-1/2 my-0 mx-auto md:ml-5'>
                         <div className='border-2'>
                             <h2 className='p-3 border-b-2 sen-font text-xl uppercase font-bold'>Order Summary</h2>
                             <div className='flex p-3 justify-between items-center border-b-2' >
                                 <div className='font-medium'>Items</div>
-                                <div>₹{cart.itemsPrice}</div>
+                                <div>₹{cart && cart.itemsPrice}</div>
                             </div>
                             <div className='flex p-3 justify-between items-center border-b-2' >
                                 <div className='font-medium'>Shipping</div>
-                                <div>₹{cart.shippingPrice}</div>
+                                <div>₹{cart && cart.shippingPrice}</div>
                             </div>
                             <div className='flex p-3 justify-between items-center border-b-2' >
                                 <div className='font-medium'>Tax</div>
-                                <div>₹{cart.taxPrice}</div>
+                                <div>₹{cart && cart.taxPrice}</div>
                             </div>
                             <div className='flex p-3 justify-between items-center border-b-2' >
                                 <div className='font-medium'>Total</div>
-                                <div>₹{cart.totalPrice}</div>
+                                <div>₹{cart && cart.totalPrice}</div>
                             </div>
                             {
                                 error && (
@@ -151,7 +176,7 @@ const PlaceOrderScreen = () => {
                             <div className='p-3'>
                                 <button 
                                     className='uppercase text-sm tracking-wide bg-black w-full p-3 hover:bg-green-500 rounded duration-300 sen-font text-white disabled:hidden' 
-                                    disabled={cart.cartItems === 0}
+                                    disabled={cart && cart.cartItems === 0}
                                     onClick={placeOrderHandler}
                                 >
                                 Place Order</button>
