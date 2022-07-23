@@ -1,33 +1,69 @@
-import React,{ useEffect } from 'react';
+import React,{ useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { getOrderDetails } from '../../redux/actions/OrderActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrderDetails, payOrder } from '../../redux/actions/OrderActions';
 import SVGicon from '../../assets/svg/SVGicon';
 import { PayPalButton } from 'react-paypal-button-v2';
 import axios from 'axios';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../../redux/constants/OrderConstants';
 
 
-const OrderScreen = ({ orderDetails, authLogin, getOrderDetails }) => {
+const OrderScreen = () => {
 
     const { orderId } = useParams()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
+    const [sdkReady, setSdkReady] = useState(false)
+
+    const orderDetails = useSelector((state) => state.orderDetails)
     const {loading, order, error } = orderDetails;
 
+    const orderPay = useSelector((state) => state.orderPay)
+    const {loading: loadingPay, success:successPay } = orderPay;
+
+    const authLogin = useSelector((state) => state.authLogin)
+    const { info:authInfo } = authLogin;
+
+    
     useEffect(() => {
 
-        if (!authLogin.info) {
+        if (!authInfo) {
             navigate('/login')
         }
+
+
+        const addPayPalScript = async () => {
+            const { data: clientId } = await axios.get('http://localhost:5000/api/config/paypal')
+            const script = document.createElement('script')
+            script.type = 'text/javascript'
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+            script.async = true
+            script.onload = () => {
+                setSdkReady(true)
+            }
+
+            document.body.appendChild(script)
+        }
         
-        if (!order || order._id !== orderId) {
-            getOrderDetails(orderId)
+        if (!order || successPay || order._id !== orderId) {
+            dispatch({ type: ORDER_PAY_RESET })
+            dispatch({ type: ORDER_DELIVER_RESET })
+           dispatch(getOrderDetails(orderId))
+        } else if (!order.isPaid) {
+            if (!window.paypal) {
+                addPayPalScript()
+            }else{
+                setSdkReady(true)
+            }
         }
 
-         
-    }, [orderId, order, authLogin, getOrderDetails, navigate])
+    }, [orderId, order, authLogin, dispatch, navigate, authInfo, successPay])
+
+
+
 
     if (!loading) {
         const addDecimals = (num) => {
@@ -40,7 +76,10 @@ const OrderScreen = ({ orderDetails, authLogin, getOrderDetails }) => {
     }
 
 
-    const _successPaymentHandler = () => {}
+    const _successPaymentHandler = (paymentResult) => {
+        console.log(paymentResult);
+    }
+    const _successDeliverHandler = () => {}
 
 
 
@@ -143,9 +182,31 @@ const OrderScreen = ({ orderDetails, authLogin, getOrderDetails }) => {
                                             <div className='font-medium'>Total</div>
                                             <div>₹{order && order.totalPrice}</div>
                                         </div>
-                                        <div className='p-3'>
-                                            <PayPalButton amount={order.totalPrice} onSuccess={_successPaymentHandler} />
-                                        </div>
+                                        {
+                                            !order.isPaid && (
+                                                <div className='p-3'>
+                                                    {loadingPay && <Loader />}
+                                                    {!sdkReady ? ( <Loader /> ) : (
+                                                        <PayPalButton 
+                                                        amount={order.totalPrice}
+                                                        onSuccess={_successPaymentHandler} />
+                                                    )}
+                                                </div>
+                                            )
+                                        }
+                                        { authInfo &&
+                                            authInfo.role === 'admin' &&
+                                            order.isPaid &&
+                                            !order.isDelivered && (
+                                                <div className='p-3'>
+                                                    <button 
+                                                        className='uppercase text-sm tracking-wide bg-black w-full p-3 text-white disabled:hidden' 
+                                                        onClick={_successDeliverHandler}
+                                                    >
+                                                    Mark as Delivered</button>
+                                                </div>
+                                            )
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -158,9 +219,5 @@ const OrderScreen = ({ orderDetails, authLogin, getOrderDetails }) => {
     )
 }
 
-const mapStateToProps = (state) => ({
-    orderDetails: state.orderDetails,
-    authLogin: state.authLogin
-})
 
-export default connect(mapStateToProps, { getOrderDetails })(OrderScreen);
+export default OrderScreen;
