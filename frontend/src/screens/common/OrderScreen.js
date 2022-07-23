@@ -1,9 +1,8 @@
 import React,{ useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOrderDetails, payOrder } from '../../redux/actions/OrderActions';
+import { getOrderDetails, createRazorpayOrderAction, payOrder } from '../../redux/actions/OrderActions';
 import SVGicon from '../../assets/svg/SVGicon';
-import { PayPalButton } from 'react-paypal-button-v2';
 import axios from 'axios';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
@@ -16,51 +15,40 @@ const OrderScreen = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [sdkReady, setSdkReady] = useState(false)
+    const [razorpayErr, setRazorpayErr] = useState('')
 
     const orderDetails = useSelector((state) => state.orderDetails)
     const {loading, order, error } = orderDetails;
+
+    const razorpayOrder = useSelector((state) => state.razorpayOrder)
+    const {razorpayResult, error:razorpayOrderErr } = razorpayOrder;
 
     const orderPay = useSelector((state) => state.orderPay)
     const {loading: loadingPay, success:successPay } = orderPay;
 
     const authLogin = useSelector((state) => state.authLogin)
-    const { info:authInfo } = authLogin;
+    const { info } = authLogin;
+
+    const auth = useSelector((state) => state.auth)
+    const { authInfo } = auth;
 
     
     useEffect(() => {
 
-        if (!authInfo) {
+        if (!info) {
             navigate('/login')
         }
-
-
-        const addPayPalScript = async () => {
-            const { data: clientId } = await axios.get('http://localhost:5000/api/config/paypal')
-            const script = document.createElement('script')
-            script.type = 'text/javascript'
-            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-            script.async = true
-            script.onload = () => {
-                setSdkReady(true)
-            }
-
-            document.body.appendChild(script)
-        }
+        
         
         if (!order || successPay || order._id !== orderId) {
             dispatch({ type: ORDER_PAY_RESET })
             dispatch({ type: ORDER_DELIVER_RESET })
-           dispatch(getOrderDetails(orderId))
-        } else if (!order.isPaid) {
-            if (!window.paypal) {
-                addPayPalScript()
-            }else{
-                setSdkReady(true)
-            }
+            dispatch(getOrderDetails(orderId))
         }
 
-    }, [orderId, order, authLogin, dispatch, navigate, authInfo, successPay])
+       
+        
+    }, [orderId, order, authLogin, dispatch, navigate, info, successPay])
 
 
 
@@ -76,9 +64,60 @@ const OrderScreen = () => {
     }
 
 
-    const _successPaymentHandler = (paymentResult) => {
-        console.log(paymentResult);
+
+    function successPaymentHandler(){
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.onerror = () => {
+            setRazorpayErr('Razorpay SDK failed to load. Are you online?');
+        };
+        script.onload = async () => {
+            try {
+
+                dispatch(createRazorpayOrderAction({ amount: order.totalPrice }))
+                
+                const { data: { key: razorpayKey }, } = await axios.get('http://localhost:5000/get-razorpay-key');
+    
+                const options = {
+                    key: razorpayKey,
+                    amount: razorpayResult.amount.toString(),
+                    currency: razorpayResult.currency,
+                    name: 'CRAFTIS',
+                    description: 'Transaction',
+                    order_id: razorpayResult.id,
+                    handler: async function (response) {
+                        const razorpay = {
+                            razorpayPaymentId: response.razorpay_payment_id,
+                            razorpayOrderId: response.razorpay_order_id,
+                            razorpaySignature: response.razorpay_signature,
+                        };
+                        dispatch(payOrder(orderId, razorpay))
+                    },
+                    prefill: {
+                        name: authInfo.name,
+                        email: authInfo.email,
+                        contact: authInfo.phone,
+                    },
+                    notes: {
+                        address: order.shippingAddress.address,
+                    },
+                    theme: {
+                        color: '#80c0f0',
+                    },
+                };
+    
+                const paymentObject = new window.Razorpay(options);
+                paymentObject.open();
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        document.body.appendChild(script);
     }
+
+
+    
     const _successDeliverHandler = () => {}
 
 
@@ -91,10 +130,12 @@ const OrderScreen = () => {
                         <SVGicon logo />
                     </Link>
                 </div>
+                { razorpayErr && <Message error msg={razorpayErr} /> }
+                { razorpayOrderErr && <Message error msg={razorpayOrderErr} /> }
                 {
-                    loading ? <Loader /> : error ? <Message error={error} /> : (
+                    loading ? <Loader /> : error ? <Message error msg={error} /> : (
                         <>
-                            <h2 className='mb-16 mt-10 text-2xl font-extrabold mont-font tracking-wider uppercase text-center'>order <span className='text-[#e36414]'>{order && order._id}</span> </h2>
+                            <h2 className='mb-16 mt-10 text-xl font-extrabold mont-font tracking-wider uppercase text-center'>order <span className='text-2xl font-extrabold'>{order && order._id}</span> </h2>
                             <div className='flex justify-between flex-col md:flex-row'>
                                 <div className='w-full md:mr-5'>
                                 <div className='mb-5'>
@@ -136,12 +177,27 @@ const OrderScreen = () => {
                                             <span className='capitalize'>{order && order.shippingAddress.country}</span>
                                         </p>
                                     </div>
+                                    {order && order.isDelivered ? (
+                                        <Message success msg={`Delivered on ${order.deliveredAt}`} />
+                                    ) : (
+                                        <div className="p-3 my-4 text-sm my-2 text-red-700 bg-red-100 rounded" role="alert">
+                                            <span className="font-medium ">Not Delivered</span> 
+                                        </div>
+                                    )}
                                     <hr className='my-5'/>
+
                                     <div>
                                         <h2 className='mb-3 sen-font text-xl uppercase font-bold'>Payment Method</h2>
                                         <span className='font-medium'>Method: </span>
                                         <span className='capitalize'>{order && order.paymentMethod}</span>
                                     </div>
+                                    {order && order.isPaid ? (
+                                        <Message success msg={`Paid on ${order.paidAt}`} />
+                                    ) : (
+                                        <div className="p-3 my-4 text-sm my-2 text-red-700 bg-red-100 rounded" role="alert">
+                                            <span className="font-medium ">Not Paid</span> 
+                                        </div>
+                                    )}
                                     <hr className='my-5' />
                                     <div>
                                         <h2 className='mb-3 sen-font text-xl uppercase font-bold'>Order Items</h2>
@@ -183,14 +239,14 @@ const OrderScreen = () => {
                                             <div>₹{order && order.totalPrice}</div>
                                         </div>
                                         {
-                                            !order.isPaid && (
+                                            order && !order.isPaid && (
                                                 <div className='p-3'>
                                                     {loadingPay && <Loader />}
-                                                    {!sdkReady ? ( <Loader /> ) : (
-                                                        <PayPalButton 
-                                                        amount={order.totalPrice}
-                                                        onSuccess={_successPaymentHandler} />
-                                                    )}
+                                                    <button 
+                                                        className='uppercase text-sm tracking-wide bg-black sen-font w-full p-3 text-white disabled:hidden' 
+                                                        onClick={successPaymentHandler}
+                                                    >
+                                                    Pay Order</button>
                                                 </div>
                                             )
                                         }
@@ -200,7 +256,7 @@ const OrderScreen = () => {
                                             !order.isDelivered && (
                                                 <div className='p-3'>
                                                     <button 
-                                                        className='uppercase text-sm tracking-wide bg-black w-full p-3 text-white disabled:hidden' 
+                                                        className='uppercase text-sm tracking-wide bg-black sen-font w-full p-3 text-white disabled:hidden' 
                                                         onClick={_successDeliverHandler}
                                                     >
                                                     Mark as Delivered</button>

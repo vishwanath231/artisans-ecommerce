@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { getMyOrder } from '../../redux/actions/OrderActions';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
+import { Link } from 'react-router-dom';
 
 
 const AdminOrderScreen = ({ myOrder, getMyOrder }) => {
@@ -71,9 +72,9 @@ const AdminOrderScreen = ({ myOrder, getMyOrder }) => {
                                                 }   
                                             </td>
                                             <td className="border border-gray-300">
-                                                <div className=' flex justify-center items-center'>
+                                                <Link to={`/order/${order._id}`} className=' flex justify-center items-center'>
                                                     <button className=' py-2 px-4 bg-gray-100 shadow-lg'>Details</button>
-                                                </div>
+                                                </Link>
                                             </td>
                                         </tr>
                                     ))

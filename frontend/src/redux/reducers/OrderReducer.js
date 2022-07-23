@@ -16,7 +16,10 @@ import {
     ORDER_DELIVER_REQUEST,
     ORDER_DELIVER_SUCCESS,
     ORDER_DELIVER_FAIL,
-    ORDER_DELIVER_RESET
+    ORDER_DELIVER_RESET,
+    CREATE_RAZORPAY_ORDER_SUCCESS,
+    CREATE_RAZORPAY_ORDER_FAIL,
+    CREATE_RAZORPAY_ORDER_REQUEST
 } from '../constants/OrderConstants';
 
 export const orderCreateReducer = (state = {}, { type, payload }) => {
@@ -101,6 +104,33 @@ export const orderDetailsReducer = (state = { loading: true, orderItems: [], shi
             return state;
     }
 }
+
+
+export const createRazorpayOrderReducer = (state= { razorpayResult:{} }, { type, payload }) => {
+    
+    switch (type) {
+        case CREATE_RAZORPAY_ORDER_REQUEST:
+            return {
+                loading: true
+            }
+    
+        case CREATE_RAZORPAY_ORDER_SUCCESS:
+            return {
+                loading: false,
+                razorpayResult: payload
+            }
+
+        case CREATE_RAZORPAY_ORDER_FAIL:
+            return {
+                loading: false,
+                error: payload
+            }
+
+        default:
+            return state
+    }
+}
+
 
 
 export const orderPayReducer = (state= {}, { type, payload }) => {

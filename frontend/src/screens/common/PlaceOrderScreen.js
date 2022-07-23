@@ -13,10 +13,11 @@ const PlaceOrderScreen = () => {
     const navigate = useNavigate()
 
     const cart = useSelector((state) => state.cart)
+    const { shippingAddress, paymentMethod } = cart
 
-    if (!cart.shippingAddress.address) {
+    if (!shippingAddress.address) {
         navigate('/')
-    }else if (!cart.paymentMethod) {
+    }else if (!paymentMethod) {
         navigate('/payment')
     }
 

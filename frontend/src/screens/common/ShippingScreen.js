@@ -11,11 +11,11 @@ const ShippingScreen = ({ saveShippingAddress, cart }) => {
     const { shippingAddress } = cart;
 
     const [data, setData] = useState({
-        address: shippingAddress.address,
-        city: shippingAddress.city,
-        landmark: shippingAddress.landmark,
-        postalCode: shippingAddress.postalCode,
-        country: shippingAddress.country
+        address: shippingAddress && shippingAddress.address,
+        city: shippingAddress && shippingAddress.city,
+        landmark: shippingAddress && shippingAddress.landmark,
+        postalCode: shippingAddress && shippingAddress.postalCode,
+        country: shippingAddress && shippingAddress.country
     })
 
 

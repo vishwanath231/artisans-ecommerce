@@ -12,8 +12,8 @@ const Message = ({ error, msg, success }) => {
             }
             {
                 success ? (
-                    <div class="p-3 my-4 text-sm text-green-700 bg-green-100 rounded" role="alert">
-                        <span class="font-medium">{msg}</span> 
+                    <div className="p-3 my-4 text-sm text-green-700 bg-green-200 rounded" role="alert">
+                        <span className="font-medium">{msg}</span> 
                     </div>
                 ) : null
             }

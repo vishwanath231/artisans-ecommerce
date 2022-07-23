@@ -32,9 +32,11 @@ app.use('/api/maker', makerRouter);
 app.use('/api/orders', orderRouter)
 
 
-app.get('/api/config/paypal', (req, res) => {
-    res.send(process.env.PAYPAL_CLIENT_ID)
+app.get('/get-razorpay-key', (req, res) => {
+    
+    res.send({ key: process.env.RAZORPAY_KEY })
 })
+
 
 
 app.use(notFound);

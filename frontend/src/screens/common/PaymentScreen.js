@@ -10,7 +10,7 @@ const PaymentScreen = ({ cart, savePaymentMethod }) => {
 
    const navigate = useNavigate()
 
-    const [paymentMethod, setPaymentMethod] = useState('PayPal')
+    const [paymentMethod, setPaymentMethod] = useState('Razorpay')
 
     const { shippingAddress } = cart;
 
@@ -40,15 +40,15 @@ const PaymentScreen = ({ cart, savePaymentMethod }) => {
                     <form onSubmit={_submitHandler} className='mt-10'>
                         <div className="flex items-center mb-7">
                             <input 
-                                id="PayPal" 
+                                id="Razorpay" 
                                 type="radio" 
-                                value="PayPal" 
+                                value="Razorpay" 
                                 name="paymentMethod"
                                 onChange={e => setPaymentMethod(e.target.value)} 
                                 className="w-4 h-4" 
                                 required 
                             />
-                            <label htmlFor="PayPal" className="ml-2 text-base font-medium text-gray-900">PayPal or Credit Card</label>
+                            <label htmlFor="Razorpay" className="ml-2 text-base font-medium text-gray-900">Razorpay or Credit Card</label>
                         </div>
                         <button type="submit" className="text-white text-xs tracking-wide bg-blue-700 uppercase hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  px-5 py-3.5 text-center mont-font">continue</button>
                     </form>

@@ -24,7 +24,7 @@ const UserOrderListScreen = ({ myOrder, getMyOrder }) => {
         
             <Header />
             <Navbar />
-            <div className='mt-28 container max-w-screen-xl mx-auto mb-16'>
+            <div className='mt-28 container max-w-screen-xl mx-auto mb-16 px-4'>
                 <div className='uppercase text-2xl my-6 text-black tracking-wider font-normal'>your orders</div>
                 
                 { loading ? <Loader /> : error ? <Message error msg={error} /> : (

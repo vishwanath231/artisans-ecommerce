@@ -42,7 +42,7 @@ const CartScreen = ({ cart, addToCart, removeFromCart }) => {
         <>
             <Header />
             <Navbar />
-            <div className='mt-28 container max-w-screen-xl mx-auto mb-16'>
+            <div className='mt-28 container max-w-screen-xl mx-auto mb-16 px-4'>
                 <Link to='/' className='px-5 py-3 hover:bg-gray-200 rounded text-sm font-medium tracking-wider'>GO BACK</Link>
                 <div className='uppercase text-2xl my-6 text-black tracking-wider font-normal'>shopping cart</div>
                 {cartItems.length === 0 ? <Message error msg={`Your cart is empty! Go Back`} /> : (

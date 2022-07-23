@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import Razorpay from 'razorpay';
 
 const addOrderItems = asyncHandler(async (req, res) => {
 
@@ -66,19 +67,51 @@ const getOrderById = asyncHandler(async (req, res) => {
 })
 
 
+
+const createRazorpayOrder = async (req, res) => {
+
+    
+    
+
+    try {
+
+        const instance = new Razorpay({
+            key_id: process.env.RAZORPAY_KEY,
+            key_secret: process.env.RAZORPAY_SECRET_KEY,
+        });
+        
+        const options = {
+            amount: req.body.amount * 100,
+            currency: 'INR'
+        }
+
+        const order = await instance.orders.create(options)
+
+        if (!order) return res.status(500).send('Some error occured')
+        
+        res.status(200).json(order)
+        
+    } catch (error) {
+        res.status(500).json(error)
+    }
+
+}
+
+
 const upateOrderToPay = asyncHandler(async (req, res) => {
+
+    const { razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
 
     const order = await Order.findById(req.params.id)
 
     if (order) {
         order.isPaid = true
         order.paidAt = Date.now()
-        order.paymentResult = {
-            id: req.body.id,
-            status: req.body.status,
-            update_time: req.body.update_time,
-            email_address: req.body.payer.email_address
-        }
+        order.razorpay = {
+                orderId: razorpayOrderId,
+                paymentId: razorpayPaymentId,
+                signature: razorpaySignature,
+            }
 
 
         const updatedOrder = await order.save()
@@ -115,4 +148,4 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 
 
 
-export { addOrderItems, getMyOrders, getOrderById, upateOrderToPay, updateOrderToDelivered };
+export { addOrderItems, getMyOrders, getOrderById, createRazorpayOrder, upateOrderToPay, updateOrderToDelivered };

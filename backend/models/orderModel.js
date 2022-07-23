@@ -60,17 +60,14 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
-    paymentResult: {
-        id: {
+    razorpay: {
+        orderId: {
             type: String
         },
-        status: {
+        paymentId: {
             type: String
         },
-        update_time:{
-            type: String
-        },
-        email_address:{
+        signature:{
             type: String
         }
     },

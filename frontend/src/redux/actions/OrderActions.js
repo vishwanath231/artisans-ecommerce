@@ -11,6 +11,9 @@ import {
     ORDER_PAY_REQUEST,
     ORDER_PAY_SUCCESS,
     ORDER_PAY_FAIL,
+    CREATE_RAZORPAY_ORDER_SUCCESS,
+    CREATE_RAZORPAY_ORDER_REQUEST,
+    CREATE_RAZORPAY_ORDER_FAIL,
 } from '../constants/OrderConstants';
 import { logout } from '../actions/AuthActions';
 import axios from 'axios';
@@ -151,9 +154,52 @@ export const getOrderDetails = (orderId) => async (dispatch, getState) => {
     }
 }
 
+export const createRazorpayOrderAction = (amount) => async (dispatch, getState) => {
+
+    try {
+
+        dispatch({
+            type: CREATE_RAZORPAY_ORDER_REQUEST
+        })
+
+        const { authLogin: { info } } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization : `Bearer ${info.token}`
+            }
+        }
+
+        const result = await axios.post(`http://localhost:5000/api/orders/create-razorpay-order`, amount, config)
 
 
-export const payOrder = (orderId, paymentResult) => {
+        dispatch({
+            type: CREATE_RAZORPAY_ORDER_SUCCESS,
+            payload: result.data
+        })
+
+        
+    } catch (error) {
+        
+        const message = error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+
+        dispatch({
+            type: CREATE_RAZORPAY_ORDER_FAIL,
+            payload: message
+        })
+    }
+}
+
+
+
+export const payOrder = (orderId, razorpay) => {
     return async (dispatch, getState) => {
 
         try {
@@ -171,7 +217,7 @@ export const payOrder = (orderId, paymentResult) => {
                 }
             }
     
-            const { data } = await axios.put(`http://localhost:5000/api/orders/${orderId}/pay`, paymentResult, config)
+            const { data } = await axios.put(`http://localhost:5000/api/orders/${orderId}/pay`, razorpay, config)
     
             dispatch({
                 type: ORDER_PAY_SUCCESS,
