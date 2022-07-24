@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react';
+import React,{ useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listProducts } from '../../redux/actions/ProductActions';
 import { connect } from 'react-redux';
@@ -13,17 +13,19 @@ import Rating from '../../components/Rating';
 
 const HomeScreen = ({ productList, listProducts }) => {
 
+
     useEffect(() => {
 
         window.scrollTo(0,0)       
         listProducts()
+
 
     }, [listProducts]);
 
 
     const{ loading, products, error } = productList;
 
-    
+    l
     return (
         <>
             <Header />
