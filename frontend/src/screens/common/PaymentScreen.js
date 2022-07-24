@@ -5,6 +5,7 @@ import CheckoutStep from '../../components/CheckoutStep';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { savePaymentMethod } from '../../redux/actions/CartActions';
+import NavbarTwo from '../../components/navbar/NavbarTwo';
 
 const PaymentScreen = ({ cart, savePaymentMethod }) => {
 
@@ -27,16 +28,13 @@ const PaymentScreen = ({ cart, savePaymentMethod }) => {
 
 
     return (
-        <main className='min-screen-h'>
+        <div className='min-h-screen bg-gray-100'>
+            <NavbarTwo />
+            <main className='my-5'>
                 <div className='px-4 max-w-3xl my-9 mx-auto'>
-                    <div className='flex justify-center items-center mb-5'>
-                        <Link to='/' className='text-center'>
-                            <SVGicon logo />
-                        </Link>
-                    </div>
                     <CheckoutStep step1 step2 step3 />
-                    <h2 className='text-4xl font-light uppercase mb-4'>Payment Method</h2> 
-                    
+                    <Link to='/shipping' className='px-5 py-3 hover:bg-gray-200 rounded text-sm font-medium tracking-wider'>GO BACK</Link>
+                    <h2 className='text-4xl font-light uppercase mb-4 mt-6'>Payment Method</h2> 
                     <form onSubmit={_submitHandler} className='mt-10'>
                         <div className="flex items-center mb-7">
                             <input 
@@ -53,8 +51,8 @@ const PaymentScreen = ({ cart, savePaymentMethod }) => {
                         <button type="submit" className="text-white text-xs tracking-wide bg-blue-700 uppercase hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  px-5 py-3.5 text-center mont-font">continue</button>
                     </form>
                 </div>
-
             </main>
+        </div>
     )
 }
 

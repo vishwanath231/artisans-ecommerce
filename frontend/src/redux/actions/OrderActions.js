@@ -14,6 +14,12 @@ import {
     CREATE_RAZORPAY_ORDER_SUCCESS,
     CREATE_RAZORPAY_ORDER_REQUEST,
     CREATE_RAZORPAY_ORDER_FAIL,
+    ORDER_LIST_REQUEST,
+    ORDER_LIST_SUCCESS,
+    ORDER_LIST_FAIL,
+    ORDER_DELIVER_REQUEST,
+    ORDER_DELIVER_SUCCESS,
+    ORDER_DELIVER_FAIL,
 } from '../constants/OrderConstants';
 import { logout } from '../actions/AuthActions';
 import axios from 'axios';
@@ -239,5 +245,95 @@ export const payOrder = (orderId, razorpay) => {
                 payload: message
             })
         }
+    }
+}
+
+
+
+
+
+export const getAllOrders = () => async (dispatch, getState) => {
+
+    try {
+        
+        dispatch({
+            type: ORDER_LIST_REQUEST
+        })
+
+        const { authLogin: { info } } = getState();
+    
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization : `Bearer ${info.token}`
+            }
+        }
+
+        const { data } = await axios.get('http://localhost:5000/api/orders', config)
+
+        dispatch({
+            type: ORDER_LIST_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        
+        const message = error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+
+        dispatch({
+            type: ORDER_LIST_FAIL,
+            payload: message
+        })
+    }
+}
+
+
+
+
+export const orderDeliver = (orderId) => async (dispatch, getState) => {
+
+    try {
+        
+        dispatch({
+            type: ORDER_DELIVER_REQUEST
+        })
+
+        const { authLogin: { info } } = getState();
+        
+    
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization : `Bearer ${info.token}`
+            }
+        }
+
+        const { data } = await axios.put(`http://localhost:5000/api/orders/${orderId}/deliver`, config)
+
+        dispatch({
+            type: ORDER_DELIVER_SUCCESS,
+            payload: data
+        })
+        
+    } catch (error) {
+
+        const message = error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+
+        dispatch({
+            type: ORDER_DELIVER_FAIL,
+            payload: message
+        })
     }
 }

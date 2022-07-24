@@ -19,7 +19,10 @@ import {
     ORDER_DELIVER_RESET,
     CREATE_RAZORPAY_ORDER_SUCCESS,
     CREATE_RAZORPAY_ORDER_FAIL,
-    CREATE_RAZORPAY_ORDER_REQUEST
+    CREATE_RAZORPAY_ORDER_REQUEST,
+    ORDER_LIST_REQUEST,
+    ORDER_LIST_SUCCESS,
+    ORDER_LIST_FAIL
 } from '../constants/OrderConstants';
 
 export const orderCreateReducer = (state = {}, { type, payload }) => {
@@ -191,5 +194,31 @@ export const orderDeliverReducer = (state= {}, { type, payload }) => {
 
         default:
             return state
+    }
+}
+
+
+
+export const orderListReducer = (state = { orderLists: [] }, { type, payload }) => {
+
+    switch (type) {
+        case ORDER_LIST_REQUEST:
+            return {
+                loading: true
+            }
+
+        case ORDER_LIST_SUCCESS:
+            return {
+                loading: false,
+                orderLists: payload
+            }
+
+        case ORDER_LIST_FAIL:
+            return {
+                loading: false,
+                error: payload
+            }
+        default:
+            return state;
     }
 }

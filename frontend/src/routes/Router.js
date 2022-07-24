@@ -23,6 +23,7 @@ import ShippingScreen from '../screens/common/ShippingScreen';
 import PaymentScreen from '../screens/common/PaymentScreen';
 import PlaceOrderScreen from '../screens/common/PlaceOrderScreen';
 import OrderScreen from '../screens/common/OrderScreen';
+import OrderListScreen from '../screens/admin/OrderListScreen';
 
 
 
@@ -59,6 +60,7 @@ const Router = () => {
                         <Route path='admin/makerList' element={ <MakerListScreen /> } />
                         <Route path='admin/profile' element={ <AdminProfileScreen /> } />
                         <Route path='admin/order' element={ <AdminOrderScreen /> } />
+                        <Route path='admin/orderList' element={ <OrderListScreen /> } />
                     </Route>
 
                     <Route element={ <RequireAuth allowRoles={'maker'} /> }>

@@ -1,11 +1,14 @@
 import express from "express";
 const router  = express.Router();
-import { addOrderItems, getMyOrders, getOrderById, createRazorpayOrder, upateOrderToPay, updateOrderToDelivered } from "../controller/orderController.js";
-import { protect } from '../middleware/authMiddleware.js';
+import { addOrderItems, getMyOrders, getOrderById, createRazorpayOrder, upateOrderToPay, updateOrderToDelivered, allOrders } from "../controller/orderController.js";
+import { adminProtect, protect } from '../middleware/authMiddleware.js';
+
+
 
 router
 .route('/')
 .post(protect, addOrderItems)
+.get(protect, adminProtect, allOrders)
 
 router
 .route('/create-razorpay-order')
@@ -19,15 +22,14 @@ router
 .route('/:id')
 .get(protect, getOrderById)
 
-
-
 router
 .route('/:id/pay')
 .put(protect, upateOrderToPay)
 
 router
 .route('/:id/deliver')
-.put(protect, updateOrderToDelivered)
+.put(updateOrderToDelivered)
+
 
 
 export default router;

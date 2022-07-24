@@ -1,8 +1,25 @@
 import { combineReducers } from 'redux';
-import { authLoginReducer, authRegisterReducer,authInfoReducer, authListReducer } from './AuthReducer';
+import { 
+    authLoginReducer, 
+    authRegisterReducer,
+    authInfoReducer, 
+    authListReducer 
+} from './AuthReducer';
 import { cartReducer } from './CartReducer';
-import { productListReducer, productDetailsReducer } from './ProductReducer';
-import { createRazorpayOrderReducer, loggedUserOrderReducer, orderCreateReducer, orderDeliverReducer, orderDetailsReducer, orderPayReducer } from './OrderReducer';
+import { 
+    productListReducer, 
+    productDetailsReducer 
+} from './ProductReducer';
+import { 
+    createRazorpayOrderReducer, 
+    loggedUserOrderReducer, 
+    orderCreateReducer, 
+    orderDeliverReducer, 
+    orderDetailsReducer, 
+    orderListReducer, 
+    orderPayReducer 
+} from './OrderReducer';
+
 
 export const reducers = combineReducers({
     productList: productListReducer,
@@ -18,5 +35,6 @@ export const reducers = combineReducers({
     orderDetails: orderDetailsReducer,
     razorpayOrder: createRazorpayOrderReducer,
     orderPay: orderPayReducer,
-    orderDeliver: orderDeliverReducer
+    orderDelivered: orderDeliverReducer,
+    orderList: orderListReducer
 })

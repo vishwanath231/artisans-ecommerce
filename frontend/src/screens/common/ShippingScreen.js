@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import CheckoutStep from '../../components/CheckoutStep';
 import { connect } from 'react-redux';
 import { saveShippingAddress } from '../../redux/actions/CartActions';
+import NavbarTwo from '../../components/navbar/NavbarTwo';
 
 
 const ShippingScreen = ({ saveShippingAddress, cart }) => {
@@ -38,14 +39,10 @@ const ShippingScreen = ({ saveShippingAddress, cart }) => {
 
 
     return (
-        <>
-            <main className='min-screen-h'>
-                <div className='px-4 max-w-3xl my-9 mx-auto'>
-                    <div className='flex justify-center items-center mb-5'>
-                        <Link to='/' className='text-center'>
-                            <SVGicon logo />
-                        </Link>
-                    </div>
+        <div className='min-h-screen bg-gray-100'>
+            <NavbarTwo />
+            <main className='my-5'>
+                <div className='px-4 max-w-3xl mx-auto'>
                     <CheckoutStep step1 step2 />
                     <h2 className='text-4xl font-light uppercase mb-4'>shipping</h2> 
                     <form onSubmit={submitHandler}>
@@ -114,7 +111,7 @@ const ShippingScreen = ({ saveShippingAddress, cart }) => {
                 </div>
             </main>
 
-        </>
+        </div>
     )
 }
 

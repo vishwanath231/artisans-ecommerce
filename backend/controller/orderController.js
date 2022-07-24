@@ -147,5 +147,26 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 })
 
 
+const allOrders = asyncHandler(async (req, res) => {
 
-export { addOrderItems, getMyOrders, getOrderById, createRazorpayOrder, upateOrderToPay, updateOrderToDelivered };
+    const order = await Order.find({}).populate('user', 'name email phone')
+
+    if (order) {
+        res.status(200).json(order)
+    }else {
+        res.status(404)
+        throw new Error('Orders not found!')
+    }
+
+})
+
+
+export { 
+    addOrderItems, 
+    getMyOrders, 
+    getOrderById, 
+    createRazorpayOrder, 
+    upateOrderToPay, 
+    updateOrderToDelivered,
+    allOrders
+};
