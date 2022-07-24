@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import SVGicon from '../../assets/svg/SVGicon';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CheckoutStep from '../../components/CheckoutStep';
 import { connect } from 'react-redux';
 import { saveShippingAddress } from '../../redux/actions/CartActions';

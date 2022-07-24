@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 const NavbarTwo = ({ auth }) => {
 
     const [ profile, setProfile] = useState(false);
-    const [ scrolled, setScrolled ] = useState(false);
     
 
     const handleProfile = () => {
@@ -21,17 +20,6 @@ const NavbarTwo = ({ auth }) => {
     }
    
 
-
-    const handleScroll = () => {
-        
-        const offset = window.pageYOffset;
-
-        if (offset > 7) {
-            setScrolled(true)
-        }else {
-            setScrolled(false)
-        }
-    }
 
 
     const keyPress = useCallback(
@@ -42,11 +30,6 @@ const NavbarTwo = ({ auth }) => {
         },[setProfile, profile]
     );
 
-
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll)
-    })
-    
 
     useEffect(() => {
         

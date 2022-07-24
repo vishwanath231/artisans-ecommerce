@@ -2,7 +2,6 @@ import React,{ useEffect } from 'react';
 import CheckoutSteps from '../../components/CheckoutStep';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import SVGicon from '../../assets/svg/SVGicon';
 import { createOrder } from '../../redux/actions/OrderActions';
 import { CART_CLEAR_ITEMS } from '../../redux/constants/CartConstants';
 import NavbarTwo from '../../components/navbar/NavbarTwo';

@@ -7,7 +7,6 @@ import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../../redux/constants/OrderConstants';
 import NavbarTwo from '../../components/navbar/NavbarTwo';
-import { BiHomeAlt } from 'react-icons/bi';
 
 const OrderScreen = () => {
 

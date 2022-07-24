@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SVGicon from '../../assets/svg/SVGicon';
 import CheckoutStep from '../../components/CheckoutStep';
 import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
