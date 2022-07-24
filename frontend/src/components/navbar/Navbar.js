@@ -50,8 +50,11 @@ const Navbar = ({ authLogin, cart, auth }) => {
 
 
     useEffect(() => {
+        
         window.addEventListener('scroll', handleScroll)
     })
+    
+    
     
 
     useEffect(() => {
@@ -65,9 +68,14 @@ const Navbar = ({ authLogin, cart, auth }) => {
 
     const { cartItems } = cart;
 
+    const removeProfile = () => {
+        if (profile) {
+            setProfile(false)
+        }
+    }
 
     return (
-        <nav className={scrolled ? "nav-scroll shadow-md bg-white px-4 sm:px-4 py-4" : "bg-white px-4 sm:px-4 py-4 nav-container "}>
+        <nav onClick={removeProfile} className={scrolled ? "nav-scroll shadow-md bg-white px-4 sm:px-4 py-4" : "bg-white px-4 sm:px-4 py-4 nav-container "}>
             <div className="flex flex-wrap justify-between items-center container max-w-screen-xl mx-auto">
                 
                 {/* logo */}
