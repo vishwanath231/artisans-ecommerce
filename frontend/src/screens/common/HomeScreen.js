@@ -25,7 +25,7 @@ const HomeScreen = ({ productList, listProducts }) => {
 
     const{ loading, products, error } = productList;
 
-    l
+    
     return (
         <>
             <Header />
