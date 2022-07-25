@@ -11,7 +11,10 @@ import {
     USER_LOADED_FAIL,
     USER_LIST_REQUEST,
     USER_LIST_SUCCESS,
-    USER_LIST_FAIL
+    USER_LIST_FAIL,
+    USER_UPDATE_PROFILE_REQUEST,
+    USER_UPDATE_PROFILE_SUCCESS,
+    USER_UPDATE_PROFILE_FAIL
 } from '../constants/AuthConstants';
 import axios from 'axios';
 
@@ -123,9 +126,9 @@ export const register = (registerData) => async (dispatch) => {
         const { data } = await axios.post(`http://localhost:5000/api/auth/register`, registerData, config)
 
         const authData = {
-             token: data.token,
-             role:  data.data.role
-       }
+            token: data.token,
+            role:  data.data.role
+        }
 
         dispatch({
             type: USER_REGISTER_SUCCESS,
@@ -204,4 +207,64 @@ export const getAuthList = () => async (dispatch, getState) => {
         })
         
     }
+}
+
+
+export const updateProfile = (user) => async (dispatch, getState) => {
+
+    try {
+
+        dispatch({
+            type: USER_UPDATE_PROFILE_REQUEST
+        })
+
+
+        const { authLogin: { info } } = getState();
+
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization : `Bearer ${info.token}`
+            }
+        }
+
+        const { data } = await axios.put(`http://localhost:5000/api/auth/profile`, user, config)
+
+        const authData = {
+            token: data.token,
+            role:  data.data.role
+        }
+
+        dispatch({
+            type: USER_UPDATE_PROFILE_SUCCESS,
+            payload: data
+        })
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: authData
+        })
+
+        
+        localStorage.setItem('authInfo', JSON.stringify(authData));
+        
+        dispatch(userLoaded())
+        
+    } catch (error) {
+        
+        const message = error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+
+        dispatch({
+            type: USER_UPDATE_PROFILE_FAIL,
+            payload: message,
+        })
+    }
+    
 }

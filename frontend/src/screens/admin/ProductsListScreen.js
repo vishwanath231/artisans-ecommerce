@@ -24,7 +24,7 @@ const ProductsListScreen = ({ productList, listProducts }) => {
     }, [listProducts]);
 
 
-    const [rowLimit , setRowLimit] = useState(3)
+    const [rowLimit , setRowLimit] = useState(5)
     const [currentPage, setCurrentPage] = useState(1);
 
     const rowHandler = (e) => {

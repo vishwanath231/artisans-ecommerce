@@ -188,6 +188,81 @@ const getUserProfile = asyncHandler(async (req, res) => {
 })
 
 
+const updateAuthProfile = asyncHandler(async (req, res) => {
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+        res.status(404)
+        throw new Error('User not found')
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    if (!salt) {
+        res.status(400)
+        throw new Error("something went wrong with bcrypt"); 
+    }
+
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    if (!hashPassword) {
+        res.status(400)
+        throw new Error("something went wrong with hashing password");
+    }
+
+    if (req.body.name) {
+        if (req.body.name.length < 4) {
+            res.status(400)
+            throw new Error('name must be at least 4 characters long!')
+        }else{
+            user.name = req.body.name || user.name
+        }
+    }
+
+    if (req.body.email) {
+        if(!/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/.test(req.body.email)){
+            res.status(400)
+            throw new Error('Email invalid, Please check it!')
+        }else{
+            user.email = req.body.email || user.email
+        }
+    }
+
+    if (req.body.phone) {
+        user.phone = req.body.phone || user.phone
+    }
+
+    if (req.body.password) {
+        if (req.body.password.length < 4) {
+            res.status(400)
+            throw new Error('Password must be at least 4 characters long!')
+        }else{
+            user.password = hashPassword || user.password
+        }
+    }
+
+    if (req.body.password !== req.body.repeatPassword){
+        res.status(400) 
+        throw new Error("Password doesn't match");
+    }
+
+    const updatedUser = await user.save();
+
+    res.status(201).json({ 
+        msg: "Updated successfull!",
+        success:  true,
+        token: generateToken(updatedUser._id),
+        data: {
+            id: updatedUser._id,
+            name:  updatedUser.name,
+            email: updatedUser.email,
+            phone: updatedUser.phone,
+            role: updatedUser.role
+        }
+    })
+
+})
+
+
 
 const getUsers = asyncHandler(async (req, res) => {
 
@@ -198,4 +273,9 @@ const getUsers = asyncHandler(async (req, res) => {
 
 
 
-export { register, login, getUserProfile, getUsers };
+
+
+
+
+
+export { register, login, getUserProfile, getUsers, updateAuthProfile };

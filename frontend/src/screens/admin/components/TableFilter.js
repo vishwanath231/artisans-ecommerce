@@ -25,8 +25,6 @@ const TableFilter = ({ rowHandler, rowLimit, data , setCurrentPage, currentPage 
                         onChange={rowHandler}
                         sx={{height:35}}
                     >
-                        <MenuItem value='2'>2</MenuItem>
-                        <MenuItem value='3'>3</MenuItem>
                         <MenuItem value='5'>5</MenuItem>
                         <MenuItem value='10'>10</MenuItem>
                         <MenuItem value='15'>15</MenuItem>

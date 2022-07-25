@@ -25,7 +25,7 @@ const MakerListScreen = ({ getAuthList, authList }) => {
     }, [getAuthList])
 
 
-    const [rowLimit , setRowLimit] = useState(2)
+    const [rowLimit , setRowLimit] = useState(5)
     const [currentPage, setCurrentPage] = useState(1);
 
     const rowHandler = (e) => {

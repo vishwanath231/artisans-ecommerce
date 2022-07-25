@@ -47,7 +47,7 @@ const AdminDashboard = () => {
                             <div className='mt-1 text-md font-medium'>+87</div>
                         </div>
                     </Link>
-                    <Link to='' className='flex items-center shadow p-4 rounded hover:shadow-xl'>
+                    <Link to='/admin/orderList' className='flex items-center shadow p-4 rounded hover:shadow-xl'>
                         <div className='bg-[#E98F46] p-2 rounded mr-6'>
                             <BsBag className='text-5xl' />
                         </div>
@@ -56,7 +56,7 @@ const AdminDashboard = () => {
                             <div className='mt-1 text-md font-medium'>+867</div>
                         </div>
                     </Link>
-                    <Link to='' className='flex items-center shadow p-4 rounded hover:shadow-xl'>
+                    <Link to='/admin/orderList' className='flex items-center shadow p-4 rounded hover:shadow-xl'>
                         <div className='bg-[#E98F46] p-2 rounded mr-6'>
                             <BsBagCheck className='text-5xl' />
                         </div>
