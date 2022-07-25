@@ -4,7 +4,8 @@ import {
     authRegisterReducer,
     authInfoReducer, 
     authListReducer, 
-    authUpdateProfileReducer
+    authUpdateProfileReducer,
+    singleUserDetailsReducer
 } from './AuthReducer';
 import { cartReducer } from './CartReducer';
 import { 
@@ -30,7 +31,9 @@ export const reducers = combineReducers({
     authLogin: authLoginReducer,
     authRegister: authRegisterReducer,
     authUpdateProfile: authUpdateProfileReducer,
+
     authList: authListReducer,
+    authDetails: singleUserDetailsReducer,
     
     cart: cartReducer,
     

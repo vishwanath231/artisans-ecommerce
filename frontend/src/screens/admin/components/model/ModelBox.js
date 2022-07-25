@@ -1,9 +1,9 @@
 import React,{ useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
-import './main.css';
+import '../main.css';
 import { connect } from 'react-redux';
-import { logout } from '../../../redux/actions/AuthActions';
+import { logout } from '../../../../redux/actions/AuthActions';
 
 
 const ModelBox = ({ auth, logout  }) => {

@@ -5,7 +5,7 @@ import { IoClose } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import MenuItem from './MenuItem';
 import './main.css'
-import ModelBox from './ModelBox';
+import ModelBox from './model/ModelBox';
 
 
 const MobileNav = () => {

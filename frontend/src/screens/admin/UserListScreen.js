@@ -4,17 +4,21 @@ import MobileNav from './components/MobileNav';
 import SideBar from './components/SideBar';
 import { BiPlus } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import { getAuthList } from '../../redux/actions/AuthActions';
+import { getAuthList, getSingleUserDetails } from '../../redux/actions/AuthActions';
 import { connect } from 'react-redux';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import UsersList from './components/UsersList';
 import TableFilter from './components/TableFilter';
+import UserDetailsModel from './components/model/UserDetailsModel';
 
 
-const UserListScreen = ({ getAuthList, authList }) => {
+
+const UserListScreen = ({ getAuthList, authList, getSingleUserDetails }) => {
 
     const {loading, users, error } = authList;
+
+
     const [filterData, setFilterData] = useState([]);
 
     const user = users.filter(item => item.role === 'user');
@@ -50,6 +54,13 @@ const UserListScreen = ({ getAuthList, authList }) => {
         }
     }
 
+    const [profileModel, setProfileModel] = useState(false)
+
+    const viewUserDetails = (id) => {
+        setProfileModel(!profileModel)
+        getSingleUserDetails(id);
+    }
+
     const userUpdateHandler = (id) => {
         console.log(id);
     }
@@ -61,9 +72,11 @@ const UserListScreen = ({ getAuthList, authList }) => {
         }
     }
     
+    
 
     return (
-        <>
+        <div className='relative'>
+            <UserDetailsModel profileModel={profileModel} setProfileModel={setProfileModel} />
             <SideBar />
             <MobileNav />
             <Header />
@@ -109,7 +122,7 @@ const UserListScreen = ({ getAuthList, authList }) => {
                                                 {
                                                     filterUserData.map((val) => (
                                                         <React.Fragment key={val._id}>
-                                                            <UsersList val={val} userUpdateHandler={userUpdateHandler} userDeleteHandler={userDeleteHandler} />
+                                                            <UsersList val={val} userUpdateHandler={userUpdateHandler} userDeleteHandler={userDeleteHandler} viewUserDetails={viewUserDetails} />
                                                         </React.Fragment>
                                                     ))
                                                 }
@@ -119,7 +132,7 @@ const UserListScreen = ({ getAuthList, authList }) => {
                                                 {
                                                     userData.map((val) => (
                                                         <React.Fragment key={val._id}>
-                                                            <UsersList val={val} userUpdateHandler={userUpdateHandler} userDeleteHandler={userDeleteHandler} />
+                                                            <UsersList val={val} userUpdateHandler={userUpdateHandler} userDeleteHandler={userDeleteHandler} viewUserDetails={viewUserDetails} />
                                                         </React.Fragment>
                                                     ))
                                                 }
@@ -133,7 +146,7 @@ const UserListScreen = ({ getAuthList, authList }) => {
                     </>
                 )}
             </div>
-        </>
+        </div>
     )
 }
 
@@ -141,4 +154,4 @@ const mapStateToProps = (state) => ({
     authList: state.authList
 })
 
-export default connect(mapStateToProps,{ getAuthList })(UserListScreen);
+export default connect(mapStateToProps,{ getAuthList, getSingleUserDetails })(UserListScreen);

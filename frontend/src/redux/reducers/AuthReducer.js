@@ -15,9 +15,15 @@ import {
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_SUCCESS,
     USER_UPDATE_PROFILE_FAIL,
-    USER_UPDATE_PROFILE_RESET
+    USER_UPDATE_PROFILE_RESET,
+    SINGLE_USER_DETAILS_REQUEST,
+    SINGLE_USER_DETAILS_SUCCESS,
+    SINGLE_USER_DETAILS_FAIL
 } from '../constants/AuthConstants';
 
+
+
+// USER CONTROLLER
 
 export const authInfoReducer = (state = {}, { type, payload}) => {
 
@@ -97,6 +103,46 @@ export const authRegisterReducer = (state = {}, { type, payload}) => {
 }
 
 
+export const authUpdateProfileReducer = (state = {}, { type, payload }) => {
+
+    switch (type) {
+        case USER_UPDATE_PROFILE_REQUEST:
+            return {
+                loading: true
+            }
+
+        case USER_UPDATE_PROFILE_SUCCESS:
+            return {
+                loading: false,
+                success: true,
+                info: payload
+            }
+
+        case USER_UPDATE_PROFILE_FAIL:
+            return {
+                loading: false,
+                error: payload
+            }
+
+        case USER_UPDATE_PROFILE_RESET:
+            return {}
+        
+        default:
+            return state;
+    }
+}
+
+
+
+
+
+
+
+
+
+// ADMIN CONTROLLER
+
+
 export const authListReducer = (state = { users: [] }, { type, payload }) => {
 
     switch (type) {
@@ -123,30 +169,25 @@ export const authListReducer = (state = { users: [] }, { type, payload }) => {
 }
 
 
-export const authUpdateProfileReducer = (state = {}, { type, payload }) => {
+export const singleUserDetailsReducer = (state = { user: [] }, { type, payload }) => {
 
     switch (type) {
-        case USER_UPDATE_PROFILE_REQUEST:
+        case SINGLE_USER_DETAILS_REQUEST:
             return {
-                loading: true
+                loading: true,
             }
-
-        case USER_UPDATE_PROFILE_SUCCESS:
+        
+        case SINGLE_USER_DETAILS_SUCCESS:
             return {
                 loading: false,
-                success: true,
-                info: payload
+                user: payload
             }
 
-        case USER_UPDATE_PROFILE_FAIL:
+        case SINGLE_USER_DETAILS_FAIL:
             return {
                 loading: false,
                 error: payload
             }
-
-        case USER_UPDATE_PROFILE_RESET:
-            return {}
-        
         default:
             return state;
     }

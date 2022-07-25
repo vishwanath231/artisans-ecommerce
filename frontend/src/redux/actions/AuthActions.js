@@ -14,7 +14,10 @@ import {
     USER_LIST_FAIL,
     USER_UPDATE_PROFILE_REQUEST,
     USER_UPDATE_PROFILE_SUCCESS,
-    USER_UPDATE_PROFILE_FAIL
+    USER_UPDATE_PROFILE_FAIL,
+    SINGLE_USER_DETAILS_REQUEST,
+    SINGLE_USER_DETAILS_SUCCESS,
+    SINGLE_USER_DETAILS_FAIL
 } from '../constants/AuthConstants';
 import axios from 'axios';
 
@@ -169,47 +172,6 @@ export const logout = () => (dispatch) => {
 
 
 
-export const getAuthList = () => async (dispatch, getState) => {
-
-    try {
-        
-        dispatch({
-            type: USER_LIST_REQUEST
-        })
-
-        const { authLogin: { info } } = getState();
-
-
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization : `Bearer ${info.token}`
-            }
-        }
-
-        const { data } = await axios.get(`http://localhost:5000/api/auth/users`, config)
-
-        dispatch({
-            type: USER_LIST_SUCCESS,
-            payload: data
-        })
-
-
-
-    } catch (error) {
-
-        const resErr =  error.response && error.response.data.message ? error.response.data.message : error.message
-        
-
-        dispatch({
-            type: USER_LIST_FAIL,
-            payload: resErr
-        })
-        
-    }
-}
-
-
 export const updateProfile = (user) => async (dispatch, getState) => {
 
     try {
@@ -267,4 +229,102 @@ export const updateProfile = (user) => async (dispatch, getState) => {
         })
     }
     
+}
+
+
+
+
+
+
+
+
+
+
+
+// ADMIN CONTROLLER
+
+export const getAuthList = () => async (dispatch, getState) => {
+
+    try {
+        
+        dispatch({
+            type: USER_LIST_REQUEST
+        })
+
+        const { authLogin: { info } } = getState();
+
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization : `Bearer ${info.token}`
+            }
+        }
+
+        const { data } = await axios.get(`http://localhost:5000/api/auth/users`, config)
+
+        dispatch({
+            type: USER_LIST_SUCCESS,
+            payload: data
+        })
+
+
+
+    } catch (error) {
+
+        const resErr =  error.response && error.response.data.message ? error.response.data.message : error.message
+        
+
+        dispatch({
+            type: USER_LIST_FAIL,
+            payload: resErr
+        })
+        
+    }
+}
+
+
+export const getSingleUserDetails = (id) => async (dispatch, getState) => {
+
+    try {
+        
+        dispatch({
+            type: SINGLE_USER_DETAILS_REQUEST
+        })
+
+        const { authLogin: { info } } = getState();
+
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization : `Bearer ${info.token}`
+            }
+        }
+
+        const { data } = await axios.get(`http://localhost:5000/api/auth/view/${id}`, config)
+
+        dispatch({
+            type: SINGLE_USER_DETAILS_SUCCESS,
+            payload: data
+        })
+
+
+
+    } catch (error) {
+
+        const message = error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+
+        dispatch({
+            type: SINGLE_USER_DETAILS_FAIL,
+            payload: message,
+        })
+        
+    }
 }

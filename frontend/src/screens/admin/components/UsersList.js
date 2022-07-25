@@ -2,7 +2,7 @@ import React from 'react';
 import { FiEye, FiTrash2, FiEdit } from 'react-icons/fi';
 
 
-const UsersList = ({ val, userUpdateHandler, userDeleteHandler }) => {
+const UsersList = ({ val, userUpdateHandler, userDeleteHandler, viewUserDetails }) => {
     return (
         <tr className="bg-white border border-gray-300 transition duration-300 ease-in-out hover:bg-gray-200 sen-font">
             <td className="px-6 py-4 border border-gray-300">{val._id}</td>
@@ -10,7 +10,7 @@ const UsersList = ({ val, userUpdateHandler, userDeleteHandler }) => {
             <td className="px-6 py-4 border border-gray-300"><a href={`mailto:${val.email}`} className='hover:underline'>{val.email}</a></td>
             <td className="px-6 py-4 border border-gray-300">{val.phone}</td>
             <td className='px-4 py-2 border border-gray-300'>
-                <button className='px-3 py-1' >
+                <button className='px-3 py-1' onClick={() => viewUserDetails(val._id)}>
                     <FiEye className='text-blue-800 text-base' />
                 </button>
                 <button className='px-3 py-1 mr-1' onClick={() => userUpdateHandler(val._id)}>
@@ -24,4 +24,4 @@ const UsersList = ({ val, userUpdateHandler, userDeleteHandler }) => {
     )
 }
 
-export default UsersList
+export default UsersList;
